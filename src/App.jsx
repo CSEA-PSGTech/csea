@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 import BackgroundGrid from "./components/background/BackgroundGrid";
 import TelescopeSection from "./components/landing/TelescopeSection/TelescopeSection";
-
+  import AboutSection from "./components/about/AboutSection";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function App() {
@@ -31,13 +31,12 @@ function App() {
   return (<>
   
    <BackgroundGrid/>
+   
     <div className="wrapper">
       <div className="content">
+   
         <TelescopeSection />
-
-        <section className="test-section">
-          <h2>ABOUT CSEA</h2>
-        </section>
+ <AboutSection/>
       </div>
     </div>
     </>
