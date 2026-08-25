@@ -25,7 +25,7 @@ const AboutSection = () => {
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.on("change", (value) => {
-      if (value >= 0.20) {
+      if (value >= 0.15) {
         setVisionEntered(true);
       }
 
@@ -33,7 +33,7 @@ const AboutSection = () => {
         setAimEntered(true);
       }
 
-      if (value >= 0.60) {
+      if (value >= 0.70) {
         setCommunityEntered(true);
       }
 
@@ -48,7 +48,7 @@ const AboutSection = () => {
   return (
     <section
       ref={ref}
-      className="relative h-[400vh] bg-[#00000gi]"
+      className="relative h-[320vh] bg-[#00000gi]"
     >
 
       {/* =================================================
@@ -85,7 +85,7 @@ const AboutSection = () => {
           className="
             absolute
             left-8
-            top-[10vh]
+            top-[15vh]
             max-w-[720px]
             text-black
             lg:left-20
@@ -180,7 +180,7 @@ const AboutSection = () => {
           className="
             absolute
             right-[10%]
-            top-[20%]
+            top-[30%]
             z-20
             w-[380px]
             text-black
@@ -246,7 +246,7 @@ const AboutSection = () => {
           className="
             absolute
             left-[10%]
-            top-[40%]
+            top-[50%]
             z-20
             w-[380px]
             text-black
@@ -312,7 +312,7 @@ const AboutSection = () => {
           className="
             absolute
             right-[10%]
-            top-[60%]
+            top-[70%]
             z-20
             w-[380px]
             text-black
@@ -378,7 +378,7 @@ const AboutSection = () => {
           className="
             absolute
             left-[10%]
-            top-[80%]
+            top-[90%]
             z-20
             w-[380px]
             text-black
