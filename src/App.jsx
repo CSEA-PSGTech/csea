@@ -9,7 +9,10 @@ import AboutSection from "./components/about/AboutSection";
 import { Skiper28 } from "@/components/ui/skiper-ui/skiper28";
 import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
 
+import { EventsSection } from "./components/events";
 import MemberFinder from "./components/MemberFinder/MemberFinder";
+import mockEvents from "./components/events/MockEvents";
+
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -113,10 +116,11 @@ function App() {
 
           <AboutSection />
 
-        
-
           <Skiper28 />
-            <MemberFinder />
+
+<EventsSection events={mockEvents} />
+
+          <MemberFinder />
 
         </div>
       </div>
