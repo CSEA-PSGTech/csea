@@ -1,0 +1,182 @@
+/**
+ * Centralized data configuration for the 5 CSEA Storytelling states.
+ * Follows AGENTS.md rules and provided visual reference truth.
+ */
+
+export const STORIES_DATA = [
+  {
+    id: "vision",
+    index: 0,
+    number: "01",
+    label: "VISION",
+    headingPrefix: "Imagine",
+    headingAccent: "more.",
+    description:
+      "A place where curiosity becomes exploration and ideas become something real.",
+    supporting: "— LEARN · EXPLORE · GROW",
+    badge: "01 / VISION",
+    images: [
+      {
+        id: "v-main",
+        src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80",
+        alt: "Student engineer analyzing technical architecture",
+        caption: "IDEAS BUILD PEOPLE",
+        subCaption: "IDEAS PEOPLE TECHNOLOGY A BETTER TOMORROW",
+        rotation: -2.5,
+        width: "w-[320px] sm:w-[380px] lg:w-[440px]",
+        height: "h-[420px] sm:h-[480px] lg:h-[540px]",
+        position: "right-[8%] sm:right-[12%] lg:right-[15%] top-[12%] lg:top-[10%]",
+      },
+    ],
+    metadata: {
+      cornerBadge: "CSEA BEYOND THE CLASSROOM",
+      keywords: ["DISCOVER", "EXPLORE", "CREATE"],
+    },
+    auraPosition: "bottom-left",
+  },
+  {
+    id: "aim",
+    index: 1,
+    number: "02",
+    label: "AIM",
+    headingPrefix: "Learn by",
+    headingAccent: "building.",
+    description:
+      "We encourage experimentation, collaboration, competition, and hands-on creation.",
+    supporting: "— PROJECT · PRACTICE · PROGRESS",
+    badge: "02 / AIM",
+    images: [
+      {
+        id: "aim-laptop",
+        src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+        alt: "Developer writing code on modern laptop terminal",
+        rotation: -3,
+        width: "w-[280px] sm:w-[340px] lg:w-[390px]",
+        height: "h-[320px] sm:h-[380px] lg:h-[420px]",
+        position: "right-[16%] sm:right-[18%] lg:right-[22%] top-[10%] lg:top-[8%]",
+      },
+      {
+        id: "aim-rover",
+        src: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
+        alt: "Custom robotics rover hardware build",
+        rotation: 4,
+        width: "w-[200px] sm:w-[240px] lg:w-[280px]",
+        height: "h-[200px] sm:h-[240px] lg:h-[280px]",
+        position: "right-[6%] sm:right-[10%] lg:right-[12%] top-[45%] lg:top-[42%]",
+      },
+    ],
+    metadata: {
+      topRight: "CODE DESIGN BUILD REPEAT",
+      bottomRight: "SKILLS PROJECTS EXPERIENCE OPPORTUNITIES",
+    },
+  },
+  {
+    id: "community",
+    index: 2,
+    number: "03",
+    label: "COMMUNITY",
+    headingPrefix: "Build",
+    headingAccent: "together.",
+    description:
+      "Different ideas, different skills, one community pushing each other forward.",
+    supporting: "— PEERS · MENTORS · OPPORTUNITIES",
+    badge: "03 / COMMUNITY",
+    images: [
+      {
+        id: "comm-collab",
+        src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
+        alt: "Students collaborating at a hackathon table",
+        rotation: -2,
+        width: "w-[270px] sm:w-[320px] lg:w-[360px]",
+        height: "h-[240px] sm:h-[280px] lg:h-[310px]",
+        position: "right-[8%] sm:right-[12%] lg:right-[14%] top-[10%] lg:top-[8%]",
+      },
+      {
+        id: "comm-stage",
+        src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80",
+        alt: "CSEA auditorium presentation hall packed with members",
+        rotation: 3,
+        width: "w-[220px] sm:w-[260px] lg:w-[300px]",
+        height: "h-[190px] sm:h-[220px] lg:h-[250px]",
+        position: "right-[20%] sm:right-[24%] lg:right-[26%] top-[48%] lg:top-[44%]",
+      },
+      {
+        id: "comm-discuss",
+        src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80",
+        alt: "Two students actively discussing tech ideas",
+        rotation: -3.5,
+        width: "w-[180px] sm:w-[210px] lg:w-[240px]",
+        height: "h-[170px] sm:h-[200px] lg:h-[230px]",
+        position: "right-[4%] sm:right-[7%] lg:right-[9%] top-[46%] lg:top-[42%]",
+      },
+    ],
+    metadata: {
+      quote: "“Better things happen together.”",
+      doodle: "PEOPLE IDEAS COMMUNITY",
+      bottomRight: "EVENTS WORKSHOPS HACKATHONS FRIENDSHIPS",
+    },
+  },
+  {
+    id: "culture",
+    index: 3,
+    number: "04",
+    label: "CULTURE",
+    headingPrefix: "Create",
+    headingAccent: "together.",
+    description:
+      "CSEA is where students challenge themselves, share knowledge, and turn ideas into action.",
+    supporting: "— DISCUSS · COLLABORATE · CREATE",
+    badge: "04 / CULTURE",
+    images: [
+      {
+        id: "cult-stage",
+        src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80",
+        alt: "Stage presentation: Turn Ideas Into Impact",
+        caption: "Turn Ideas Into Impact",
+        rotation: -3,
+        width: "w-[280px] sm:w-[330px] lg:w-[380px]",
+        height: "h-[220px] sm:h-[260px] lg:h-[290px]",
+        position: "right-[14%] sm:right-[18%] lg:right-[20%] top-[12%] lg:top-[10%]",
+      },
+      {
+        id: "cult-group",
+        src: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80",
+        alt: "Students huddled together solving algorithmic problems",
+        rotation: 3,
+        width: "w-[240px] sm:w-[280px] lg:w-[320px]",
+        height: "h-[200px] sm:h-[230px] lg:h-[260px]",
+        position: "right-[6%] sm:right-[10%] lg:right-[12%] top-[46%] lg:top-[44%]",
+      },
+    ],
+    metadata: {
+      sparkle: true,
+      doodle: "SAME CURIOSITY BIGGER HORIZONS",
+      bottomRight: "KNOWLEDGE INITIATIVES CREATIVITY CULTURE",
+      hasMeshWave: true,
+    },
+  },
+  {
+    id: "impact",
+    index: 4,
+    number: "05",
+    label: "IMPACT",
+    headingPrefix: "Ideas",
+    headingMiddle: "create",
+    headingAccent: "impact.",
+    description:
+      "From projects to products, from learning to leadership — CSEA empowers students to make a difference.",
+    supporting: "PEOPLE · PROJECTS · REAL CHANGE",
+    badge: "05 / IMPACT",
+    stats: [
+      { value: 24, label: "PROJECTS LAUNCHED" },
+      { value: 18, label: "WORKSHOPS CONDUCTED" },
+      { value: 300, suffix: "+", label: "ACTIVE MEMBERS" },
+      { value: 12, label: "SIGNATURE EVENTS" },
+    ],
+    metadata: {
+      auraText: "A STRONGER TECH COMMUNITY FOR TOMORROW",
+      hasGlobe: true,
+    },
+    auraPosition: "bottom-right",
+  },
+];
