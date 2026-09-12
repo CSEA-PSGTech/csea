@@ -36,9 +36,9 @@ export const Skiper28 = () => {
         relative
         z-10
         h-[120vh]
-        w-screen
+        w-full
         overflow-hidden
-        bg-[#00000]
+        bg-white
         text-black
       "
     >
@@ -152,8 +152,8 @@ export const Skiper28 = () => {
               w-full
               bg-gradient-to-b
               from-transparent
-              via-[#FAFDEE]/70
-              to-[#FAFDEE]
+              via-white/70
+              to-white
             "
           />
         </motion.div>

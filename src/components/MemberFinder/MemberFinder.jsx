@@ -81,7 +81,7 @@ export function MemberFinder() {
       <div className="relative z-10 w-full mb-12">
         <div className="w-full max-w-[380px] lg:max-w-[460px]">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
-            03 / Members
+            04 / Members
           </p>
           <h2 className="mt-4 text-5xl font-medium leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
             CSEA Members &amp; Teams
