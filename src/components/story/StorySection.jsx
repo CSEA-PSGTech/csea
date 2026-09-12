@@ -56,6 +56,7 @@ export function StorySection() {
           end: "bottom bottom",
           scrub: prefersReducedMotion ? false : 0.1,
           anticipatePin: 1,
+          pinType: "transform",
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const p = self.progress;

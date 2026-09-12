@@ -33,8 +33,11 @@
      
 
       img {
-        mask-image: url(./mask.png);
+        -webkit-mask-image: url(/images/telescope/mask.png);
+        mask-image: url(/images/telescope/mask.png);
+        -webkit-mask-position: 50% 50%;
         mask-position: 50% 50%;
+        -webkit-mask-size: cover;
         mask-size: cover;
       }
     }
