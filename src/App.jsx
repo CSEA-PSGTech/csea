@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-import BackgroundGrid from "./components/background/BackgroundGrid";
+
 import TelescopeSection from "./components/landing/TelescopeSection/TelescopeSection";
 import AboutSection from "./components/about/AboutSection";
 import EventsSection from "./components/events/EventsSection";
@@ -62,9 +62,10 @@ function App() {
     const smoother = ScrollSmoother.create({
       wrapper: ".wrapper",
       content: ".content",
-      smooth: 1.5,
+      smooth: 1.2,
+      smoothTouch: 0.1,
       effects: true,
-      normalizeScroll: true,
+      normalizeScroll: false,
     });
 
     requestAnimationFrame(() => {
@@ -78,7 +79,7 @@ function App() {
 
   return (
     <>
-      <BackgroundGrid />
+     
 
       {/* =====================================================
           FIXED NAVBAR

@@ -62,12 +62,21 @@ export const StoryStage = forwardRef(function StoryStage(
           {currentStory.stats && (
             <div className="md:hidden mt-6 grid grid-cols-2 gap-3 border-t border-black/10 pt-4 max-w-[320px]">
               {currentStory.stats.map((stat) => (
-                <div key={stat.label} className="border-l-2 border-[#2547FF] pl-2.5">
-                  <div className="text-2xl font-bold text-neutral-900">
-                    {stat.value}{stat.suffix}
+                <div key={stat.label} className="border-l-[3px] border-[#2547FF] pl-2.5">
+                  <div className="text-3xl font-black tracking-tight text-neutral-950 flex items-baseline">
+                    <span className="inline-block transform scale-x-110 origin-left">
+                      {stat.value}
+                    </span>
+                    {stat.suffix && (
+                      <span className="text-[#2547FF] ml-0.5 font-black">
+                        {stat.suffix}
+                      </span>
+                    )}
                   </div>
-                  <div className="text-[10px] uppercase tracking-wider font-semibold text-neutral-500">
-                    {stat.label}
+                  <div className="text-[10px] uppercase tracking-[0.25em] font-black text-neutral-900 mt-1">
+                    <span className="inline-block transform scale-x-105 origin-left">
+                      {stat.label}
+                    </span>
                   </div>
                 </div>
               ))}

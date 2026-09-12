@@ -54,36 +54,30 @@ export function StorySection() {
           pin: stage,
           start: "top top",
           end: "bottom bottom",
-          scrub: prefersReducedMotion ? false : 0.1,
+          scrub: prefersReducedMotion ? false : 1.2,
           anticipatePin: 1,
           pinType: "transform",
           invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const p = self.progress;
+        },
+        onUpdate: () => {
+          const p = tl.progress();
 
-            // 1. Synchronous direct DOM update on both CSS and attribute
-            if (path) {
-              const currentOffset = Math.max(0, len * (1 - p));
-              path.style.strokeDashoffset = `${currentOffset}px`;
-              path.setAttribute("stroke-dashoffset", `${currentOffset}`);
-            }
+          // 1. Fast CSS stroke-dashoffset update
+          if (path) {
+            const currentOffset = Math.max(0, len * (1 - p));
+            path.style.strokeDashoffset = `${currentOffset}px`;
+          }
 
-            // 2. Map progress to the 5 stories:
-            // 0.00–0.20 → 0 (Vision)
-            // 0.20–0.40 → 1 (Aim)
-            // 0.40–0.60 → 2 (Community)
-            // 0.60–0.80 → 3 (Culture)
-            // 0.80–1.00 → 4 (Impact)
-            const computedIndex = Math.min(
-              STORIES_DATA.length - 1,
-              Math.floor(p * STORIES_DATA.length)
-            );
+          // 2. Map smoothed progress to the 5 stories:
+          const computedIndex = Math.min(
+            STORIES_DATA.length - 1,
+            Math.floor(p * STORIES_DATA.length)
+          );
 
-            if (computedIndex !== activeIndexRef.current) {
-              activeIndexRef.current = computedIndex;
-              setActiveIndex(computedIndex);
-            }
-          },
+          if (computedIndex !== activeIndexRef.current) {
+            activeIndexRef.current = computedIndex;
+            setActiveIndex(computedIndex);
+          }
         },
       });
 

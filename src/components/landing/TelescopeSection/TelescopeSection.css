@@ -7,110 +7,205 @@
   overflow: hidden;
 
   --progress: 0;
+}
 
-  .section__media {
-    position: absolute;
-    top: 0;           /* Moves top edge to the middle */
-  left: 0;          /* Moves left edge to the middle */
-  
-    width: 100%;
+/* Central Hero Headline in Exact Dead Center */
+h1 {
+  position: relative;
+  z-index: 20;
+  pointer-events: none;
+  font-size: 3.4vw;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    height: 100%;
-    z-index: -1;
-
-    transform: scale(var(--progress));
-
-    .section__media__front,
-    .section__media__back {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .section__media__front {
-     
-
-      img {
-        -webkit-mask-image: url(/images/telescope/mask.png);
-        mask-image: url(/images/telescope/mask.png);
-        -webkit-mask-position: 50% 50%;
-        mask-position: 50% 50%;
-        -webkit-mask-size: cover;
-        mask-size: cover;
-      }
-    }
-
-    .front-1 {
-      transform: scale(1);
-    }
-
-    .front-2 {
-      transform: scale(0.85);
-    }
-
-    .front-3 {
-      transform: scale(0.6);
-    }
-
-    .front-4 {
-      transform: scale(0.45);
-    }
-
-    .front-5 {
-      transform: scale(0.3);
-    }
-
-    .front-6 {
-      transform: scale(0.15);
-    }
-
-    img {
-      position: absolute;
-      width:90%;
-      height: 90%;
-      inset: 0;
-      margin: auto;
-      object-fit: cover;
-      object-position: center;
-    }
+  span {
+    display: inline-block;
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
-  h1 {
-    font-size: 3vw;
-    font-weight: normal;
-    transform: translateY(-15%);
-    font-weight: 600;
-    display: flex;
+  .left {
+    transform: translate3d(calc(var(--progress) * (-66vw + 100%) - 0.5vw), 0, 0);
+  }
 
-    span {
-      display: inline-block;
-    }
+  .right {
+    color: #2563eb;
+    margin-left: 0.35em;
+    transform: translate3d(calc(var(--progress) * (66vw - 100%)), 0, 0);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 8.5vw;
 
     .left {
-      transform: translate3d(calc(var(--progress) * (-66vw + 100%) - 0.5vw), 0, 0);
+      transform: translate3d(calc(var(--progress) * (-100vw + 100%) - 0.5vw), 0, 0);
     }
 
     .right {
-        color: blue;
-      transform: translate3d(calc(var(--progress) * (66vw - 100%)), 0, 0);
-    }
-
-    @media (max-width: 768px) {
-      font-size: 9vw;
-
-      .left {
-        transform: translate3d(calc(var(--progress) * (-100vw + 100%) - 0.5vw), 0, 0);
-      }
-
-      .right {
-        transform: translate3d(calc(var(--progress) * (100vw - 100%)), 0, 0);
-      }
+      transform: translate3d(calc(var(--progress) * (100vw - 100%)), 0, 0);
     }
   }
 }
 
+/* Central Identity & College Text Positioned Directly Below Center */
+.center-identity {
+  position: absolute;
+  top: calc(50% + 46px);
+  left: 50%;
+  transform: translate3d(-50%, calc(var(--progress) * 25px), 0) scale(calc(1 - var(--progress) * 0.3));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 20;
+  pointer-events: none;
+  text-align: center;
+  opacity: calc(1 - var(--progress) * 3);
+  will-change: opacity, transform;
+  transition: opacity 0.05s linear;
+
+    .center-graphic {
+      position: relative;
+      width: 140px;
+      height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.6rem;
+
+      .graphic-orbit {
+        position: absolute;
+        width: 110px;
+        height: auto;
+        left: 14px;
+        top: 6px;
+        z-index: 1;
+        opacity: 0.88;
+        pointer-events: none;
+      }
+
+      .graphic-cube {
+        position: relative;
+        width: 74px;
+        height: auto;
+        z-index: 2;
+        filter: drop-shadow(0 8px 18px rgba(37, 99, 235, 0.28));
+      }
+
+      .graphic-spark {
+        position: absolute;
+        width: 20px;
+        height: auto;
+        z-index: 3;
+      }
+
+      .spark-left {
+        bottom: 8px;
+        left: 10px;
+        width: 22px;
+      }
+
+      .spark-right {
+        top: 6px;
+        right: 14px;
+        width: 20px;
+      }
+    }
+
+    .center-identity__text {
+      text-align: center;
+      margin-top: 0.2rem;
+
+      .association-name {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        color: #1e293b;
+        margin: 0 0 6px;
+      }
+
+      .college-name {
+        font-size: 0.64rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        color: #64748b;
+        margin: 0;
+      }
+
+      .accent-bar {
+        width: 32px;
+        height: 2px;
+        background: #2563eb;
+        margin: 14px auto 0;
+        border-radius: 1px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      margin-top: 1.5rem;
+
+      .center-graphic {
+        width: 110px;
+        height: 75px;
+        margin-bottom: 1.1rem;
+
+        .graphic-orbit {
+          width: 85px;
+        }
+        .graphic-cube {
+          width: 58px;
+        }
+      }
+
+      .center-identity__text {
+        .association-name {
+          font-size: 0.56rem;
+          letter-spacing: 0.14em;
+        }
+        .college-name {
+          font-size: 0.5rem;
+          letter-spacing: 0.12em;
+        }
+      }
+    }
+  }
+
+/* Scaling Media (Central Telescope Background Zoom) */
+.section__media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  transform: scale(var(--progress));
+  will-change: transform;
+  backface-visibility: hidden;
+
+  .section__media__front,
+  .section__media__back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  img {
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    inset: 0;
+    margin: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* Parallax Floating 3D Cards Stage */
 .section__images {
   position: absolute;
   top: 0;
@@ -118,101 +213,326 @@
   width: 100vw;
   height: 100vh;
   perspective: 100vh;
+  z-index: 5;
+  pointer-events: none;
+}
 
-  img {
-    position: absolute;
-    width: 10vw;
+/* Individual Editorial Photo Card */
+.photo-card {
+  position: absolute;
+  width: 10vw;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  pointer-events: auto;
 
-    @media (max-width: 768px) {
-      width: 20vw;
+  @media (max-width: 768px) {
+    width: 22vw;
+  }
+
+  .photo-card__frame {
+    position: relative;
+    background: #ffffff;
+    padding: 5px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+    border-radius: 2px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18), 0 3px 8px rgba(0, 0, 0, 0.08);
     }
 
-    &:nth-of-type(1) {
-      top: 15vw;
-      left: -3vw;
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 1px;
+    }
+  }
+}
+
+/* Handwritten Editorial Annotation */
+.photo-annotation {
+  position: absolute;
+  pointer-events: none;
+  font-family: 'Patrick Hand', 'Caveat', cursive, sans-serif;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 0.84rem;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 10;
+
+  .annotation-text {
+    display: inline-block;
+  }
+
+  .annotation-arrow {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .annotation-underline {
+    display: block;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+/* Card Positioning & Flawless Annotation Alignments */
+
+/* 1. Top Left */
+.photo-card-1 {
+  top: 8vh;
+  left: 7vw;
+  rotate: -3deg;
+
+  @media (max-width: 768px) {
+    top: 7vh;
+    left: 3vw;
+    rotate: -2deg;
+  }
+
+  .annotation-card-1 {
+    right: calc(100% + 8px);
+    top: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+
+    .arrow-card-1 {
+      margin-top: 2px;
+      margin-right: -4px;
+    }
+  }
+}
+
+/* 2. Top Mid-Left */
+.photo-card-2 {
+  top: 13vh;
+  left: 21vw;
+  width: 9.5vw;
+  rotate: 2.5deg;
+
+  @media (max-width: 768px) {
+    top: 17vh;
+    left: 5vw;
+    width: 20vw;
+  }
+
+  .annotation-card-2 {
+    bottom: calc(100% + 6px);
+    left: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .arrow-card-2 {
+      margin-top: 2px;
+      margin-left: -8px;
+    }
+  }
+}
+
+/* 3. Mid-Left */
+.photo-card-3 {
+  top: 38vh;
+  left: 5.5vw;
+  width: 10.5vw;
+  rotate: -3.5deg;
+
+  @media (max-width: 768px) {
+    top: 39vh;
+    left: 2vw;
+    width: 21vw;
+  }
+}
+
+/* 4. Lower Mid-Left */
+.photo-card-4 {
+  bottom: 16vh;
+  left: 19vw;
+  width: 9.5vw;
+  rotate: 2.5deg;
+
+  @media (max-width: 768px) {
+    bottom: 21vh;
+    left: 4vw;
+    width: 20vw;
+  }
+
+  .annotation-card-4 {
+    top: calc(100% + 8px);
+    right: -24px;
+    rotate: -12deg;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+/* 5. Bottom Left */
+.photo-card-5 {
+  bottom: 7vh;
+  left: 7vw;
+  width: 10.5vw;
+  rotate: -2deg;
+
+  @media (max-width: 768px) {
+    bottom: 6vh;
+    left: 8vw;
+    width: 21vw;
+  }
+
+  .annotation-card-5 {
+    right: calc(100% + 8px);
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+
+    .arrow-card-5 {
+      margin-bottom: 2px;
+      margin-right: -4px;
+    }
+  }
+}
+
+/* 6. Top Mid-Right */
+.photo-card-6 {
+  top: 13vh;
+  right: 21vw;
+  width: 9.5vw;
+  rotate: -2.5deg;
+
+  @media (max-width: 768px) {
+    top: 17vh;
+    right: 5vw;
+    width: 20vw;
+  }
+
+  .annotation-card-6 {
+    bottom: calc(100% + 6px);
+    left: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .arrow-card-6 {
+      margin-top: 2px;
+      margin-left: 8px;
+    }
+  }
+}
+
+/* 7. Top Right */
+.photo-card-7 {
+  top: 8vh;
+  right: 7vw;
+  rotate: 2.5deg;
+
+  @media (max-width: 768px) {
+    top: 7vh;
+    right: 3vw;
+    rotate: 2deg;
+  }
+
+  .annotation-card-7 {
+    left: calc(100% + 8px);
+    top: 22%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+
+    .arrow-card-7 {
+      margin-top: 2px;
+      margin-left: -4px;
+    }
+  }
+}
+
+/* 8. Mid-Right Upper */
+.photo-card-8 {
+  top: 38vh;
+  right: 5.5vw;
+  width: 10.5vw;
+  rotate: 3.5deg;
+
+  @media (max-width: 768px) {
+    top: 39vh;
+    right: 2vw;
+    width: 21vw;
+  }
+
+  .annotation-card-8 {
+    bottom: calc(100% + 6px);
+    right: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+
+    .arrow-card-8 {
+      margin-top: 2px;
+      margin-right: -8px;
+    }
+  }
+}
+
+/* 9. Mid-Right Lower */
+.photo-card-9 {
+  bottom: 16vh;
+  right: 19vw;
+  width: 9.5vw;
+  rotate: -2.5deg;
+
+  @media (max-width: 768px) {
+    bottom: 21vh;
+    right: 4vw;
+    width: 20vw;
+  }
+}
+
+/* 10. Bottom Right */
+.photo-card-10 {
+  bottom: 7vh;
+  right: 7vw;
+  width: 10.5vw;
+  rotate: 2deg;
+
+  @media (max-width: 768px) {
+    bottom: 6vh;
+    right: 8vw;
+    width: 21vw;
+  }
+
+  .annotation-card-10 {
+    left: calc(100% + 8px);
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+
+    .arrow-card-10 {
+      margin-bottom: 2px;
+      margin-left: -4px;
     }
 
-    &:nth-of-type(2) {
-      top: 5vw;
-      left: 20vw;
-    }
-
-    &:nth-of-type(3) {
-      top: 8vw;
-      left: 26.5vw;
-
-      @media (max-width: 768px) {
-        top: 30vw;
-        left: 30vw;
-      }
-    }
-
-    &:nth-of-type(4) {
-      top: 18vw;
-      right: 18vw;
-
-      @media (max-width: 768px) {
-        right: 15vw;
-        top: 30vw;
-      }
-    }
-
-    &:nth-of-type(5) {
-      top: 5vw;
-      right: 10vw;
-
-      @media (max-width: 768px) {
-        top: 10vw;
-        right: 5vw;
-      }
-    }
-
-    &:nth-of-type(6) {
-      bottom: 5vw;
-      left: 10vw;
-
-      @media (max-width: 768px) {
-        left: 5vw;
-      }
-    }
-
-    &:nth-of-type(7) {
-      bottom: 8vw;
-      left: 22.5vw;
-
-      @media (max-width: 768px) {
-        left: 10vw;
-        bottom: 27.5vw;
-      }
-    }
-
-    &:nth-of-type(8) {
-      bottom: 3vw;
-      left: 45vw;
-
-      @media (max-width: 768px) {
-        bottom: 10vw;
-        left: 35vw;
-      }
-    }
-
-    &:nth-of-type(9) {
-      bottom: 5vw;
-      right: 15vw;
-
-      @media (max-width: 768px) {
-        bottom: 5vw;
-      }
-    }
-
-    &:nth-of-type(10) {
-      bottom: 9vw;
-      right: 7vw;
-
-      @media (max-width: 768px) {
-        right: 3vw;
-        bottom: 22vw;
-      }
+    .underline-card-10 {
+      margin-top: 2px;
     }
   }
 }

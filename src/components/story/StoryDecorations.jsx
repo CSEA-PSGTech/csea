@@ -148,11 +148,14 @@ export function BlueAura({ position = "bottom-left", text = "" }) {
       }`}
       aria-hidden="true"
     >
-      {/* Soft radial blur circle */}
+      {/* High-performance radial gradient glow with zero filter blur overhead */}
       <div
-        className={`w-full h-full rounded-full blur-[80px] sm:blur-[100px] opacity-75 ${
-          isBottomLeft ? "bg-[#2547FF]/25" : "bg-[#2547FF]/30"
-        }`}
+        className="w-full h-full rounded-full"
+        style={{
+          background: isBottomLeft
+            ? "radial-gradient(circle, rgba(37,71,255,0.22) 0%, rgba(37,71,255,0.06) 45%, transparent 70%)"
+            : "radial-gradient(circle, rgba(37,71,255,0.26) 0%, rgba(37,71,255,0.08) 45%, transparent 70%)",
+        }}
       />
 
       {/* Embedded circular metadata label */}

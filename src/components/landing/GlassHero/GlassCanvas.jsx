@@ -21,7 +21,8 @@ export function GlassCanvas({ pointerRef }) {
 
     let width = container.clientWidth || window.innerWidth;
     let height = container.clientHeight || window.innerHeight;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Cap DPR at 1.5 to dramatically reduce GPU fill rate while retaining Retina clarity
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     // 1. THREE.WebGLRenderer
     const renderer = new THREE.WebGLRenderer({
@@ -68,8 +69,8 @@ export function GlassCanvas({ pointerRef }) {
       return tex;
     });
 
-    // 5. Falling Stickers Particle Setup (6-8 active particles across whole screen)
-    const PARTICLE_COUNT = width < 768 ? 5 : 7;
+    // 5. Falling Stickers Particle Setup (5-6 active particles)
+    const PARTICLE_COUNT = width < 768 ? 4 : 6;
     const particles = [];
     const meshes = [];
 
@@ -132,11 +133,16 @@ export function GlassCanvas({ pointerRef }) {
     const smoothedPointer = new THREE.Vector2(0.5, 0.5);
     let smoothedVelocity = 0;
 
-    // 8. Animation & Render Loop
-    let animationFrameId;
+    // 8. Animation & Render Loop with Visibility Culling
+    let isVisible = true;
+    let animationFrameId = null;
     let lastTime = performance.now();
 
     const animate = (now) => {
+      if (!isVisible) {
+        animationFrameId = null;
+        return;
+      }
       animationFrameId = requestAnimationFrame(animate);
 
       const delta = Math.min((now - lastTime) / 1000, 0.1);
@@ -176,7 +182,6 @@ export function GlassCanvas({ pointerRef }) {
           // Boundary check & recycle when leaving bottom
           if (p.y < -height / 2 - 140) {
             recycleParticle(p, width, height);
-            // Switch to the newly chosen texture dynamically from the 19 assets
             mesh.material.map = textures[p.textureIndex];
             mesh.material.needsUpdate = true;
           }
@@ -202,6 +207,22 @@ export function GlassCanvas({ pointerRef }) {
 
     animationFrameId = requestAnimationFrame(animate);
 
+    // Pause WebGL rendering entirely when offscreen to preserve 60/120fps scrolling
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        const visible = entry.isIntersecting;
+        if (visible !== isVisible) {
+          isVisible = visible;
+          if (isVisible && !animationFrameId) {
+            lastTime = performance.now();
+            animationFrameId = requestAnimationFrame(animate);
+          }
+        }
+      },
+      { threshold: 0.01 }
+    );
+    visibilityObserver.observe(container);
+
     // 9. Resize Handling
     const handleResize = () => {
       if (!container) return;
@@ -225,7 +246,8 @@ export function GlassCanvas({ pointerRef }) {
 
     // 10. Clean Cleanup & Disposal
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      visibilityObserver.disconnect();
       resizeObserver.disconnect();
 
       stickerGeom.dispose();

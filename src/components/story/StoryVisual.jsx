@@ -45,6 +45,8 @@ function ImageCard({ img, index = 0 }) {
 
 /**
  * Impact Statistics Grid for Story 05
+ * Styled with thick, stretched typography (scale-x, font-black, wide tracking)
+ * and ambient contrast halo for maximum legibility against the blue path.
  */
 function ImpactStatsGrid({ stats = [] }) {
   return (
@@ -53,23 +55,34 @@ function ImpactStatsGrid({ stats = [] }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 1.04, y: -15 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute right-[8%] sm:right-[12%] lg:right-[15%] top-[18%] lg:top-[22%] z-10 w-[340px] sm:w-[420px] lg:w-[480px]"
+      className="absolute right-[6%] sm:right-[10%] lg:right-[12%] top-[16%] lg:top-[20%] z-20 w-[360px] sm:w-[460px] lg:w-[540px]"
     >
-      <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:gap-x-12 sm:gap-y-14">
+      <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:gap-x-12 sm:gap-y-16">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
-            className="border-l-2 border-[#2547FF] pl-4 sm:pl-5"
+            className="border-l-[3.5px] border-[#2547FF] pl-4 sm:pl-6"
           >
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-neutral-900 flex items-baseline">
-              <span>{stat.value}</span>
-              {stat.suffix && <span className="text-[#2547FF]">{stat.suffix}</span>}
+            {/* Thick, stretched large metric numbers */}
+            <div className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-[-0.04em] text-neutral-950 flex items-baseline select-none">
+              <span className="inline-block transform scale-x-110 origin-left drop-shadow-[0_2px_16px_rgba(250,250,252,0.95)]">
+                {stat.value}
+              </span>
+              {stat.suffix && (
+                <span className="text-[#2547FF] inline-block transform scale-x-110 origin-left ml-1 font-black">
+                  {stat.suffix}
+                </span>
+              )}
             </div>
-            <div className="text-[11px] sm:text-xs uppercase tracking-[0.2em] font-semibold text-neutral-500 mt-2">
-              {stat.label}
+
+            {/* Thick, stretched uppercase labels */}
+            <div className="mt-3">
+              <span className="inline-block transform scale-x-105 origin-left text-[11px] sm:text-xs lg:text-[13px] uppercase tracking-[0.28em] sm:tracking-[0.32em] font-black text-neutral-900 leading-tight drop-shadow-[0_1px_10px_rgba(250,250,252,0.95)]">
+                {stat.label}
+              </span>
             </div>
           </motion.div>
         ))}

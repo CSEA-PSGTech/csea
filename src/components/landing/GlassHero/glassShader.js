@@ -55,17 +55,11 @@ export const glassFragmentShader = /* glsl */ `
     vec2 uvG = clamp(vUv - totalOffset, vec2(0.001), vec2(0.999));
     vec2 uvB = clamp(vUv - totalOffset * (1.0 - disp), vec2(0.001), vec2(0.999));
 
+    // Optimized 3-tap spectral dispersion
+    vec3 baseCol = texture2D(uSceneTexture, uvG).rgb;
     float colR = texture2D(uSceneTexture, uvR).r;
-    float colG = texture2D(uSceneTexture, uvG).g;
     float colB = texture2D(uSceneTexture, uvB).b;
-    vec3 refractedColor = vec3(colR, colG, colB);
-
-    // --- SUBTLE FROSTED TRANSLUCENCY ---
-    vec2 jitter = vec2(0.0012 / aspect.x, 0.0012);
-    vec3 frostA = texture2D(uSceneTexture, uvG + jitter).rgb;
-    vec3 frostB = texture2D(uSceneTexture, uvG - jitter).rgb;
-    vec3 frosted = (refractedColor + frostA + frostB) / 3.0;
-    refractedColor = mix(refractedColor, frosted, 0.16);
+    vec3 refractedColor = vec3(colR, baseCol.g, colB);
 
     // CSEA Crystalline tint (clean with hint of electric cobalt)
     vec3 glassTint = vec3(0.985, 0.99, 1.0);
