@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { FinderWindow } from "./FinderWindow";
 import { DIRECTORY_DATA, SIDEBAR_SECTIONS, DEFAULT_PATH } from "./finderData";
 
@@ -76,21 +76,20 @@ export function MemberFinder() {
   };
 
   return (
-    <section className="relative w-full py-16 px-4 sm:px-6 lg:px-8 bg-white flex flex-col items-center justify-center overflow-hidden">
-      {/* Decorative background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-blue-500/5 blur-[120px] pointer-events-none rounded-full" />
-
-      {/* Section Labeled Heading */}
-      <div className="relative z-10 text-center max-w-2xl mx-auto mb-10">
-        <span className="text-xs font-bold uppercase tracking-[0.3em] text-blue-600 mb-2 block">
-          Directory Explorer
-        </span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900">
-          CSEA Members &amp; Teams
-        </h2>
-        <p className="text-sm sm:text-base text-neutral-600 mt-3 font-medium">
-          Explore CSEA faculty, office bearers, technical leads, and core teams .
-        </p>
+    <section className="relative w-full py-24 px-[10%] flex flex-col justify-center overflow-hidden bg-transparent">
+      {/* Section Header — Aligned to left-[10%] matching other sections */}
+      <div className="relative z-10 w-full mb-12">
+        <div className="w-full max-w-[380px] lg:max-w-[460px]">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+            03 / Members
+          </p>
+          <h2 className="mt-4 text-5xl font-medium leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
+            CSEA Members &amp; Teams
+          </h2>
+          <p className="mt-6 text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+            Explore CSEA faculty, office bearers, technical leads, and core teams.
+          </p>
+        </div>
       </div>
 
       {/* macOS Finder Component */}

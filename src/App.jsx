@@ -6,6 +6,7 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 import BackgroundGrid from "./components/background/BackgroundGrid";
 import TelescopeSection from "./components/landing/TelescopeSection/TelescopeSection";
 import AboutSection from "./components/about/AboutSection";
+import EventsSection from "./components/events/EventsSection";
 import { Skiper28 } from "@/components/ui/skiper-ui/skiper28";
 import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
 
@@ -24,6 +25,11 @@ function App() {
       label: "About",
       ariaLabel: "Learn about us",
       link: "/about",
+    },
+    {
+      label: "Events",
+      ariaLabel: "Explore CSEA events",
+      link: "#events",
     },
     {
       label: "Services",
@@ -113,11 +119,11 @@ function App() {
 
           <AboutSection />
 
-        
+          <EventsSection />
 
-          <Skiper28 />
-            <MemberFinder />
-
+     
+          <MemberFinder />
+     <Skiper28 />
         </div>
       </div>
     </>
