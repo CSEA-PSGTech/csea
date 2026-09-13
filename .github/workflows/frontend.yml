@@ -45,4 +45,4 @@ jobs:
       - name: Trigger Jenkins deployment
         run: |
           curl -X POST \
-            "https://YOUR-JENKINS-DOMAIN/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_WEBHOOK_TOKEN }}"
+            "https://jendc.psgtech.ac.in/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_WEBHOOK_TOKEN }}"
