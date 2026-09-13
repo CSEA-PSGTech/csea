@@ -40,5 +40,5 @@ jobs:
           build-args: |
             VITE_API_BASE_URL=${{ vars.VITE_API_BASE_URL }}
           tags: |
-            ghcr.io/${{ github.repository_owner }}/csea-frontend:latest
-            ghcr.io/${{ github.repository_owner }}/csea-frontend:${{ github.sha }}
+            ghcr.io/csea-psgtech/csea-frontend:latest
+            ghcr.io/csea-psgtech/csea-frontend:${{ github.sha }}
