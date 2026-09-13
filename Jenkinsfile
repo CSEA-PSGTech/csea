@@ -22,9 +22,10 @@ pipeline {
                     docker rm my-react-app || true
 
                     docker run -d \
-                        --name my-react-app \
-                        -p 3000:80 \
-                        my-react-app:latest
+                  --name my-react-app \
+                 --restart unless-stopped \
+                  -p 3000:80 \
+                     my-react-app:latest
                 '''
             }
         }
