@@ -1,4 +1,3 @@
-```yaml
 name: Frontend Docker
 
 on:
@@ -43,4 +42,3 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/csea-frontend:latest
             ghcr.io/${{ github.repository_owner }}/csea-frontend:${{ github.sha }}
-```
