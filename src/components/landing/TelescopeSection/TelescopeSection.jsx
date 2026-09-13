@@ -27,24 +27,20 @@ function TelescopeSection() {
   const prevPointerRef = useRef({ x: 0.5, y: 0.5, time: performance.now() });
 
   const handlePointerMove = (e) => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const rect = section.getBoundingClientRect();
     const clientX = e.clientX ?? (e.touches && e.touches[0]?.clientX);
     const clientY = e.clientY ?? (e.touches && e.touches[0]?.clientY);
 
     if (clientX === undefined || clientY === undefined) return;
 
+    const width = window.innerWidth || 1;
+    const height = window.innerHeight || 1;
+
     const now = performance.now();
     const dt = Math.max(0.001, (now - prevPointerRef.current.time) / 1000);
 
-    const u = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    const v = Math.max(0, Math.min(1, 1.0 - (clientY - rect.top) / rect.height));
-
-    const dx = u - prevPointerRef.current.x;
-    const dy = v - prevPointerRef.current.y;
-    const dist = Math.hypot(dx, dy);
+    const u = Math.max(0, Math.min(1, clientX / width));
+    const v = Math.max(0, Math.min(1, 1.0 - clientY / height));
+    const dist = Math.hypot(u - prevPointerRef.current.x, v - prevPointerRef.current.y);
     const instantVelocity = Math.min(2.0, (dist / dt) * 0.08);
 
     prevPointerRef.current = { x: u, y: v, time: now };
@@ -90,11 +86,11 @@ function TelescopeSection() {
           trigger: section,
           start: "top top",
           end: "+=2000",
-          scrub: 1.2,
+          scrub: true,
           pin: true,
           pinSpacing: true,
           pinType: "transform",
-          anticipatePin: 1,
+          anticipatePin: 0,
           invalidateOnRefresh: true,
         },
         onUpdate: () => {

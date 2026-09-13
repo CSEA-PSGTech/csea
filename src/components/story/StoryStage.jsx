@@ -100,7 +100,7 @@ export const StoryStage = forwardRef(function StoryStage(
             <img
               src={currentStory.images[0].src}
               alt={currentStory.images[0].alt}
-              className="w-full h-full object-cover filter grayscale"
+              className="w-full h-full object-cover"
             />
           </div>
         )}

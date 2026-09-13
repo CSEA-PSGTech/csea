@@ -54,7 +54,7 @@ export function StorySection() {
           pin: stage,
           start: "top top",
           end: "bottom bottom",
-          scrub: prefersReducedMotion ? false : 1.2,
+          scrub: prefersReducedMotion ? false : true,
           anticipatePin: 1,
           pinType: "transform",
           invalidateOnRefresh: true,

@@ -18,7 +18,7 @@ export const STORIES_DATA = [
     images: [
       {
         id: "v-main",
-        src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&q=80",
+        src: "/landing_page/image (5).webp",
         alt: "PSG College of Technology CSE students collaborating",
         caption: "BEYOND THE CLASSROOM",
         subCaption: "LEARN · COLLABORATE · INNOVATE · GROW",
@@ -48,8 +48,8 @@ export const STORIES_DATA = [
     images: [
       {
         id: "aim-laptop",
-        src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
-        alt: "Students exploring software architecture and emerging tech",
+        src: "/landing_page/image (2).webp",
+        alt: "Students exploring software architecture and emerging tech in CSEA workshop",
         rotation: -3,
         width: "w-[280px] sm:w-[340px] lg:w-[390px]",
         height: "h-[320px] sm:h-[380px] lg:h-[420px]",
@@ -57,8 +57,8 @@ export const STORIES_DATA = [
       },
       {
         id: "aim-rover",
-        src: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80",
-        alt: "Hands-on tech hardware and software experimentation",
+        src: "/landing_page/image (6).webp",
+        alt: "Hands-on tech exploration and student projects",
         rotation: 4,
         width: "w-[200px] sm:w-[240px] lg:w-[280px]",
         height: "h-[200px] sm:h-[240px] lg:h-[280px]",
@@ -84,8 +84,8 @@ export const STORIES_DATA = [
     images: [
       {
         id: "comm-collab",
-        src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
-        alt: "Students collaborating in a hackathon sprint",
+        src: "/landing_page/image (7).webp",
+        alt: "Students collaborating in a coding competition sprint",
         rotation: -2,
         width: "w-[270px] sm:w-[320px] lg:w-[360px]",
         height: "h-[240px] sm:h-[280px] lg:h-[310px]",
@@ -93,8 +93,8 @@ export const STORIES_DATA = [
       },
       {
         id: "comm-stage",
-        src: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80",
-        alt: "Students solving problems together in a packed hall",
+        src: "/landing_page/image (3).webp",
+        alt: "Students solving problems together in hands-on challenge",
         rotation: 3,
         width: "w-[220px] sm:w-[260px] lg:w-[300px]",
         height: "h-[190px] sm:h-[220px] lg:h-[250px]",
@@ -102,8 +102,8 @@ export const STORIES_DATA = [
       },
       {
         id: "comm-discuss",
-        src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=700&q=80",
-        alt: "Two students tackling coding challenges",
+        src: "/landing_page/image (4).webp",
+        alt: "Students brainstorming practical solutions",
         rotation: -3.5,
         width: "w-[180px] sm:w-[210px] lg:w-[240px]",
         height: "h-[170px] sm:h-[200px] lg:h-[230px]",
@@ -130,8 +130,8 @@ export const STORIES_DATA = [
     images: [
       {
         id: "cult-stage",
-        src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=900&q=80",
-        alt: "CSEA leaders hosting collaborative event on stage",
+        src: "/landing_page/image (8).webp",
+        alt: "Student leaders presenting at CSEA signature event",
         caption: "LEADERSHIP & CREATIVITY",
         rotation: -3,
         width: "w-[280px] sm:w-[330px] lg:w-[380px]",
@@ -140,8 +140,8 @@ export const STORIES_DATA = [
       },
       {
         id: "cult-group",
-        src: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=800&q=80",
-        alt: "Students actively engaged in collaborative teamwork",
+        src: "/landing_page/image (11).webp",
+        alt: "Students actively engaged in collaborative teamwork and cultural events",
         rotation: 3,
         width: "w-[240px] sm:w-[280px] lg:w-[320px]",
         height: "h-[200px] sm:h-[230px] lg:h-[260px]",

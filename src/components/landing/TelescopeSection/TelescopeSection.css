@@ -64,7 +64,6 @@ h1 {
   text-align: center;
   opacity: calc(1 - var(--progress) * 3);
   will-change: opacity, transform;
-  transition: opacity 0.05s linear;
 
     .center-graphic {
       position: relative;

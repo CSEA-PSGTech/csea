@@ -20,7 +20,7 @@ function ImageCard({ img, index = 0 }) {
       <img
         src={img.src}
         alt={img.alt}
-        className="w-full h-full object-cover filter grayscale contrast-105 brightness-95 transition-transform duration-700 ease-out group-hover:scale-105"
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
       />
 
       {/* Card vignette overlay */}
