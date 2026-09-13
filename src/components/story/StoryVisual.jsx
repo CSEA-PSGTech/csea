@@ -55,20 +55,20 @@ function ImpactStatsGrid({ stats = [] }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 1.04, y: -15 }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-      className="absolute right-[6%] sm:right-[10%] lg:right-[12%] top-[16%] lg:top-[20%] z-20 w-[360px] sm:w-[460px] lg:w-[540px]"
+      className="absolute right-[4%] sm:right-[8%] lg:right-[10%] top-[14%] lg:top-[18%] z-20 w-[380px] sm:w-[480px] lg:w-[560px]"
     >
-      <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:gap-x-12 sm:gap-y-16">
+      <div className="grid grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
         {stats.map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
-            className="border-l-[3.5px] border-[#2547FF] pl-4 sm:pl-6"
+            className="relative rounded-2xl bg-white/85 backdrop-blur-md border border-black/[0.06] p-5 sm:p-6 lg:p-7 shadow-[0_4px_24px_rgba(0,0,0,0.03)] transition-transform duration-300 hover:-translate-y-0.5"
           >
             {/* Thick, stretched large metric numbers */}
-            <div className="text-6xl sm:text-7xl lg:text-8xl font-black tracking-[-0.04em] text-neutral-950 flex items-baseline select-none">
-              <span className="inline-block transform scale-x-110 origin-left drop-shadow-[0_2px_16px_rgba(250,250,252,0.95)]">
+            <div className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-[-0.04em] text-neutral-950 flex items-baseline select-none">
+              <span className="inline-block transform scale-x-110 origin-left">
                 {stat.value}
               </span>
               {stat.suffix && (
@@ -80,7 +80,7 @@ function ImpactStatsGrid({ stats = [] }) {
 
             {/* Thick, stretched uppercase labels */}
             <div className="mt-3">
-              <span className="inline-block transform scale-x-105 origin-left text-[11px] sm:text-xs lg:text-[13px] uppercase tracking-[0.28em] sm:tracking-[0.32em] font-black text-neutral-900 leading-tight drop-shadow-[0_1px_10px_rgba(250,250,252,0.95)]">
+              <span className="inline-block transform scale-x-105 origin-left text-[11px] sm:text-xs lg:text-[13px] uppercase tracking-[0.24em] sm:tracking-[0.28em] font-black text-neutral-800 leading-tight">
                 {stat.label}
               </span>
             </div>

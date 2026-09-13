@@ -60,9 +60,12 @@ export const StoryStage = forwardRef(function StoryStage(
 
           {/* Mobile Fallback for Impact Stats (Story 05) */}
           {currentStory.stats && (
-            <div className="md:hidden mt-6 grid grid-cols-2 gap-3 border-t border-black/10 pt-4 max-w-[320px]">
+            <div className="md:hidden mt-6 grid grid-cols-2 gap-3 max-w-[340px]">
               {currentStory.stats.map((stat) => (
-                <div key={stat.label} className="border-l-[3px] border-[#2547FF] pl-2.5">
+                <div
+                  key={stat.label}
+                  className="rounded-xl bg-white/85 backdrop-blur-md border border-black/[0.06] p-3 shadow-xs"
+                >
                   <div className="text-3xl font-black tracking-tight text-neutral-950 flex items-baseline">
                     <span className="inline-block transform scale-x-110 origin-left">
                       {stat.value}
@@ -73,7 +76,7 @@ export const StoryStage = forwardRef(function StoryStage(
                       </span>
                     )}
                   </div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] font-black text-neutral-900 mt-1">
+                  <div className="text-[10px] uppercase tracking-[0.22em] font-black text-neutral-800 mt-1.5">
                     <span className="inline-block transform scale-x-105 origin-left">
                       {stat.label}
                     </span>

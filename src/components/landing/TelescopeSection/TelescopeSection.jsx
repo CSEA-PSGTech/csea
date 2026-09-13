@@ -146,6 +146,36 @@ function TelescopeSection() {
       <BackgroundGrid />
       <GlassCanvas pointerRef={pointerRef} />
 
+      {/* Top-Left Institutional & Brand Logos */}
+      <div className="absolute top-5 left-5 sm:top-7 sm:left-9 z-30 select-none pointer-events-auto flex items-center gap-3 sm:gap-5">
+        <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
+          <img
+            src="/logos/csea.png"
+            alt="CSEA Logo"
+            className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            draggable={false}
+          />
+        </a>
+
+        {/* Subtle Vertical Divider */}
+        <div className="h-7 sm:h-9 w-[1px] bg-black/10" aria-hidden="true" />
+
+        <div className="flex items-center gap-2.5 sm:gap-4">
+          <img
+            src="/logos/psg.png"
+            alt="PSG College of Technology"
+            className="h-9 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            draggable={false}
+          />
+          <img
+            src="/logos/hundre.png"
+            alt="PSG 100 Years"
+            className="h-9 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            draggable={false}
+          />
+        </div>
+      </div>
+
       {/* Hero text placed in dead center */}
       <h1>
         <span className="left">we are</span>

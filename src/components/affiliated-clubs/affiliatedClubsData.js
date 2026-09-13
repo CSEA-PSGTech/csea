@@ -11,7 +11,7 @@ export const AFFILIATED_CLUBS = [
     subtitle: "CYBERSECURITY CLUB",
     description:
       "Exploring security, breaking boundaries, and building a safer digital world.",
-    href: "https://theeye-psgtech.github.io",
+    href: "https://theeye.psgtech.ac.in",
     linkText: "EXPLORE",
   },
   {
@@ -21,7 +21,7 @@ export const AFFILIATED_CLUBS = [
     subtitle: "GITHUB CAMPUS CLUB",
     description:
       "Open source. Real impact. A global student community building together.",
-    href: "https://github.com/csea-psgtech",
+    href: "https://ghcc.psgtech.ac.in",
     linkText: "EXPLORE",
   },
   {
@@ -31,7 +31,7 @@ export const AFFILIATED_CLUBS = [
     subtitle: "DESIGN THINKING",
     description:
       "Solving real problems through creativity, empathy and design.",
-    href: "https://instagram.com/csea_psgtech",
+    href: "#",
     linkText: "EXPLORE",
   },
   {
@@ -41,7 +41,7 @@ export const AFFILIATED_CLUBS = [
     subtitle: "ENTREPRENEURSHIP CELL",
     description:
       "Turning ideas into impact. Empowering the next generation of builders.",
-    href: "https://linkedin.com/company/csea-psg-tech",
+    href: "#",
     linkText: "EXPLORE",
   },
 ];
