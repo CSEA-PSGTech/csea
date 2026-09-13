@@ -29,7 +29,7 @@ export function FinderPreview({ member, onClose }) {
         </button>
 
         {/* Faded Gradient Background Overlay at the bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent flex flex-col justify-end p-6 sm:p-8 text-left">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent flex flex-col justify-end p-6 sm:p-8 text-left">
           {/* Badge chip if present */}
           {member.badge && (
             <span className="self-start mb-2 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase bg-blue-600 text-white shadow-md border-none">
@@ -46,6 +46,13 @@ export function FinderPreview({ member, onClose }) {
           <p className="text-xs sm:text-sm font-semibold tracking-wider text-blue-300 uppercase mt-1 drop-shadow-xs">
             {member.role || "CSEA Member"}
           </p>
+
+          {/* Year & Class */}
+          {member.batch && (
+            <p className="text-xs sm:text-sm text-white/70 font-medium mt-1">
+              {member.batch}
+            </p>
+          )}
 
           {/* Social Links if present */}
           {(member.github || member.linkedin || member.email) && (
