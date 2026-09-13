@@ -9,7 +9,7 @@ export function StoryContent({ story }) {
   if (!story) return null;
 
   return (
-    <div className="relative z-10 w-full max-w-[440px] lg:max-w-[500px]">
+    <div className="relative z-10 w-full max-w-[440px] lg:max-w-[520px] xl:max-w-[560px]">
       {/* Small uppercase label */}
       <motion.p
         key={`badge-${story.id}`}
@@ -29,7 +29,7 @@ export function StoryContent({ story }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -16 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-        className="mt-4 text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.04em] leading-[0.94] text-neutral-950"
+        className="mt-4 text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] xl:text-[5.25rem] font-bold tracking-[-0.035em] leading-[0.96] text-neutral-950"
       >
         {story.headingPrefix && <span>{story.headingPrefix}</span>}
         {story.headingMiddle && (
@@ -49,22 +49,24 @@ export function StoryContent({ story }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -14 }}
         transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
-        className="mt-6 text-base sm:text-lg text-neutral-600 font-medium leading-[1.55] tracking-[-0.01em] max-w-[380px] lg:max-w-[420px]"
+        className="mt-6 text-base sm:text-lg text-neutral-600 font-medium leading-[1.6] tracking-[-0.01em] max-w-[380px] lg:max-w-[460px]"
       >
         {story.description}
       </motion.p>
 
       {/* Supporting Concept */}
-      <motion.div
-        key={`supp-${story.id}`}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.4, ease: "easeOut", delay: 0.15 }}
-        className="mt-6 flex items-center gap-2 text-xs uppercase tracking-[0.28em] font-bold text-neutral-500"
-      >
-        <span>{story.supporting}</span>
-      </motion.div>
+      {story.supporting && (
+        <motion.div
+          key={`supp-${story.id}`}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.15 }}
+          className="mt-6 flex items-center gap-2 text-xs uppercase tracking-[0.28em] font-bold text-neutral-500"
+        >
+          <span>{story.supporting}</span>
+        </motion.div>
+      )}
     </div>
   );
 }

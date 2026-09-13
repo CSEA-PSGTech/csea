@@ -11,15 +11,18 @@ export function valuesToMembers(values) {
     });
 
     return {
-      id: obj.id || obj.name,
+      id: obj.id || obj["roll no"] || obj["roll number"] || obj.roll || obj.rollno || obj.name,
+      roll: obj.roll || obj["roll no"] || obj["roll number"] || obj.rollno || obj.id || "",
       name: obj.name || "",
-      position: obj.position || "",
-      vertical: obj.vertical || "",
+      position: obj.position || obj.role || "",
+      vertical: obj.vertical || obj.department || "",
       // "Year and class" header -> "year and class" key after lowercasing
-      yearAndClass: obj["year and class"] || "",
-      // Rename to "url" (not "photo") if you wire this into
-      // AccordionModal or another component expecting that field.
-      photo: obj.photo || "",
+      yearAndClass: obj["year and class"] || obj.year || obj.batch || obj.class || "",
+      year: obj.year || obj["year and class"] || obj.batch || obj.class || "",
+      photo: obj.photo || obj.url || obj.image || "",
+      github: obj.github || "",
+      linkedin: obj.linkedin || "",
+      email: obj.email || "",
     };
   });
 }

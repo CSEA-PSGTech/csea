@@ -5,6 +5,7 @@ import { ScrollSmoother } from "gsap/ScrollSmoother";
 
 import TelescopeSection from "./components/landing/TelescopeSection/TelescopeSection";
 import AboutSection from "./components/about/AboutSection";
+import AffiliatedClubs from "./components/affiliated-clubs/AffiliatedClubs";
 import EventsSection from "./components/events/EventsSection";
 import { Skiper28 } from "@/components/ui/skiper-ui/skiper28";
 import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
@@ -27,7 +28,12 @@ function App() {
     {
       label: "About",
       ariaLabel: "Learn about us",
-      link: "/about",
+      link: "#about",
+    },
+    {
+      label: "Clubs",
+      ariaLabel: "Explore Affiliated Clubs",
+      link: "#affiliated-clubs",
     },
     {
       label: "Events",
@@ -122,6 +128,8 @@ function App() {
           <TelescopeSection />
 
           <AboutSection />
+
+          <AffiliatedClubs />
 
           <EventsSection />
 

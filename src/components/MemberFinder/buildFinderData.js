@@ -48,14 +48,26 @@ export function buildFinderData(members) {
       .filter((m) => (m.vertical || "Other") === vertical)
       .map((m) => ({
         id: `mem-${m.id}`,
+        rawId: m.id,
         name: m.name,
         role: m.position,
+        position: m.position,
         type: "member",
         department: vertical,
-        batch: m.yearAndClass,
-        bio: "", 
-        photo: m.photo,
-
+        batch: m.yearAndClass || m.year || m.batch || "",
+        year: m.yearAndClass || m.year || m.batch || "",
+        yearAndClass: m.yearAndClass || m.year || m.batch || "",
+        roll: m.roll || m.rollNo || m.rollNumber || (m.id && !m.id.toString().startsWith("mem-") ? m.id : "") || "",
+        bio: m.bio || "", 
+        photo: m.photo || m.url || m.image || "",
+        github: m.github,
+        linkedin: m.linkedin,
+        email: m.email,
+        socials: {
+          github: m.github,
+          linkedin: m.linkedin,
+          email: m.email,
+        },
       }));
   }
 

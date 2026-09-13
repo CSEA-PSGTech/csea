@@ -120,7 +120,8 @@ export function StorySection() {
   return (
     <section
       ref={containerRef}
-      id="story"
+      id="about"
+      data-section="story"
       className="relative h-[320vh] w-full bg-[#FAFAFC]"
     >
       <StoryStage
