@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Footer.css";
 
@@ -79,28 +79,44 @@ const Footer = ({ onOpenTeam }) => {
     }, 150);
     return () => clearTimeout(timer);
   }, []);
+
+  // Same explicit-scrollTo approach used in the navbar: hash links call
+  // window.__scrollSmoother.scrollTo() directly rather than relying on
+  // ScrollSmoother's automatic anchor interception, for consistent,
+  // reliable behavior everywhere in the app.
+  const handleAnchorClick = useCallback((e, href) => {
+    if (typeof href !== "string" || !href.startsWith("#")) return;
+    e.preventDefault();
+    const smoother = window.__scrollSmoother;
+    if (smoother && typeof smoother.scrollTo === "function") {
+      smoother.scrollTo(href, true, "top");
+    } else {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  // hrefs match the actual section ids in App.jsx:
+  // id="home" (TelescopeSection), id="about" (set by StorySection itself),
+  // id="timeline" (TimelineDemo), id="memberfinder" (MemberFinder).
   const exploreLinks = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Events", href: "#events" },
-    { label: "Projects", href: "/projects" },
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Timeline", href: "#timeline" },
+    { label: "Members", href: "#memberfinder" },
     { label: "Team", href: "/team", isTeamTrigger: true },
   ];
 
+  // These don't have matching sections anywhere in the app yet — left
+  // as real paths for now. Clicking them will attempt a full page nav
+  // to a route that doesn't exist (no router is set up). Let me know
+  // if any of these should become real sections/anchors, or get
+  // removed from the footer until they exist.
   const resourceLinks = [
     { label: "Gallery", href: "/gallery" },
     { label: "Achievements", href: "/achievements" },
     { label: "FAQs", href: "/faqs" },
     { label: "Join Us", href: "/join" },
-    { label: "Contact", href: "/contact" },
-  ];
-
-  const connectLinks = [
-    { label: "Instagram", href: "https://instagram.com/csea_psgtech" },
-    { label: "LinkedIn", href: "https://linkedin.com/company/csea-psg-tech" },
-    { label: "YouTube", href: "https://youtube.com" },
-    { label: "GitHub", href: "https://github.com" },
-    { label: "Mail Us", href: "mailto:csea@psgtech.ac.in" },
+    { label: "Contact", href: "mailto:csea.cse@psgtech.ac.in" },
   ];
 
   return (
@@ -183,7 +199,7 @@ const Footer = ({ onOpenTeam }) => {
             {/* Social Icons Row */}
             <div className="csea-footer__social-row">
               <a
-                href="https://instagram.com/csea_psgtech"
+                href="https://instagram.com/cseapsgtech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="csea-footer__social-link"
@@ -192,7 +208,7 @@ const Footer = ({ onOpenTeam }) => {
                 <InstagramIcon size={19} />
               </a>
               <a
-                href="https://linkedin.com/company/csea-psg-tech"
+                href="https://www.linkedin.com/company/cse-association-psg-tech/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="csea-footer__social-link"
@@ -201,7 +217,7 @@ const Footer = ({ onOpenTeam }) => {
                 <LinkedinIcon size={19} />
               </a>
               <a
-                href="https://youtube.com"
+                href="https://youtube.com/@cseapsgtech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="csea-footer__social-link"
@@ -210,7 +226,7 @@ const Footer = ({ onOpenTeam }) => {
                 <YoutubeIcon size={19} />
               </a>
               <a
-                href="https://github.com"
+                href="https://github.com/cse-psgtech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="csea-footer__social-link"
@@ -240,7 +256,9 @@ const Footer = ({ onOpenTeam }) => {
                         if (link.isTeamTrigger && onOpenTeam) {
                           e.preventDefault();
                           onOpenTeam();
+                          return;
                         }
+                        handleAnchorClick(e, link.href);
                       }}
                     >
                       {link.label}
@@ -256,25 +274,10 @@ const Footer = ({ onOpenTeam }) => {
               <ul className="csea-footer__nav-list">
                 {resourceLinks.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="csea-footer__nav-link">
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Column C: CONNECT */}
-            <div className="csea-footer__nav-col">
-              <h3 className="csea-footer__nav-col-title">CONNECT</h3>
-              <ul className="csea-footer__nav-list">
-                {connectLinks.map((link) => (
-                  <li key={link.label}>
                     <a
                       href={link.href}
                       className="csea-footer__nav-link"
-                      target={link.href.startsWith("http") ? "_blank" : undefined}
-                      rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      onClick={(e) => handleAnchorClick(e, link.href)}
                     >
                       {link.label}
                     </a>
@@ -282,6 +285,8 @@ const Footer = ({ onOpenTeam }) => {
                 ))}
               </ul>
             </div>
+
+            
           </div>
 
           {/* 3. Subtle Vertical Grid Divider */}
