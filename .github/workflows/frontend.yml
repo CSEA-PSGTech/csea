@@ -42,3 +42,7 @@ jobs:
           tags: |
             ghcr.io/csea-psgtech/csea-frontend:latest
             ghcr.io/csea-psgtech/csea-frontend:${{ github.sha }}
+      - name: Trigger Jenkins deployment
+        run: |
+          curl -X POST \
+            "https://YOUR-JENKINS-DOMAIN/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_WEBHOOK_TOKEN }}"
