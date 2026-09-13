@@ -192,32 +192,10 @@ function TelescopeSection() {
       {/* Center scaling media */}
       <div className="section__media">
         <div className="section__media__back">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
+          <img src="/images/telescope/image-front.webp" alt="CSEA" />
         </div>
 
-        <div className="section__media__front front-1">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
-
-        <div className="section__media__front front-2">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
-
-        <div className="section__media__front front-3">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
-
-        <div className="section__media__front front-4">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
-
-        <div className="section__media__front front-5">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
-
-        <div className="section__media__front front-6">
-          <img src="/images/telescope/img-big.jpg" alt="CSEA" />
-        </div>
+      
       </div>
 
       {/* Floating Parallax Editorial Photo Cards with Hand-Drawn Annotations */}
@@ -225,7 +203,7 @@ function TelescopeSection() {
         {/* Left Side */}
         <div className="photo-card photo-card-1">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG_3783.jpg" alt="CSEA Workshop" />
+            <img src="/landing_page/image (2).webp" alt="CSEA Workshop" />
           </div>
           <div className="photo-annotation annotation-card-1">
             <span className="annotation-text">
@@ -237,7 +215,7 @@ function TelescopeSection() {
 
         <div className="photo-card photo-card-2">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG20260214102944.jpg" alt="CSEA Event" />
+            <img src="/landing_page/image (3).webp" alt="CSEA Event" />
           </div>
           <div className="photo-annotation annotation-card-2">
             <span className="annotation-text">
@@ -249,13 +227,13 @@ function TelescopeSection() {
 
         <div className="photo-card photo-card-3">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG20260214102643.jpg" alt="CSEA Activity" />
+            <img src="/landing_page/image (4).webp" alt="CSEA Activity" />
           </div>
         </div>
 
         <div className="photo-card photo-card-4">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG_2573.JPG" alt="CSEA Team" />
+            <img src="/landing_page/image (5).webp" alt="CSEA Team" />
           </div>
           <div className="photo-annotation annotation-card-4">
             <span className="annotation-text">
@@ -266,7 +244,7 @@ function TelescopeSection() {
 
         <div className="photo-card photo-card-5">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG_9304.jpg" alt="CSEA Innovation" />
+            <img src="/landing_page/image (6).webp" alt="CSEA Innovation" />
           </div>
           <div className="photo-annotation annotation-card-5">
             <span className="annotation-text">
@@ -280,7 +258,7 @@ function TelescopeSection() {
         <div className="photo-card photo-card-6">
           <div className="photo-card__frame">
             <img
-              src="/landing_page/a32ce3c3-589d-4146-a7d5-89f03edbd825.JPG"
+              src="/landing_page/image (7).webp"
               alt="CSEA Lab"
             />
           </div>
@@ -294,7 +272,7 @@ function TelescopeSection() {
 
         <div className="photo-card photo-card-7">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG_0214.jpg" alt="CSEA Presentation" />
+            <img src="/landing_page/image (8).webp" alt="CSEA Presentation" />
           </div>
           <div className="photo-annotation annotation-card-7">
             <span className="annotation-text">
@@ -307,7 +285,7 @@ function TelescopeSection() {
         <div className="photo-card photo-card-8">
           <div className="photo-card__frame">
             <img
-              src="/landing_page/f1f64b74-2bfd-4098-a042-41087da10e68.JPG"
+              src="/landing_page/image (9).webp"
               alt="CSEA Community"
             />
           </div>
@@ -321,14 +299,14 @@ function TelescopeSection() {
 
         <div className="photo-card photo-card-9">
           <div className="photo-card__frame">
-            <img src="/landing_page/IMG_3766.jpg" alt="CSEA Session" />
+            <img src="/landing_page/image (10).webp" alt="CSEA Session" />
           </div>
         </div>
 
         <div className="photo-card photo-card-10">
           <div className="photo-card__frame">
             <img
-              src="/landing_page/PXL_20260214_055018849.MP.jpg"
+              src="/landing_page/image (11).webp"
               alt="CSEA Gathering"
             />
           </div>
@@ -345,4 +323,4 @@ function TelescopeSection() {
   );
 }
 
-export default TelescopeSection;
+export default TelescopeSection;

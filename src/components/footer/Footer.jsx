@@ -72,7 +72,7 @@ const GithubIcon = ({ size = 19 }) => (
   </svg>
 );
 
-const Footer = () => {
+const Footer = ({ onOpenTeam }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
@@ -84,7 +84,7 @@ const Footer = () => {
     { label: "About", href: "/about" },
     { label: "Events", href: "#events" },
     { label: "Projects", href: "/projects" },
-    { label: "Team", href: "/team" },
+    { label: "Team", href: "/team", isTeamTrigger: true },
   ];
 
   const resourceLinks = [
@@ -127,6 +127,12 @@ const Footer = () => {
 
         <a
           href="/team"
+          onClick={(e) => {
+            if (onOpenTeam) {
+              e.preventDefault();
+              onOpenTeam();
+            }
+          }}
           className="csea-footer__folder"
           aria-label="Meet the CSEA Team"
         >
@@ -227,7 +233,16 @@ const Footer = () => {
               <ul className="csea-footer__nav-list">
                 {exploreLinks.map((link) => (
                   <li key={link.label}>
-                    <a href={link.href} className="csea-footer__nav-link">
+                    <a
+                      href={link.href}
+                      className="csea-footer__nav-link"
+                      onClick={(e) => {
+                        if (link.isTeamTrigger && onOpenTeam) {
+                          e.preventDefault();
+                          onOpenTeam();
+                        }
+                      }}
+                    >
                       {link.label}
                     </a>
                   </li>

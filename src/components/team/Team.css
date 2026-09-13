@@ -1,0 +1,401 @@
+/* ==========================================================================
+   CSEA MEET THE TEAM — MINIMAL & ELEGANT EDITORIAL POSTER
+   Compact, non-scrollable on desktop, thin refined typography
+   ========================================================================== */
+
+/* Master Overlay Container */
+.csea-team-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  font-family: 'Geist Variable', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #0038ff;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   1. Multi-Panel Staggered Fill Transition Layer
+   -------------------------------------------------------------------------- */
+.csea-team-transition {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.csea-team-transition__panel {
+  height: 100%;
+  background: #fbf9f5;
+  will-change: transform;
+  border-right: 1px solid rgba(0, 56, 255, 0.06);
+  box-shadow: 0 -8px 28px rgba(0, 38, 255, 0.12), -4px 0 16px rgba(0, 0, 0, 0.05);
+}
+
+.csea-team-transition__panel:last-child {
+  border-right: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. Editorial Poster Surface (Transparent so panels show underneath)
+   -------------------------------------------------------------------------- */
+.csea-team-overlay__surface {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Allow scrolling ONLY on small mobile screens */
+@media (max-width: 640px) {
+  .csea-team-overlay__surface {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. Architectural Grid Lines
+   -------------------------------------------------------------------------- */
+.csea-team-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.csea-team-grid__line {
+  position: absolute;
+  background-color: rgba(0, 56, 255, 0.035);
+}
+
+.csea-team-grid__line--v1 { top: 0; bottom: 0; left: 16%; width: 1px; }
+.csea-team-grid__line--v2 { top: 0; bottom: 0; left: 34%; width: 1px; }
+.csea-team-grid__line--v3 { top: 0; bottom: 0; left: 50%; width: 1px; }
+.csea-team-grid__line--v4 { top: 0; bottom: 0; left: 66%; width: 1px; }
+.csea-team-grid__line--v5 { top: 0; bottom: 0; left: 84%; width: 1px; }
+
+.csea-team-grid__line--h1 { left: 0; right: 0; top: 18%; height: 1px; }
+.csea-team-grid__line--h2 { left: 0; right: 0; bottom: 20%; height: 1px; }
+
+/* --------------------------------------------------------------------------
+   4. Top Bar & Back Button
+   -------------------------------------------------------------------------- */
+.csea-team-overlay__top-bar {
+  position: absolute;
+  top: 1.5rem;
+  left: 2.25rem;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.csea-team-overlay__back-btn {
+  pointer-events: auto;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #0038ff;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  padding: 4px 0;
+}
+
+.csea-team-overlay__back-btn:hover {
+  opacity: 0.7;
+}
+
+.csea-team-overlay__back-btn:hover .csea-team-overlay__back-arrow {
+  transform: translateX(-3px);
+}
+
+.csea-team-overlay__back-arrow {
+  transition: transform 0.25s ease;
+}
+
+.csea-team-overlay__back-text {
+  font-family: 'Geist Variable', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   5. Main Content Container (Centered, fits 100vh)
+   -------------------------------------------------------------------------- */
+.csea-team-overlay__container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Elegant Header */
+.csea-team-overlay__header {
+  text-align: center;
+  margin-bottom: 1.6rem;
+  position: relative;
+  z-index: 10;
+}
+
+.csea-team-overlay__title {
+  font-size: clamp(1.5rem, 2.8vw, 2.35rem);
+  font-weight: 550;
+  line-height: 1.15;
+  letter-spacing: 0.16em;
+  color: #0038ff;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Three Compact Portrait Cards Row
+   -------------------------------------------------------------------------- */
+.csea-team-overlay__cards-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 15;
+}
+
+/* Physical Photo Card (Slightly bigger, balanced frame) */
+.csea-team-card {
+  position: relative;
+  width: clamp(180px, 16vw, 225px);
+  flex-shrink: 0;
+  outline: none;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), z-index 0s;
+}
+
+.csea-team-card:hover {
+  z-index: 25;
+}
+
+.csea-team-card__frame {
+  background: #ffffff;
+  padding: 7px 7px 11px 7px;
+  border: 1px solid rgba(0, 56, 255, 0.13);
+  border-radius: 4px;
+  box-shadow: 
+    0 9px 26px -6px rgba(0, 38, 255, 0.1),
+    0 2px 7px -1px rgba(0, 0, 0, 0.035);
+  transform: rotate(var(--card-rotation, 0deg));
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+}
+
+.csea-team-card:hover .csea-team-card__frame {
+  transform: rotate(var(--card-rotation, 0deg)) translateY(-5px) scale(1.015);
+  box-shadow: 
+    0 16px 36px -6px rgba(0, 38, 255, 0.17),
+    0 4px 12px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Photo Box */
+.csea-team-card__photo-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 3.6;
+  overflow: hidden;
+  background: #e2e8f0;
+  border-radius: 2px;
+}
+
+.csea-team-card__photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.06) saturate(0.94);
+  transition: transform 0.55s ease, filter 0.55s ease;
+}
+
+.csea-team-card:hover .csea-team-card__photo {
+  transform: scale(1.04);
+}
+
+.csea-team-card__photo-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0026ff 0%, #001880 100%);
+}
+
+.csea-team-card__fallback-text {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.csea-team-card__photo-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 56, 255, 0.02) 0%, rgba(0, 20, 100, 0.1) 100%);
+  pointer-events: none;
+}
+
+/* Floating Social Layer on Photo */
+.csea-team-card__social-layer {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 10;
+}
+
+.csea-team-card__social-layer.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Social Strip Pill */
+.csea-team-socials {
+  background: rgba(3, 10, 36, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(199, 210, 254, 0.25);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.csea-team-socials__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  opacity: 0.85;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease, color 0.2s ease;
+  outline: none;
+}
+
+.csea-team-socials__link:hover,
+.csea-team-socials__link:focus-visible {
+  opacity: 1;
+  transform: translateY(-2px) scale(1.15);
+  color: #93c5fd;
+}
+
+/* Card Bottom Footer (Clean, minimal, centered role) */
+.csea-team-card__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  padding: 0 2px;
+}
+
+.csea-team-card__role {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.csea-team-card__role-line {
+  font-family: 'Geist Variable', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  color: #0038ff;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive Layout
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .csea-team-overlay__cards-row {
+    gap: 1.5rem;
+  }
+  .csea-team-card {
+    width: clamp(160px, 18vw, 195px);
+  }
+}
+
+@media (max-width: 640px) {
+  .csea-team-overlay__top-bar {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: 1rem 1.25rem 0.5rem 1.25rem;
+  }
+  .csea-team-overlay__container {
+    height: auto;
+    min-height: auto;
+    padding: 1rem 1rem 3rem 1rem;
+    justify-content: flex-start;
+  }
+  .csea-team-overlay__cards-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  .csea-team-card {
+    width: 220px;
+  }
+  .csea-team-overlay__title {
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8. Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .csea-team-transition__panel,
+  .csea-team-card,
+  .csea-team-card__frame,
+  .csea-team-card__photo,
+  .csea-team-card__social-layer,
+  .csea-team-overlay__back-btn,
+  .csea-team-overlay__back-arrow {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .csea-team-card__social-layer {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+}

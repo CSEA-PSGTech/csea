@@ -13,14 +13,14 @@ export default function TimelineDemo() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl pt-2">
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/IMG20260214102643.jpg"
+                src="/landing_page/image (2).webp"
                 alt="2024 Bootcamp"
                 className="h-44 sm:h-56 w-full object-cover"
               />
             </div>
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/IMG20260214102944.jpg"
+                src="/landing_page/image (3).webp"
                 alt="2024 Workshop"
                 className="h-44 sm:h-56 w-full object-cover"
               />
@@ -39,14 +39,14 @@ export default function TimelineDemo() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl pt-2">
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/IMG_2573.JPG"
+                src="/landing_page/image (4).webp"
                 alt="2025 Hackathon"
                 className="h-44 sm:h-56 w-full object-cover"
               />
             </div>
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/IMG_3783.jpg"
+                src="/landing_page/image (6).webp"
                 alt="2025 Technical Sessions"
                 className="h-44 sm:h-56 w-full object-cover"
               />
@@ -65,14 +65,14 @@ export default function TimelineDemo() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl pt-2">
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/PXL_20260214_055018849.MP.jpg"
+                src="/landing_page/image (9).webp"
                 alt="2026 Conclave"
                 className="h-44 sm:h-56 w-full object-cover"
               />
             </div>
             <div className="overflow-hidden border border-neutral-200 bg-white">
               <img
-                src="/landing_page/a32ce3c3-589d-4146-a7d5-89f03edbd825.JPG"
+                src="/landing_page/image (10).webp"
                 alt="2026 Showcase"
                 className="h-44 sm:h-56 w-full object-cover"
               />

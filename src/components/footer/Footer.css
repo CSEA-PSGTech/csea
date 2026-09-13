@@ -154,25 +154,25 @@
   z-index: 10;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 5.5rem 2rem 3rem 2rem;
+  padding: 4rem 2rem 2.25rem 2rem;
 }
 
 @media (min-width: 768px) {
   .csea-footer__inner {
-    padding: 6.5rem 3.5rem 3.5rem 3.5rem;
+    padding: 4.5rem 3.5rem 2.5rem 3.5rem;
   }
 }
 
 @media (min-width: 1280px) {
   .csea-footer__inner {
-    padding: 7rem 5rem 3.5rem 5rem;
+    padding: 5rem 5rem 2.5rem 5rem;
   }
 }
 
 .csea-footer__main-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3.5rem;
+  gap: 2.5rem;
   align-items: start;
 }
 
@@ -192,7 +192,7 @@
   letter-spacing: -0.02em;
   line-height: 1;
   color: #ffffff;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.6rem;
 }
 
 .csea-footer__brand-sub {
@@ -208,7 +208,7 @@
   width: 48px;
   height: 1.5px;
   background-color: rgba(255, 255, 255, 0.38);
-  margin: 1.35rem 0;
+  margin: 1rem 0;
 }
 
 .csea-footer__college-title {
@@ -217,7 +217,7 @@
   letter-spacing: 0.18em;
   color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -227,7 +227,7 @@
   display: flex;
   align-items: center;
   gap: 1.15rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .csea-footer__social-link {
@@ -307,7 +307,7 @@
    -------------------------------------------------------------------------- */
 .csea-footer__vertical-divider {
   width: 1px;
-  height: 180px;
+  height: 140px;
   background-color: rgba(255, 255, 255, 0.22);
   align-self: center;
 }
@@ -320,7 +320,7 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
-  min-height: 180px;
+  min-height: 140px;
 }
 
 .csea-footer__graphic-row {
@@ -331,8 +331,8 @@
 
 .csea-footer__globe-container {
   position: relative;
-  width: 125px;
-  height: 105px;
+  width: 115px;
+  height: 96px;
   flex-shrink: 0;
 }
 
@@ -368,7 +368,7 @@
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  margin-top: 3.5rem;
+  margin-top: 2rem;
 }
 
 .csea-footer__motto-text {

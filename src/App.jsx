@@ -1,8 +1,7 @@
-import { useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
-
 
 import TelescopeSection from "./components/landing/TelescopeSection/TelescopeSection";
 import AboutSection from "./components/about/AboutSection";
@@ -13,10 +12,12 @@ import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
 import MemberFinder from "./components/MemberFinder/MemberFinder";
 import TimelineDemo from "./components/timeline-demo";
 import Footer from "./components/footer/Footer";
+import { TeamOverlay } from "./components/team/TeamOverlay";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function App() {
+  const [isTeamOpen, setIsTeamOpen] = useState(false);
   const menuItems = [
     {
       label: "Home",
@@ -128,9 +129,15 @@ function App() {
 
           <MemberFinder />
           <Skiper28 />
-          <Footer />
+          <Footer onOpenTeam={() => setIsTeamOpen(true)} />
         </div>
       </div>
+
+      {/* CSEA Meet The Team Full-Screen Cinematic Poster Overlay */}
+      <TeamOverlay
+        isOpen={isTeamOpen}
+        onClose={() => setIsTeamOpen(false)}
+      />
     </>
   );
 }
