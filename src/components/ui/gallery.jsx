@@ -108,6 +108,11 @@ export function EventModal({ item, isOpen, onClose }) {
 
   if (typeof document === "undefined") return null;
 
+  // Completed events don't need a registration call-to-action —
+  // status comparison is case-insensitive since sheet values may
+  // vary ("Completed", "completed", etc.).
+  const isCompleted = item?.status?.trim().toLowerCase() === "completed";
+
   return createPortal(
     <AnimatePresence>
       {isOpen && item && (
@@ -174,7 +179,11 @@ export function EventModal({ item, isOpen, onClose }) {
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-4 flex items-center justify-between border-t border-neutral-100">
+              <div
+                className={`pt-4 flex items-center border-t border-neutral-100 ${
+                  isCompleted ? "justify-start" : "justify-between"
+                }`}
+              >
                 <button
                   type="button"
                   onClick={onClose}
@@ -183,19 +192,24 @@ export function EventModal({ item, isOpen, onClose }) {
                   Close
                 </button>
 
-                <a
-                  href={item.registrationLink || "#"}
-                  onClick={(e) => {
-                    if (item.registrationLink?.startsWith("#")) {
-                      e.preventDefault();
-                      alert(`Registration/Details for "${item.title}" will open soon!`);
-                    }
-                  }}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-neutral-900 hover:bg-neutral-800 text-white transition-all shadow-sm"
-                >
-                  <span>Register for Event</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </a>
+                {/* Completed events skip the registration CTA entirely */}
+                {!isCompleted && (
+                  <a
+                    href={item.registrationLink || "#"}
+                    onClick={(e) => {
+                      if (!item.registrationLink || item.registrationLink.startsWith("#")) {
+                        e.preventDefault();
+                        alert(`Registration/Details for "${item.title}" will open soon!`);
+                      }
+                    }}
+                    target={item.registrationLink ? "_blank" : undefined}
+                    rel={item.registrationLink ? "noopener noreferrer" : undefined}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-neutral-900 hover:bg-neutral-800 text-white transition-all shadow-sm"
+                  >
+                    <span>Register for Event</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>

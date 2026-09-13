@@ -1,23 +1,33 @@
 import { useState, useMemo } from "react";
 import { FinderWindow } from "./FinderWindow";
-import { DIRECTORY_DATA, SIDEBAR_SECTIONS, DEFAULT_PATH } from "./finderData";
+import { useSheetMembers } from "./useSheetMembers";
+import { buildFinderData } from "./buildFinderData";
 
 export function MemberFinder() {
-  const [history, setHistory] = useState([DEFAULT_PATH]);
+  const { members, loading, error } = useSheetMembers();
+
+  // Build the folder structure fresh whenever member data changes,
+  // instead of the old static DIRECTORY_DATA / SIDEBAR_SECTIONS import.
+  const { directoryData, sidebarSections, defaultPath } = useMemo(
+    () => buildFinderData(members),
+    [members]
+  );
+
+  const [history, setHistory] = useState([defaultPath]);
   const [historyIdx, setHistoryIdx] = useState(0);
   const [selectedId, setSelectedId] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeTeamId, setActiveTeamId] = useState("technical-team");
+  const [activeTeamId, setActiveTeamId] = useState(null);
   const [previewMember, setPreviewMember] = useState(null);
 
-  const currentPath = history[historyIdx] || ["CSEA"];
+  const currentPath = history[historyIdx] || defaultPath;
   const currentPathKey = currentPath.join("/");
 
   // Fetch current items based on directory path or fallback
   const rawItems = useMemo(() => {
-    return DIRECTORY_DATA[currentPathKey] || DIRECTORY_DATA["CSEA"] || [];
-  }, [currentPathKey]);
+    return directoryData[currentPathKey] || directoryData["CSEA"] || [];
+  }, [directoryData, currentPathKey]);
 
   // Filter items live based on search query
   const items = useMemo(() => {
@@ -94,27 +104,42 @@ export function MemberFinder() {
 
       {/* macOS Finder Component */}
       <div className="relative z-10 w-full flex justify-center">
-        <FinderWindow
-          currentPath={currentPath}
-          canGoBack={historyIdx > 0}
-          canGoForward={historyIdx < history.length - 1}
-          onGoBack={handleGoBack}
-          onGoForward={handleGoForward}
-          viewMode={viewMode}
-          onChangeViewMode={setViewMode}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          sidebarSections={SIDEBAR_SECTIONS}
-          activeTeamId={activeTeamId}
-          onSelectTeam={handleSelectTeam}
-          items={items}
-          selectedId={selectedId}
-          onSelectItem={(item) => setSelectedId(item ? item.id : null)}
-          onOpenItem={handleOpenItem}
-          previewMember={previewMember}
-          onClosePreview={() => setPreviewMember(null)}
-          onNavigatePath={handleNavigatePath}
-        />
+        {loading && (
+          <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
+            Loading members…
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="flex h-64 flex-col items-center justify-center gap-2 text-center">
+            <p className="text-sm font-medium text-red-500">Couldn't load members.</p>
+            <p className="max-w-sm text-xs text-neutral-400">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <FinderWindow
+            currentPath={currentPath}
+            canGoBack={historyIdx > 0}
+            canGoForward={historyIdx < history.length - 1}
+            onGoBack={handleGoBack}
+            onGoForward={handleGoForward}
+            viewMode={viewMode}
+            onChangeViewMode={setViewMode}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            sidebarSections={sidebarSections}
+            activeTeamId={activeTeamId}
+            onSelectTeam={handleSelectTeam}
+            items={items}
+            selectedId={selectedId}
+            onSelectItem={(item) => setSelectedId(item ? item.id : null)}
+            onOpenItem={handleOpenItem}
+            previewMember={previewMember}
+            onClosePreview={() => setPreviewMember(null)}
+            onNavigatePath={handleNavigatePath}
+          />
+        )}
       </div>
     </section>
   );

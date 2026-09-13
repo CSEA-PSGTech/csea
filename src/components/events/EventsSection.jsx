@@ -1,25 +1,87 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AccordionModal from "../ui/gallery";
-import { EVENTS_DATA, EVENT_CATEGORIES } from "./eventsData";
 
+const EVENT_CATEGORIES = ["All Events", "Events", "Symposiums", "Hackathons", "Workshops"];
+
+const CATEGORY_VALUE_MAP = {
+  Events: "Events",
+  Symposiums: "Symposium",
+  Hackathons: "Hackathon",
+  Workshops: "Workshop",
+};
+
+
+const STATUS_PRIORITY = {
+  live: 0,
+  ongoing: 0,
+  upcoming: 1,
+  unknown: 2,
+  completed: 3,
+};
+
+function statusRank(status) {
+  const key = (status || "").trim().toLowerCase();
+  return STATUS_PRIORITY[key] ?? STATUS_PRIORITY.unknown;
+}
+
+// ---- Hook: load events from the backend ----
+function useSheetEvents() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const base = import.meta.env.VITE_API_BASE_URL || "";
+      const res = await fetch(`${base}/api/events`);
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.error || `Request failed (status ${res.status})`);
+      }
+
+      const data = await res.json();
+      setEvents(data.events || []);
+    } catch (err) {
+      setError(err.message || "Failed to load events.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  return { events, loading, error, refetch: load };
+}
+
+// ---- Component ----
 export function EventsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All Events");
   const [activeIndex, setActiveIndex] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // Filter events based on active category
-  const filteredEvents = useMemo(() => {
-    if (selectedCategory === "All Events") {
-      return EVENTS_DATA;
-    }
-    return EVENTS_DATA.filter((e) => e.category === selectedCategory);
-  }, [selectedCategory]);
+  const { events, loading, error } = useSheetEvents();
 
-  // Apple-style carousel navigation
+  const filteredEvents = useMemo(() => {
+    const base =
+      selectedCategory === "All Events"
+        ? events
+        : events.filter((e) => e.category === CATEGORY_VALUE_MAP[selectedCategory]);
+
+    // Stable sort: upcoming/live first, completed last. Array.prototype.sort
+    // is stable in modern JS engines, so events with equal status keep
+    // their original sheet order relative to each other.
+    return [...base].sort((a, b) => statusRank(a.status) - statusRank(b.status));
+  }, [events, selectedCategory]);
+
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev > 0 ? prev - 1 : filteredEvents.length - 1));
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : Math.max(filteredEvents.length - 1, 0)));
   };
 
   const handleNext = () => {
@@ -37,7 +99,7 @@ export function EventsSection() {
       className="relative w-full py-24 px-[10%] flex flex-col justify-center overflow-hidden bg-transparent"
     >
       <div className="w-full">
-        {/* Section Header — Aligned exactly to left-[10%] matching 05 / Culture */}
+        {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
           <div className="w-full max-w-[380px] lg:max-w-[460px]">
             <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
@@ -51,9 +113,8 @@ export function EventsSection() {
             </p>
           </div>
 
-          {/* Controls: Apple Segmented Category Filter + Circular Arrow Buttons */}
+          {/* Controls */}
           <div className="flex flex-wrap items-center gap-3 self-start md:self-end">
-            {/* Segmented Category Control */}
             <div className="inline-flex items-center p-1 rounded-full bg-neutral-100/90 backdrop-blur-md border border-black/5">
               {EVENT_CATEGORIES.map((cat) => {
                 const isActive = selectedCategory === cat;
@@ -62,9 +123,7 @@ export function EventsSection() {
                     key={cat}
                     onClick={() => handleCategoryChange(cat)}
                     className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer ${
-                      isActive
-                        ? "text-neutral-950 font-semibold"
-                        : "text-neutral-500 hover:text-neutral-900"
+                      isActive ? "text-neutral-950 font-semibold" : "text-neutral-500 hover:text-neutral-900"
                     }`}
                   >
                     {isActive && (
@@ -80,13 +139,13 @@ export function EventsSection() {
               })}
             </div>
 
-            {/* Apple Circular Arrow Navigation Buttons */}
             <div className="flex items-center gap-1.5 pl-1">
               <button
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous event"
-                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer"
+                disabled={filteredEvents.length === 0}
+                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4 stroke-[2]" />
               </button>
@@ -94,7 +153,8 @@ export function EventsSection() {
                 type="button"
                 onClick={handleNext}
                 aria-label="Next event"
-                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer"
+                disabled={filteredEvents.length === 0}
+                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-4 h-4 stroke-[2]" />
               </button>
@@ -104,24 +164,45 @@ export function EventsSection() {
 
         {/* Gallery Showcase */}
         <div className="w-full overflow-hidden">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCategory}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="w-full"
-            >
-              <AccordionModal
-                items={filteredEvents}
-                index={activeIndex}
-                setIndex={setActiveIndex}
-                open={modalOpen}
-                setOpen={setModalOpen}
-              />
-            </motion.div>
-          </AnimatePresence>
+          {loading && (
+            <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
+              Loading events…
+            </div>
+          )}
+
+          {!loading && error && (
+            <div className="flex h-64 flex-col items-center justify-center gap-2 text-center">
+              <p className="text-sm font-medium text-red-500">Couldn't load events.</p>
+              <p className="max-w-sm text-xs text-neutral-400">{error}</p>
+            </div>
+          )}
+
+          {!loading && !error && filteredEvents.length === 0 && (
+            <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
+              No events in this category yet.
+            </div>
+          )}
+
+          {!loading && !error && filteredEvents.length > 0 && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={selectedCategory}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="w-full"
+              >
+                <AccordionModal
+                  items={filteredEvents}
+                  index={activeIndex}
+                  setIndex={setActiveIndex}
+                  open={modalOpen}
+                  setOpen={setModalOpen}
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
         </div>
       </div>
     </section>
