@@ -168,7 +168,7 @@ function TelescopeSection() {
             draggable={false}
           />
           <img
-            src="/logos/hundre.png"
+            src="/logos/hundred.png"
             alt="PSG 100 Years"
             className="h-9 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
             draggable={false}
