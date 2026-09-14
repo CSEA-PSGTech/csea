@@ -93,11 +93,39 @@ function TelescopeSection() {
       const easeFunc = gsap.parseEase("power1.inOut");
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
+      if (isMobile) {
+        // No pin/scrub on mobile — a pinned+scrubbed ScrollTrigger fights
+        // with native touch scroll and browser-chrome resize (address bar
+        // collapse), which is what causes the jank/glitching. Instead, the
+        // section scrolls normally and the cards just fade/slide in once
+        // as they enter the viewport.
+        gsap.set(smallImages, { z: 0 });
+        section.style.setProperty("--progress", 1);
+
+        gsap.from(smallImages, {
+          z: "-20vh",
+          opacity: 0,
+          duration: 0.8,
+          ease: "power1.out",
+          stagger: {
+            amount: 0.2,
+            from: "center",
+          },
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            toggleActions: "play none none none",
+          },
+        });
+
+        return;
+      }
+
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: isMobile ? "+=800" : "+=2000",
+          end: "+=2000",
           scrub: true,
           pin: true,
           pinSpacing: true,
@@ -112,7 +140,7 @@ function TelescopeSection() {
       });
 
       timeline.to(smallImages, {
-        z: isMobile ? "50vh" : "100vh",
+        z: "100vh",
         duration: 1,
         ease: "power1.inOut",
         stagger: {
@@ -121,7 +149,7 @@ function TelescopeSection() {
         },
       });
 
-      if (typeof window !== "undefined" && window.innerWidth > 768 && frontImages.length > 0) {
+      if (frontImages.length > 0) {
         timeline.to(
           frontImages,
           {
