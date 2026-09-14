@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -18,6 +18,17 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function TelescopeSection() {
   const sectionRef = useRef(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const pointerRef = useRef({
     x: 0.5,
     y: 0.5,
@@ -80,17 +91,18 @@ function TelescopeSection() {
       });
 
       const easeFunc = gsap.parseEase("power1.inOut");
+      const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
       const timeline = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=2000",
+          end: isMobile ? "+=800" : "+=2000",
           scrub: true,
           pin: true,
           pinSpacing: true,
           pinType: "transform",
-          anticipatePin: 0,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
         onUpdate: () => {
@@ -100,7 +112,7 @@ function TelescopeSection() {
       });
 
       timeline.to(smallImages, {
-        z: "100vh",
+        z: isMobile ? "50vh" : "100vh",
         duration: 1,
         ease: "power1.inOut",
         stagger: {
@@ -109,16 +121,18 @@ function TelescopeSection() {
         },
       });
 
-      timeline.to(
-        frontImages,
-        {
-          scale: 1,
-          duration: 1,
-          ease: "power1.inOut",
-          delay: 0.1,
-        },
-        0.6
-      );
+      if (typeof window !== "undefined" && window.innerWidth > 768 && frontImages.length > 0) {
+        timeline.to(
+          frontImages,
+          {
+            scale: 1,
+            duration: 1,
+            ease: "power1.inOut",
+            delay: 0.1,
+          },
+          0.6
+        );
+      }
     }, section);
 
     // Refresh ScrollTrigger calculations
@@ -140,33 +154,33 @@ function TelescopeSection() {
       onPointerLeave={handlePointerLeave}
     >
       <BackgroundGrid />
-      <GlassCanvas pointerRef={pointerRef} />
+      {isDesktop && <GlassCanvas pointerRef={pointerRef} />}
 
       {/* Top-Left Institutional & Brand Logos */}
-      <div className="absolute top-5 left-5 sm:top-7 sm:left-9 z-30 select-none pointer-events-auto flex items-center gap-3 sm:gap-5">
+      <div className="absolute top-4 left-4 sm:top-7 sm:left-9 z-30 select-none pointer-events-auto flex items-center gap-2 sm:gap-5">
         <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
           <img
             src="/logos/csea.png"
             alt="CSEA Logo"
-            className="h-10 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            className="h-8 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
             draggable={false}
           />
         </a>
 
         {/* Subtle Vertical Divider */}
-        <div className="h-7 sm:h-9 w-[1px] bg-black/10" aria-hidden="true" />
+        <div className="h-6 sm:h-9 w-[1px] bg-black/10" aria-hidden="true" />
 
-        <div className="flex items-center gap-2.5 sm:gap-4">
+        <div className="flex items-center gap-1.5 sm:gap-4">
           <img
             src="/logos/psg.png"
             alt="PSG College of Technology"
-            className="h-9 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
             draggable={false}
           />
           <img
             src="/logos/hundred.png"
             alt="PSG 100 Years"
-            className="h-9 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
             draggable={false}
           />
         </div>
@@ -215,8 +229,8 @@ function TelescopeSection() {
         </div>
       </div>
 
-      {/* Center scaling media */}
-      <div className="section__media">
+      {/* Center scaling media (Desktop only) */}
+      <div className="section__media hidden md:block">
         <div className="section__media__back">
           <img src="/images/telescope/image-front.webp" alt="CSEA" />
         </div>

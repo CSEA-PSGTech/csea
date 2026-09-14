@@ -16,7 +16,7 @@ export function AffiliatedClubs() {
   return (
     <section
       id="affiliated-clubs"
-      className="relative w-full py-24 sm:py-32 lg:py-36 px-[8%] sm:px-[10%] lg:px-[12%] bg-[#FAFAFC] text-neutral-900 border-t border-black/5"
+      className="relative w-full py-16 sm:py-24 lg:py-36 px-5 sm:px-[10%] lg:px-[12%] bg-[#FAFAFC] text-neutral-900 border-t border-black/5"
     >
       {/* Subtle Background Architectural Grid Lines */}
       <div

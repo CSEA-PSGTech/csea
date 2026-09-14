@@ -3,9 +3,24 @@ import { X } from "lucide-react";
 import { TeamSocials } from "../team/TeamSocials";
 import "../team/Team.css";
 
-export function FinderPreview({ member, onClose }) {
+const resolvePhotoUrl = (url) => {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) {
+    if (url.includes("drive.google.com")) {
+      const match = url.match(/id=([^&]+)/) || url.match(/\/d\/([^/]+)/);
+      if (match && match[1]) {
+        return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w500`;
+      }
+    }
+    return url;
+  }
+  if (url.startsWith("/api/")) return `http://localhost:4000${url}`;
+  return url;
+};
+
+export function FinderPreview({ member, onClose, isPortaled = false }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
+  const [isTouched, setIsTouched] = useState(isPortaled);
   const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
@@ -25,7 +40,9 @@ export function FinderPreview({ member, onClose }) {
   const name = member.name || "CSEA Member";
   const year = member.year || member.yearAndClass || member.batch || "";
   const role = member.role || member.position || "";
-  const photoSrc = member.photo || member.image || member.thumbnail || "";
+  const photoSrc = resolvePhotoUrl(
+    member.photo || member.url || member.image || member.thumbnail || ""
+  );
 
   const socials = member.socials || {
     github: member.github,
@@ -40,7 +57,11 @@ export function FinderPreview({ member, onClose }) {
   return (
     <div
       onClick={onClose}
-      className="absolute inset-0 z-40 flex items-center justify-center p-4 sm:p-6 bg-white/10 backdrop-blur-md animate-in fade-in duration-150 select-none"
+      className={
+        isPortaled
+          ? "fixed inset-0 z-[100002] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm select-none"
+          : "absolute inset-0 z-40 flex items-center justify-center p-4 sm:p-6 bg-white/10 backdrop-blur-md animate-in fade-in duration-150 select-none"
+      }
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -49,13 +70,13 @@ export function FinderPreview({ member, onClose }) {
         {/* Floating Minimal Close Button */}
         <button
           onClick={onClose}
-          className="absolute -top-10 right-0 sm:-right-2 flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-black backdrop-blur-md transition-all shadow-md border border-black/10 cursor-pointer"
-          title="Close (Esc)"
+          className="absolute -top-11 right-0 sm:-right-2 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 hover:bg-white text-neutral-800 hover:text-black backdrop-blur-md transition-all shadow-md border border-black/10 cursor-pointer z-20"
+          title={isPortaled ? "Close" : "Close (Esc)"}
           aria-label="Close preview"
         >
-          <X className="w-3.5 h-3.5 text-neutral-600" />
+          <X className="w-3.5 h-3.5 text-neutral-700" />
           <span className="text-[10px] font-mono font-bold tracking-widest uppercase">
-            ESC
+            {isPortaled ? "CLOSE" : "ESC"}
           </span>
         </button>
 

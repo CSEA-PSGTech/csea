@@ -19,10 +19,10 @@ function GalleryItem({
       whileTap={{ scale: 0.99 }}
       onMouseEnter={onActivate}
       onClick={onOpenModal}
-      className={`relative h-[420px] sm:h-[460px] md:h-[500px] rounded-[24px] overflow-hidden cursor-pointer shrink-0 transition-[width] ease-[cubic-bezier(0.25,1,0.5,1)] duration-500 select-none ${
+      className={`relative h-[380px] sm:h-[460px] md:h-[500px] rounded-[24px] overflow-hidden cursor-pointer shrink-0 transition-[width] ease-[cubic-bezier(0.25,1,0.5,1)] duration-500 select-none ${
         isActive
-          ? "w-[280px] sm:w-[420px] md:w-[520px] lg:w-[600px] shadow-2xl"
-          : "w-[44px] sm:w-[54px] md:w-[64px] opacity-65 hover:opacity-90"
+          ? "w-[76vw] max-w-[340px] sm:max-w-none sm:w-[420px] md:w-[520px] lg:w-[600px] shadow-2xl"
+          : "w-[36px] sm:w-[54px] md:w-[64px] opacity-65 hover:opacity-90"
       }`}
     >
       {/* Background Image */}
@@ -44,23 +44,23 @@ function GalleryItem({
 
       {/* Active Card Content — Minimal & Restrained */}
       {isActive ? (
-        <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between z-10 text-white">
+        <div className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-between z-10 text-white">
           {/* Top minimal category badge */}
           <div>
-            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 bg-white/15 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/10">
+            <span className="inline-block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 bg-white/15 backdrop-blur-md px-3 py-1 sm:px-3.5 rounded-full border border-white/10">
               {item.category}
             </span>
           </div>
 
           {/* Bottom typography */}
-          <div className="space-y-3">
-            <p className="text-xs text-white/70 font-medium tracking-wide">
+          <div className="space-y-2 sm:space-y-3">
+            <p className="text-[11px] sm:text-xs text-white/70 font-medium tracking-wide">
               {item.date} • {item.venue}
             </p>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight leading-tight">
+            <h3 className="text-xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight leading-tight">
               {item.title}
             </h3>
-            <p className="text-sm text-white/80 line-clamp-2 leading-relaxed max-w-md font-normal">
+            <p className="text-xs sm:text-sm text-white/80 line-clamp-2 leading-relaxed max-w-md font-normal">
               {item.tagline || item.description}
             </p>
 

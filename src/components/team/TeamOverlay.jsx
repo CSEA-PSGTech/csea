@@ -10,6 +10,7 @@ const PANELS = Array.from({ length: PANEL_COUNT }, (_, i) => i);
 
 export const TeamOverlay = ({ isOpen, onClose }) => {
   const [mounted, setMounted] = useState(false);
+  const [activeCardIdx, setActiveCardIdx] = useState(0);
   const overlayRef = useRef(null);
   const panelsRef = useRef([]);
   const surfaceRef = useRef(null);
@@ -255,9 +256,30 @@ export const TeamOverlay = ({ isOpen, onClose }) => {
           </header>
 
           {/* Three Compact Portrait Cards Row */}
-          <div className="csea-team-overlay__cards-row" ref={cardsContainerRef}>
+          <div
+            className="csea-team-overlay__cards-row"
+            ref={cardsContainerRef}
+            onScroll={(e) => {
+              const el = e.currentTarget;
+              const cardWidth = el.scrollWidth / TEAM_MEMBERS.length;
+              const idx = Math.round(el.scrollLeft / cardWidth);
+              setActiveCardIdx(Math.max(0, Math.min(TEAM_MEMBERS.length - 1, idx)));
+            }}
+          >
             {TEAM_MEMBERS.map((member, index) => (
               <TeamCard key={member.id} member={member} index={index} />
+            ))}
+          </div>
+
+          {/* Mobile Dots & Swipe Indicator */}
+          <div className="flex sm:hidden items-center justify-center gap-2 mt-2 select-none">
+            {TEAM_MEMBERS.map((_, i) => (
+              <div
+                key={i}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  activeCardIdx === i ? "w-5 bg-[#0038ff]" : "w-1.5 bg-[#0038ff]/25"
+                }`}
+              />
             ))}
           </div>
         </div>

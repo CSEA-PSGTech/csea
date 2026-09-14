@@ -57,7 +57,7 @@ function App() {
       wrapper: ".wrapper",
       content: ".content",
       smooth: 1.2,
-      smoothTouch: 0.1,
+      smoothTouch: false,
       effects: true,
       normalizeScroll: false,
     });
@@ -96,7 +96,7 @@ function App() {
             openMenuButtonColor="#5227FF"
             changeMenuColorOnOpen
             colors={["#B497CF", "#5227FF"]}
-            logoUrl="/favicon.svg"
+            // logoUrl="/favicon.svg"
             accentColor="#5227FF"
             onMenuOpen={() => console.log("Menu opened")}
             onMenuClose={() => console.log("Menu closed")}

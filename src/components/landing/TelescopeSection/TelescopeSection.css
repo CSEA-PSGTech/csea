@@ -1,10 +1,15 @@
 .section {
   position: relative;
   height: 100vh;
+  height: 100svh;
+  width: 100%;
+  max-width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden !important;
+  overflow-x: hidden !important;
+  contain: paint;
 
   --progress: 0;
 }
@@ -38,14 +43,23 @@ h1 {
   }
 
   @media (max-width: 768px) {
-    font-size: 8.5vw;
+    position: absolute;
+    top: calc(50% - 155px);
+    left: 0;
+    right: 0;
+    font-size: clamp(34px, 9.5vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    flex-direction: column;
 
     .left {
-      transform: translate3d(calc(var(--progress) * (-100vw + 100%) - 0.5vw), 0, 0);
+      transform: translate3d(calc(var(--progress) * (-50vw + 100%)), 0, 0);
     }
 
     .right {
-      transform: translate3d(calc(var(--progress) * (100vw - 100%)), 0, 0);
+      margin-left: 0;
+      margin-top: 0.15em;
+      transform: translate3d(calc(var(--progress) * (50vw - 100%)), 0, 0);
     }
   }
 }
@@ -143,29 +157,46 @@ h1 {
     }
 
     @media (max-width: 768px) {
-      margin-top: 1.5rem;
+      top: calc(50% - 35px);
+      margin-top: 0;
 
       .center-graphic {
-        width: 110px;
-        height: 75px;
-        margin-bottom: 1.1rem;
+        width: 115px;
+        height: 78px;
+        margin-bottom: 0.85rem;
 
         .graphic-orbit {
-          width: 85px;
+          width: 90px;
         }
         .graphic-cube {
-          width: 58px;
+          width: 62px;
         }
       }
 
       .center-identity__text {
+        max-width: 86vw;
+        margin-top: 0;
+
         .association-name {
-          font-size: 0.56rem;
-          letter-spacing: 0.14em;
+          font-size: 0.65rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          line-height: 1.35;
+          color: #1e293b;
+          margin: 0 0 4px;
         }
         .college-name {
-          font-size: 0.5rem;
-          letter-spacing: 0.12em;
+          font-size: 0.58rem;
+          font-weight: 600;
+          letter-spacing: 0.15em;
+          color: #64748b;
+          margin: 0;
+        }
+        .accent-bar {
+          width: 26px;
+          height: 2px;
+          background: #2563eb;
+          margin: 8px auto 0;
         }
       }
     }
@@ -183,6 +214,10 @@ h1 {
   transform: scale(var(--progress));
   will-change: transform;
   backface-visibility: hidden;
+
+  @media (max-width: 768px) {
+    display: none !important;
+  }
 
   .section__media__front,
   .section__media__back {
@@ -209,11 +244,13 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
   perspective: 100vh;
   z-index: 5;
   pointer-events: none;
+  overflow: hidden !important;
 }
 
 /* Individual Editorial Photo Card */
@@ -280,7 +317,22 @@ h1 {
   }
 
   @media (max-width: 768px) {
-    display: none;
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .photo-annotation,
+  .photo-card .photo-annotation,
+  .annotation-card-1,
+  .annotation-card-2,
+  .annotation-card-4,
+  .annotation-card-5,
+  .annotation-card-6,
+  .annotation-card-7,
+  .annotation-card-8,
+  .annotation-card-10 {
+    display: none !important;
   }
 }
 
@@ -293,9 +345,10 @@ h1 {
   rotate: -3deg;
 
   @media (max-width: 768px) {
-    top: 7vh;
-    left: 3vw;
-    rotate: -2deg;
+    top: 11vh;
+    left: 4.5vw;
+    width: 20vw;
+    rotate: -3deg;
   }
 
   .annotation-card-1 {
@@ -321,9 +374,7 @@ h1 {
   rotate: 2.5deg;
 
   @media (max-width: 768px) {
-    top: 17vh;
-    left: 5vw;
-    width: 20vw;
+    display: none;
   }
 
   .annotation-card-2 {
@@ -349,9 +400,7 @@ h1 {
   rotate: -3.5deg;
 
   @media (max-width: 768px) {
-    top: 39vh;
-    left: 2vw;
-    width: 21vw;
+    display: none;
   }
 }
 
@@ -363,9 +412,10 @@ h1 {
   rotate: 2.5deg;
 
   @media (max-width: 768px) {
-    bottom: 21vh;
-    left: 4vw;
+    bottom: 12vh;
+    left: 4.5vw;
     width: 20vw;
+    rotate: -2.5deg;
   }
 
   .annotation-card-4 {
@@ -387,9 +437,7 @@ h1 {
   rotate: -2deg;
 
   @media (max-width: 768px) {
-    bottom: 6vh;
-    left: 8vw;
-    width: 21vw;
+    display: none;
   }
 
   .annotation-card-5 {
@@ -415,9 +463,7 @@ h1 {
   rotate: -2.5deg;
 
   @media (max-width: 768px) {
-    top: 17vh;
-    right: 5vw;
-    width: 20vw;
+    display: none;
   }
 
   .annotation-card-6 {
@@ -442,9 +488,10 @@ h1 {
   rotate: 2.5deg;
 
   @media (max-width: 768px) {
-    top: 7vh;
-    right: 3vw;
-    rotate: 2deg;
+    top: 11vh;
+    right: 4.5vw;
+    width: 20vw;
+    rotate: 3deg;
   }
 
   .annotation-card-7 {
@@ -470,9 +517,7 @@ h1 {
   rotate: 3.5deg;
 
   @media (max-width: 768px) {
-    top: 39vh;
-    right: 2vw;
-    width: 21vw;
+    display: none;
   }
 
   .annotation-card-8 {
@@ -498,9 +543,7 @@ h1 {
   rotate: -2.5deg;
 
   @media (max-width: 768px) {
-    bottom: 21vh;
-    right: 4vw;
-    width: 20vw;
+    display: none;
   }
 }
 
@@ -512,9 +555,10 @@ h1 {
   rotate: 2deg;
 
   @media (max-width: 768px) {
-    bottom: 6vh;
-    right: 8vw;
-    width: 21vw;
+    bottom: 12vh;
+    right: 4.5vw;
+    width: 20vw;
+    rotate: 2.5deg;
   }
 
   .annotation-card-10 {

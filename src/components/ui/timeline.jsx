@@ -36,19 +36,19 @@ export const Timeline = ({
   return (
     <section
       id="timeline"
-      className="relative w-full py-24 px-[10%] flex flex-col justify-center overflow-hidden bg-transparent text-neutral-900"
+      className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent text-neutral-900"
       ref={containerRef}
     >
       {/* Section Header — Matching 03 / Members screenshot */}
-      <div className="relative z-10 w-full mb-16">
+      <div className="relative z-10 w-full mb-10 sm:mb-16">
         <div className="w-full max-w-[480px] lg:max-w-[560px]">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
             {sectionNumber}
           </p>
-          <h2 className="mt-4 text-5xl font-light leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
+          <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl font-light leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
             {title}
           </h2>
-          <p className="mt-6 text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl font-normal">
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl font-normal">
             {description}
           </p>
         </div>

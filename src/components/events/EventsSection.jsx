@@ -96,68 +96,80 @@ export function EventsSection() {
   return (
     <section
       id="events"
-      className="relative w-full py-24 px-[10%] flex flex-col justify-center overflow-hidden bg-transparent"
+      className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent"
     >
       <div className="w-full">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
           <div className="w-full max-w-[380px] lg:max-w-[460px]">
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
               02 / Events
             </p>
-            <h2 className="mt-4 text-5xl font-medium leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
+            <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] text-neutral-900">
               Moments of craft &amp; code.
             </h2>
-            <p className="mt-6 text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
               Flagship hackathons, technical symposiums, and hands-on developer workshops.
             </p>
           </div>
 
           {/* Controls */}
-          <div className="flex flex-wrap items-center gap-3 self-start md:self-end">
-            <div className="inline-flex items-center p-1 rounded-full bg-neutral-100/90 backdrop-blur-md border border-black/5">
-              {EVENT_CATEGORIES.map((cat) => {
-                const isActive = selectedCategory === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => handleCategoryChange(cat)}
-                    className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer ${
-                      isActive ? "text-neutral-950 font-semibold" : "text-neutral-500 hover:text-neutral-900"
-                    }`}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="appleCategoryIndicator"
-                        className="absolute inset-0 rounded-full bg-white shadow-sm border border-black/5"
-                        transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                      />
-                    )}
-                    <span className="relative z-10">{cat}</span>
-                  </button>
-                );
-              })}
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 self-start md:self-end w-full sm:w-auto">
+            {/* Category Filter Pills (Horizontal scroll on mobile, no wrap) */}
+            <div className="w-full sm:w-auto overflow-x-auto scrollbar-none py-1">
+              <div className="inline-flex items-center p-1 rounded-full bg-neutral-100/90 backdrop-blur-md border border-black/5 whitespace-nowrap">
+                {EVENT_CATEGORIES.map((cat) => {
+                  const isActive = selectedCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => handleCategoryChange(cat)}
+                      className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer shrink-0 ${
+                        isActive ? "text-neutral-950 font-semibold" : "text-neutral-500 hover:text-neutral-900"
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="appleCategoryIndicator"
+                          className="absolute inset-0 rounded-full bg-white shadow-sm border border-black/5"
+                          transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                        />
+                      )}
+                      <span className="relative z-10">{cat}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="flex items-center gap-1.5 pl-1">
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label="Previous event"
-                disabled={filteredEvents.length === 0}
-                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft className="w-4 h-4 stroke-[2]" />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label="Next event"
-                disabled={filteredEvents.length === 0}
-                className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                <ChevronRight className="w-4 h-4 stroke-[2]" />
-              </button>
+            {/* Prev / Next Chevrons & Counter */}
+            <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto pl-1">
+              {filteredEvents.length > 0 && (
+                <span className="text-xs font-mono font-medium text-neutral-400">
+                  {String(activeIndex + 1).padStart(2, "0")} / {String(filteredEvents.length).padStart(2, "0")}
+                </span>
+              )}
+
+              <div className="flex items-center gap-1.5 ml-auto sm:ml-0">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Previous event"
+                  disabled={filteredEvents.length === 0}
+                  className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Next event"
+                  disabled={filteredEvents.length === 0}
+                  className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ChevronRight className="w-4 h-4 stroke-[2]" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

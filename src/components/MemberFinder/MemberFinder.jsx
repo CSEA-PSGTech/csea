@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { FinderWindow } from "./FinderWindow";
+import { MobileMemberFinder } from "./MobileMemberFinder";
 import { useSheetMembers } from "./useSheetMembers";
 import { buildFinderData } from "./buildFinderData";
 
@@ -86,23 +87,23 @@ export function MemberFinder() {
   };
 
   return (
-    <section className="relative w-full py-24 px-[10%] flex flex-col justify-center overflow-hidden bg-transparent">
-      {/* Section Header — Aligned to left-[10%] matching other sections */}
-      <div className="relative z-10 w-full mb-12">
+    <section className="relative w-full pt-10 sm:pt-20 pb-2 sm:pb-24 px-5 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent">
+      {/* Section Header — Aligned to left matching other sections */}
+      <div className="relative z-10 w-full mb-8 sm:mb-12">
         <div className="w-full max-w-[380px] lg:max-w-[460px]">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
             04 / Members
           </p>
-          <h2 className="mt-4 text-5xl font-medium leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
+          <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl font-medium leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
             CSEA Members &amp; Teams
           </h2>
-          <p className="mt-6 text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
             Explore CSEA faculty, office bearers, technical leads, and core teams.
           </p>
         </div>
       </div>
 
-      {/* macOS Finder Component */}
+      {/* Main Container */}
       <div className="relative z-10 w-full flex justify-center">
         {loading && (
           <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
@@ -118,27 +119,40 @@ export function MemberFinder() {
         )}
 
         {!loading && !error && (
-          <FinderWindow
-            currentPath={currentPath}
-            canGoBack={historyIdx > 0}
-            canGoForward={historyIdx < history.length - 1}
-            onGoBack={handleGoBack}
-            onGoForward={handleGoForward}
-            viewMode={viewMode}
-            onChangeViewMode={setViewMode}
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            sidebarSections={sidebarSections}
-            activeTeamId={activeTeamId}
-            onSelectTeam={handleSelectTeam}
-            items={items}
-            selectedId={selectedId}
-            onSelectItem={(item) => setSelectedId(item ? item.id : null)}
-            onOpenItem={handleOpenItem}
-            previewMember={previewMember}
-            onClosePreview={() => setPreviewMember(null)}
-            onNavigatePath={handleNavigatePath}
-          />
+          <>
+            {/* Desktop macOS Finder Window */}
+            <div className="hidden md:block w-full">
+              <FinderWindow
+                currentPath={currentPath}
+                canGoBack={historyIdx > 0}
+                canGoForward={historyIdx < history.length - 1}
+                onGoBack={handleGoBack}
+                onGoForward={handleGoForward}
+                viewMode={viewMode}
+                onChangeViewMode={setViewMode}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                sidebarSections={sidebarSections}
+                activeTeamId={activeTeamId}
+                onSelectTeam={handleSelectTeam}
+                items={items}
+                selectedId={selectedId}
+                onSelectItem={(item) => setSelectedId(item ? item.id : null)}
+                onOpenItem={handleOpenItem}
+                previewMember={previewMember}
+                onClosePreview={() => setPreviewMember(null)}
+                onNavigatePath={handleNavigatePath}
+              />
+            </div>
+
+            {/* Mobile Touch-Friendly CSEA Explorer */}
+            <div className="block md:hidden w-full">
+              <MobileMemberFinder
+                directoryData={directoryData}
+                onSelectMember={(item) => setPreviewMember(item)}
+              />
+            </div>
+          </>
         )}
       </div>
     </section>

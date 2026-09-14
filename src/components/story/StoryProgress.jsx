@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
  */
 export function StoryProgress({ stories = [], activeIndex = 0, onSelectStory }) {
   return (
-    <div className="absolute left-[10%] bottom-8 sm:bottom-10 z-30 flex items-center gap-6 sm:gap-8 select-none">
+    <div className="absolute left-6 sm:left-[10%] bottom-8 sm:bottom-10 z-30 flex items-center gap-5 sm:gap-8 select-none">
       {stories.map((story, i) => {
         const isActive = activeIndex === i;
 

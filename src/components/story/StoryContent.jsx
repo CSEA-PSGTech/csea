@@ -49,12 +49,12 @@ export function StoryContent({ story }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -14 }}
         transition={{ duration: 0.45, ease: "easeOut", delay: 0.1 }}
-        className="mt-6 text-base sm:text-lg text-neutral-600 font-medium leading-[1.6] tracking-[-0.01em] max-w-[380px] lg:max-w-[460px]"
+        className="mt-6 text-base sm:text-lg text-neutral-800 font-medium leading-[1.65] tracking-[-0.01em] max-w-[380px] lg:max-w-[460px]"
       >
         {story.description}
       </motion.p>
 
-      {/* Supporting Concept */}
+      {/* Supporting Concept in Frosted Pill for Contrast */}
       {story.supporting && (
         <motion.div
           key={`supp-${story.id}`}
@@ -62,9 +62,11 @@ export function StoryContent({ story }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.4, ease: "easeOut", delay: 0.15 }}
-          className="mt-6 flex items-center gap-2 text-xs uppercase tracking-[0.28em] font-bold text-neutral-500"
+          className="mt-6"
         >
-          <span>{story.supporting}</span>
+          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-black/[0.06] shadow-xs text-xs uppercase tracking-[0.26em] font-bold text-neutral-800">
+            {story.supporting}
+          </span>
         </motion.div>
       )}
     </div>
