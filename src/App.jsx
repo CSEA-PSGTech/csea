@@ -26,6 +26,20 @@ function HomePage() {
   const [isTeamOpen, setIsTeamOpen] = useState(false);
 
   useLayoutEffect(() => {
+    // Skip ScrollSmoother entirely on mobile / small screens — GSAP's
+    // transform-based smooth scroll fights with mobile browser chrome
+    // (address bar collapse, momentum scroll, viewport resize) and
+    // causes jank/glitches. Native scroll is used instead.
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    if (isMobile) {
+      window.__scrollSmoother = null;
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh(true);
+      });
+      return; // no smoother created, no cleanup needed
+    }
+
     const smoother = ScrollSmoother.create({
       wrapper: ".wrapper",
       content: ".content",
