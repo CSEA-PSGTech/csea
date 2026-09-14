@@ -63,8 +63,16 @@ function useSheetEvents() {
 // ---- Component ----
 export function EventsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All Events");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
+
+  // Independent gallery/modal state for each section, since they now
+  // render as two separate AccordionModal instances.
+  const [activeIndexUpcoming, setActiveIndexUpcoming] = useState(0);
+  const [modalOpenUpcoming, setModalOpenUpcoming] = useState(false);
+  const [activeIndexCompleted, setActiveIndexCompleted] = useState(0);
+  const [modalOpenCompleted, setModalOpenCompleted] = useState(false);
+
+  // Single toggle: which list is currently shown — "Upcoming" or "Completed".
+  const [selectedStatusTab, setSelectedStatusTab] = useState("Completed");
 
   const { events, loading, error } = useSheetEvents();
 
@@ -80,17 +88,36 @@ export function EventsSection() {
     return [...base].sort((a, b) => statusRank(a.status) - statusRank(b.status));
   }, [events, selectedCategory]);
 
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev > 0 ? prev - 1 : Math.max(filteredEvents.length - 1, 0)));
-  };
+  const upcomingEvents = useMemo(
+    () => filteredEvents.filter((e) => statusRank(e.status) !== STATUS_PRIORITY.completed),
+    [filteredEvents]
+  );
 
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev < filteredEvents.length - 1 ? prev + 1 : 0));
-  };
+  const completedEvents = useMemo(
+    () => filteredEvents.filter((e) => statusRank(e.status) === STATUS_PRIORITY.completed),
+    [filteredEvents]
+  );
 
   const handleCategoryChange = (cat) => {
     setSelectedCategory(cat);
-    setActiveIndex(0);
+    setActiveIndexUpcoming(0);
+    setActiveIndexCompleted(0);
+  };
+
+  const handlePrevUpcoming = () => {
+    setActiveIndexUpcoming((prev) => (prev > 0 ? prev - 1 : Math.max(upcomingEvents.length - 1, 0)));
+  };
+
+  const handleNextUpcoming = () => {
+    setActiveIndexUpcoming((prev) => (prev < upcomingEvents.length - 1 ? prev + 1 : 0));
+  };
+
+  const handlePrevCompleted = () => {
+    setActiveIndexCompleted((prev) => (prev > 0 ? prev - 1 : Math.max(completedEvents.length - 1, 0)));
+  };
+
+  const handleNextCompleted = () => {
+    setActiveIndexCompleted((prev) => (prev < completedEvents.length - 1 ? prev + 1 : 0));
   };
 
   return (
@@ -115,6 +142,36 @@ export function EventsSection() {
 
           {/* Controls */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 self-start md:self-end w-full sm:w-auto">
+            {/* Upcoming / Completed toggle */}
+            <div className="w-full sm:w-auto py-1">
+              <div className="inline-flex items-center p-1 rounded-full bg-neutral-100/90 backdrop-blur-md border border-black/5 whitespace-nowrap">
+                {["Upcoming", "Completed"].map((tab) => {
+                  const isActive = selectedStatusTab === tab;
+                  const count = tab === "Upcoming" ? upcomingEvents.length : completedEvents.length;
+                  return (
+                    <button
+                      key={tab}
+                      onClick={() => setSelectedStatusTab(tab)}
+                      className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer shrink-0 ${
+                        isActive ? "text-[#5258FF] font-semibold" : "text-neutral-500 hover:text-neutral-900"
+                      }`}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="statusTabIndicator"
+                          className="absolute inset-0 rounded-full bg-[#EEF1FF] shadow-sm border border-[#5258FF]/15"
+                          transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                        />
+                      )}
+                      <span className="relative z-10">
+                        {tab} <span className="text-neutral-400">({count})</span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Category Filter Pills (Horizontal scroll on mobile, no wrap) */}
             <div className="w-full sm:w-auto overflow-x-auto scrollbar-none py-1">
               <div className="inline-flex items-center p-1 rounded-full bg-neutral-100/90 backdrop-blur-md border border-black/5 whitespace-nowrap">
@@ -141,41 +198,11 @@ export function EventsSection() {
                 })}
               </div>
             </div>
-
-            {/* Prev / Next Chevrons & Counter */}
-            <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto pl-1">
-              {filteredEvents.length > 0 && (
-                <span className="text-xs font-mono font-medium text-neutral-400">
-                  {String(activeIndex + 1).padStart(2, "0")} / {String(filteredEvents.length).padStart(2, "0")}
-                </span>
-              )}
-
-              <div className="flex items-center gap-1.5 ml-auto sm:ml-0">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  aria-label="Previous event"
-                  disabled={filteredEvents.length === 0}
-                  className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  <ChevronLeft className="w-4 h-4 stroke-[2]" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  aria-label="Next event"
-                  disabled={filteredEvents.length === 0}
-                  className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  <ChevronRight className="w-4 h-4 stroke-[2]" />
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
         {/* Gallery Showcase */}
-        <div className="w-full overflow-hidden">
+        <div className="w-full">
           {loading && (
             <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
               Loading events…
@@ -195,26 +222,122 @@ export function EventsSection() {
             </div>
           )}
 
-          {!loading && !error && filteredEvents.length > 0 && (
-            <AnimatePresence mode="wait">
+          {/* Upcoming / Completed — only the selected tab renders */}
+          <AnimatePresence mode="wait">
+            {selectedStatusTab === "Upcoming" && !loading && !error && upcomingEvents.length > 0 && (
               <motion.div
-                key={selectedCategory}
+                key={"upcoming-" + selectedCategory}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className="w-full overflow-hidden"
+              >
+                <div className="flex items-center justify-end gap-2 mb-4 sm:mb-6">
+                  <span className="text-xs font-mono font-medium text-neutral-400">
+                    {String(activeIndexUpcoming + 1).padStart(2, "0")} / {String(upcomingEvents.length).padStart(2, "0")}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={handlePrevUpcoming}
+                      aria-label="Previous upcoming event"
+                      disabled={upcomingEvents.length === 0}
+                      className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextUpcoming}
+                      aria-label="Next upcoming event"
+                      disabled={upcomingEvents.length === 0}
+                      className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <ChevronRight className="w-4 h-4 stroke-[2]" />
+                    </button>
+                  </div>
+                </div>
+
+                <AccordionModal
+                  items={upcomingEvents}
+                  index={activeIndexUpcoming}
+                  setIndex={setActiveIndexUpcoming}
+                  open={modalOpenUpcoming}
+                  setOpen={setModalOpenUpcoming}
+                />
+              </motion.div>
+            )}
+
+            {selectedStatusTab === "Upcoming" && !loading && !error && upcomingEvents.length === 0 && (
+              <motion.div
+                key="upcoming-empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="w-full"
+                className="flex h-64 items-center justify-center text-sm text-neutral-400"
               >
+                No upcoming events in this category.
+              </motion.div>
+            )}
+
+            {selectedStatusTab === "Completed" && !loading && !error && completedEvents.length > 0 && (
+              <motion.div
+                key={"completed-" + selectedCategory}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25 }}
+                className="w-full overflow-hidden"
+              >
+                <div className="flex items-center justify-end gap-2 mb-4 sm:mb-6">
+                  <span className="text-xs font-mono font-medium text-neutral-400">
+                    {String(activeIndexCompleted + 1).padStart(2, "0")} / {String(completedEvents.length).padStart(2, "0")}
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={handlePrevCompleted}
+                      aria-label="Previous completed event"
+                      disabled={completedEvents.length === 0}
+                      className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4 stroke-[2]" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextCompleted}
+                      aria-label="Next completed event"
+                      disabled={completedEvents.length === 0}
+                      className="w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-200 active:scale-95 text-neutral-800 flex items-center justify-center transition-all border border-black/5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    >
+                      <ChevronRight className="w-4 h-4 stroke-[2]" />
+                    </button>
+                  </div>
+                </div>
+
                 <AccordionModal
-                  items={filteredEvents}
-                  index={activeIndex}
-                  setIndex={setActiveIndex}
-                  open={modalOpen}
-                  setOpen={setModalOpen}
+                  items={completedEvents}
+                  index={activeIndexCompleted}
+                  setIndex={setActiveIndexCompleted}
+                  open={modalOpenCompleted}
+                  setOpen={setModalOpenCompleted}
                 />
               </motion.div>
-            </AnimatePresence>
-          )}
+            )}
+
+            {selectedStatusTab === "Completed" && !loading && !error && completedEvents.length === 0 && (
+              <motion.div
+                key="completed-empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex h-64 items-center justify-center text-sm text-neutral-400"
+              >
+                No completed events in this category.
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>
