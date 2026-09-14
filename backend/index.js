@@ -6,6 +6,7 @@ import { valuesToEvents } from "./mapSheetToEvent.js";
 import { valuesToMembers } from "./mapSheetToMember.js";
 import { valuesToBlogs, findBlogById } from "./mapSheetToBlog.js";
 import { fetchDocHtml } from "./googleDocs.js";
+import { valuesToTimeline } from "./mapSheetToTimeline.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -21,6 +22,8 @@ app.use(
 );
 
 const BLOGS_RANGE = process.env.GSHEET_BLOGS_RANGE;
+const TIMELINE_RANGE = process.env.GSHEET_TIMELINE_RANGE;
+
 
 
 app.get("/api/events", async (req, res) => {
@@ -54,9 +57,7 @@ app.get("/api/blogs", async (req, res) => {
     const values = await fetchSheetValues(BLOGS_RANGE);
     const blogs = valuesToBlogs(values);
  
-    // Most-recent-first when `date` parses cleanly; otherwise leave
-    // sheet order untouched (same non-destructive fallback approach
-    // as elsewhere — don't assume a date format that might not hold).
+    
     const sorted = [...blogs].sort((a, b) => {
       const da = Date.parse(a.date);
       const db = Date.parse(b.date);
@@ -64,11 +65,7 @@ app.get("/api/blogs", async (req, res) => {
       return db - da;
     });
  
-    // List view only needs the excerpt, not each post's full body —
-    // don't fetch every linked Google Doc here (would be N Drive API
-    // calls per page load). docLink is dropped from the response since
-    // the frontend list card has no use for it; keep it out to avoid
-    // exposing internal Doc URLs unnecessarily.
+    
     const listBlogs = sorted.map(({ docLink, ...rest }) => rest);
  
     res.json({ blogs: listBlogs });
@@ -92,10 +89,7 @@ app.get("/api/blogs/:id", async (req, res) => {
       return res.status(404).json({ error: "Blog not found." });
     }
  
-    // Single-post view: fetch the actual article body from the linked
-    // Google Doc. If the Doc fetch fails (unshared doc, bad link,
-    // etc.), don't fail the whole request — fall back to the sheet's
-    // excerpt so the page still renders something instead of a 500.
+    
     let content = "";
     try {
       content = blog.docLink ? await fetchDocHtml(blog.docLink) : "";
@@ -117,6 +111,22 @@ app.get("/api/blogs/:id", async (req, res) => {
   }
 });
  
+app.get("/api/timeline", async (req, res) => {
+  try {
+    if (!TIMELINE_RANGE) {
+      throw new Error("Missing GSHEET_TIMELINE_RANGE in .env");
+    }
+ 
+    const values = await fetchSheetValues(TIMELINE_RANGE);
+    const timeline = valuesToTimeline(values);
+ 
+    res.json({ timeline });
+  } catch (err) {
+    console.error("GET /api/timeline failed:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 app.get("/healthz", (req, res) => res.send("ok"));
 
