@@ -12,7 +12,7 @@ import { Skiper28 } from "@/components/ui/skiper-ui/skiper28";
 import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
 
 import MemberFinder from "./components/MemberFinder/MemberFinder";
-import TimelineDemo from "./components/timeline-demo";
+import TimelineDemo from "./components/Timeline/TimelineSection";
 import Footer from "./components/footer/Footer";
 import { TeamOverlay } from "./components/team/TeamOverlay";
 import BlogCTA from "./components/blogs/blogCTA";
