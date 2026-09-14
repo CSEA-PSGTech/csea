@@ -96,7 +96,7 @@ function App() {
             openMenuButtonColor="#5227FF"
             changeMenuColorOnOpen
             colors={["#B497CF", "#5227FF"]}
-            logoUrl="/favicon.svg"
+            
             accentColor="#5227FF"
             onMenuOpen={() => console.log("Menu opened")}
             onMenuClose={() => console.log("Menu closed")}
