@@ -103,6 +103,7 @@ const Footer = ({ onOpenTeam }) => {
     { label: "About", href: "#about" },
     { label: "Timeline", href: "#timeline" },
     { label: "Members", href: "#memberfinder" },
+    {label: "Blogs", href: "/blogs" },
     { label: "Team", href: "/team", isTeamTrigger: true },
   ];
 

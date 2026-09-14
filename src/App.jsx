@@ -21,25 +21,6 @@ import BlogPostPage from "./components/blogs/blogsPostPage";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-/* =====================================================
-   App.jsx — now wraps two kinds of pages:
-
-   1. HomePage: the original single scrolling page with
-      ScrollSmoother, anchor-based nav (#home, #about, etc).
-      This is exactly what App.jsx used to render directly.
-
-   2. /blogs and /blogs/:id: separate routed pages (no
-      ScrollSmoother — they're regular scrollable pages, not
-      the pinned/smoothed landing experience).
-
-   StaggeredMenu is rendered once, outside the route switch,
-   so the nav stays present across all pages. Its "Home",
-   "About", etc links are #hash anchors that only make sense
-   on HomePage — clicking them from /blogs will navigate back
-   to "/" first (since that's where those ids live), then the
-   hash-scroll logic in StaggeredMenu.jsx should still apply
-   once ScrollSmoother re-initializes there.
-===================================================== */
 
 function HomePage() {
   const [isTeamOpen, setIsTeamOpen] = useState(false);
@@ -125,6 +106,7 @@ function App() {
     { label: "Clubs", ariaLabel: "Explore Affiliated Clubs", link: "#affiliated-clubs" },
     { label: "Events", ariaLabel: "Explore CSEA events", link: "#events" },
     { label: "Timeline", ariaLabel: "See our journey and milestones", link: "#timeline" },
+    { label: "Blogs", ariaLabel: "Read our blogs", link: "/blogs" },
     { label: "Members", ariaLabel: "Explore CSEA members", link: "#memberfinder" },
     { label: "Contact", ariaLabel: "Get in touch", link: "mailto:csea.cse@psgtech.ac.in" },
   ];
