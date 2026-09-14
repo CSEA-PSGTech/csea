@@ -5,18 +5,8 @@
 
 export const AFFILIATED_CLUBS = [
   {
-    id: "the-eye",
-    index: "01",
-    name: "THE EYE",
-    subtitle: "CYBERSECURITY CLUB",
-    description:
-      "Exploring security, breaking boundaries, and building a safer digital world.",
-    href: "https://theeye.psgtech.ac.in",
-    linkText: "EXPLORE",
-  },
-  {
     id: "ghcc",
-    index: "02",
+    index: "01",
     name: "GHCC",
     subtitle: "GITHUB CAMPUS CLUB",
     description:
@@ -24,6 +14,17 @@ export const AFFILIATED_CLUBS = [
     href: "https://ghcc.psgtech.ac.in",
     linkText: "EXPLORE",
   },
+  {
+    id: "the-eye",
+    index: "02",
+    name: "THE EYE",
+    subtitle: "CYBERSECURITY CLUB",
+    description:
+      "Exploring security, breaking boundaries, and building a safer digital world.",
+    href: "https://theeye.psgtech.ac.in",
+    linkText: "EXPLORE",
+  },
+  
   {
     id: "dt",
     index: "03",

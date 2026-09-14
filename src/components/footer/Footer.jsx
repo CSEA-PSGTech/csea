@@ -112,10 +112,10 @@ const Footer = ({ onOpenTeam }) => {
   // if any of these should become real sections/anchors, or get
   // removed from the footer until they exist.
   const resourceLinks = [
-    { label: "Gallery", href: "/gallery" },
-    { label: "Achievements", href: "/achievements" },
-    { label: "FAQs", href: "/faqs" },
-    { label: "Join Us", href: "/join" },
+    { label: "Gallery", href: "#" },
+    { label: "Achievements", href: "#" },
+    { label: "FAQs", href: "#" },
+    { label: "Join Us", href: "#" },
     { label: "Contact", href: "mailto:csea.cse@psgtech.ac.in" },
   ];
 
@@ -226,7 +226,7 @@ const Footer = ({ onOpenTeam }) => {
                 <YoutubeIcon size={19} />
               </a>
               <a
-                href="https://github.com/cse-psgtech"
+                href="https://github.com/CSEA-PSGTech"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="csea-footer__social-link"

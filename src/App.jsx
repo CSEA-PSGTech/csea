@@ -1,4 +1,5 @@
 import { useState, useLayoutEffect } from "react";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -14,43 +15,34 @@ import MemberFinder from "./components/MemberFinder/MemberFinder";
 import TimelineDemo from "./components/timeline-demo";
 import Footer from "./components/footer/Footer";
 import { TeamOverlay } from "./components/team/TeamOverlay";
+import BlogCTA from "./components/blogs/blogCTA";
+import BlogsListPage from "./components/blogs/blogsListPage";
+import BlogPostPage from "./components/blogs/blogsPostPage";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 /* =====================================================
-   App.jsx — single scrolling page, anchor-based nav.
+   App.jsx — now wraps two kinds of pages:
 
-   Every nav link is a "#id" hash. Because StaggeredMenu
-   renders outside .wrapper/.content (in the fixed navbar
-   div), it can't rely on ScrollSmoother's automatic anchor
-   interception reaching it — so StaggeredMenu.jsx explicitly
-   calls window.__scrollSmoother.scrollTo() on click instead.
-   See the comment on window.__scrollSmoother below.
+   1. HomePage: the original single scrolling page with
+      ScrollSmoother, anchor-based nav (#home, #about, etc).
+      This is exactly what App.jsx used to render directly.
 
-   EventsSection already renders its own <section id="events">
-   internally, so it's used directly with no wrapper. Every
-   other section here doesn't set its own id, so it's wrapped
-   in a <div id="..."> to give scrollTo something to target.
+   2. /blogs and /blogs/:id: separate routed pages (no
+      ScrollSmoother — they're regular scrollable pages, not
+      the pinned/smoothed landing experience).
+
+   StaggeredMenu is rendered once, outside the route switch,
+   so the nav stays present across all pages. Its "Home",
+   "About", etc links are #hash anchors that only make sense
+   on HomePage — clicking them from /blogs will navigate back
+   to "/" first (since that's where those ids live), then the
+   hash-scroll logic in StaggeredMenu.jsx should still apply
+   once ScrollSmoother re-initializes there.
 ===================================================== */
 
-function App() {
+function HomePage() {
   const [isTeamOpen, setIsTeamOpen] = useState(false);
-
-  const menuItems = [
-    { label: "Home", ariaLabel: "Go to home page", link: "#home" },
-    { label: "About", ariaLabel: "Learn about us", link: "#about" },
-    { label: "Clubs", ariaLabel: "Explore Affiliated Clubs", link: "#affiliated-clubs" },
-    { label: "Events", ariaLabel: "Explore CSEA events", link: "#events" },
-    { label: "Timeline", ariaLabel: "See our journey and milestones", link: "#timeline" },
-    { label: "Members", ariaLabel: "Explore CSEA members", link: "#memberfinder" },
-    { label: "Contact", ariaLabel: "Get in touch", link: "mailto:csea.cse@psgtech.ac.in" },
-  ];
-
-  const socialItems = [
-    { label: "Instagram", link: "https://instagram.com/cseapsgtech" },
-    { label: "GitHub", link: "https://github.com/cse-psgtech" },
-    { label: "LinkedIn", link: "https://www.linkedin.com/company/cse-association-psg-tech/" },
-  ];
 
   useLayoutEffect(() => {
     const smoother = ScrollSmoother.create({
@@ -80,33 +72,6 @@ function App() {
 
   return (
     <>
-      {/* =====================================================
-          FIXED NAVBAR
-          Completely independent from ScrollSmoother
-      ===================================================== */}
-      <div className="fixed inset-0 z-[99999] h-dvh w-screen pointer-events-none">
-        <div className="relative h-full w-full pointer-events-none">
-          <StaggeredMenu
-            position="right"
-            items={menuItems}
-            socialItems={socialItems}
-            displaySocials
-            displayItemNumbering
-            menuButtonColor="#0026ff"
-            openMenuButtonColor="#5227FF"
-            changeMenuColorOnOpen
-            colors={["#B497CF", "#5227FF"]}
-            // logoUrl="/favicon.svg"
-            accentColor="#5227FF"
-            onMenuOpen={() => console.log("Menu opened")}
-            onMenuClose={() => console.log("Menu closed")}
-          />
-        </div>
-      </div>
-
-      {/* =====================================================
-          SCROLLSMOOTHER CONTENT
-      ===================================================== */}
       <div className="wrapper">
         <div className="content">
           <div id="home">
@@ -130,6 +95,8 @@ function App() {
             <MemberFinder />
           </div>
 
+          <BlogCTA />
+
           <Skiper28 />
 
           <div id="contact">
@@ -141,6 +108,66 @@ function App() {
       {/* CSEA Meet The Team Full-Screen Cinematic Poster Overlay */}
       <TeamOverlay isOpen={isTeamOpen} onClose={() => setIsTeamOpen(false)} />
     </>
+  );
+}
+
+// Thin wrapper so BlogPostPage (which takes `id` as a plain prop, see
+// its own file header comment) can read it from the route param.
+function BlogPostRoute() {
+  const { id } = useParams();
+  return <BlogPostPage id={id} />;
+}
+
+function App() {
+  const menuItems = [
+    { label: "Home", ariaLabel: "Go to home page", link: "#home" },
+    { label: "About", ariaLabel: "Learn about us", link: "#about" },
+    { label: "Clubs", ariaLabel: "Explore Affiliated Clubs", link: "#affiliated-clubs" },
+    { label: "Events", ariaLabel: "Explore CSEA events", link: "#events" },
+    { label: "Timeline", ariaLabel: "See our journey and milestones", link: "#timeline" },
+    { label: "Members", ariaLabel: "Explore CSEA members", link: "#memberfinder" },
+    { label: "Contact", ariaLabel: "Get in touch", link: "mailto:csea.cse@psgtech.ac.in" },
+  ];
+
+  const socialItems = [
+    { label: "Instagram", link: "https://instagram.com/cseapsgtech" },
+    { label: "GitHub", link: "https://github.com/CSEA-PSGTech" },
+    { label: "LinkedIn", link: "https://www.linkedin.com/company/cse-association-psg-tech/" },
+  ];
+
+  return (
+    <BrowserRouter>
+      {/* =====================================================
+          FIXED NAVBAR
+          Completely independent from ScrollSmoother, present
+          across every route.
+      ===================================================== */}
+      <div className="fixed inset-0 z-[99999] h-dvh w-screen pointer-events-none">
+        <div className="relative h-full w-full pointer-events-none">
+          <StaggeredMenu
+            position="right"
+            items={menuItems}
+            socialItems={socialItems}
+            displaySocials
+            displayItemNumbering
+            menuButtonColor="#0026ff"
+            openMenuButtonColor="#5227FF"
+            changeMenuColorOnOpen
+            colors={["#B497CF", "#5227FF"]}
+            // logoUrl="/favicon.svg"
+            accentColor="#5227FF"
+            onMenuOpen={() => console.log("Menu opened")}
+            onMenuClose={() => console.log("Menu closed")}
+          />
+        </div>
+      </div>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/blogs" element={<BlogsListPage />} />
+        <Route path="/blogs/:id" element={<BlogPostRoute />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
