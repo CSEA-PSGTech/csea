@@ -94,11 +94,7 @@ function TelescopeSection() {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
       if (isMobile) {
-        // No pin/scrub on mobile — a pinned+scrubbed ScrollTrigger fights
-        // with native touch scroll and browser-chrome resize (address bar
-        // collapse), which is what causes the jank/glitching. Instead, the
-        // section scrolls normally and the cards just fade/slide in once
-        // as they enter the viewport.
+        
         gsap.set(smallImages, { z: 0 });
         section.style.setProperty("--progress", 1);
 
