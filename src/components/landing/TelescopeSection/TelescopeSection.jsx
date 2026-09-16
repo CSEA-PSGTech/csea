@@ -18,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 function TelescopeSection() {
   const sectionRef = useRef(null);
+  const logoBarRef = useRef(null);
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -94,7 +95,7 @@ function TelescopeSection() {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
       if (isMobile) {
-        
+
         gsap.set(smallImages, { z: 0 });
         section.style.setProperty("--progress", 1);
 
@@ -132,6 +133,18 @@ function TelescopeSection() {
         onUpdate: () => {
           const easedProgress = easeFunc(timeline.progress());
           section.style.setProperty("--progress", easedProgress);
+
+          // Fade out the top logo bar once the zoom passes the halfway point
+          // so it never visually overlaps the scaling images beneath it.
+          if (logoBarRef.current) {
+            if (easedProgress >= 0.5) {
+              logoBarRef.current.style.opacity = "0";
+              logoBarRef.current.style.pointerEvents = "none";
+            } else {
+              logoBarRef.current.style.opacity = "1";
+              logoBarRef.current.style.pointerEvents = "auto";
+            }
+          }
         },
       });
 
@@ -181,40 +194,43 @@ function TelescopeSection() {
       {isDesktop && <GlassCanvas pointerRef={pointerRef} />}
 
       {/* Top-Center Institutional & Brand Logos */}
-<div className="absolute top-4 left-1/2 -translate-x-1/2 sm:top-7 z-30 select-none pointer-events-auto flex items-center gap-2 sm:gap-5">
-  <img
-    src="/logos/hundred.png"
-    alt="PSG 100 Years"
-    className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-    draggable={false}
-  />
-  <img
-    src="/logos/psg.png"
-    alt="PSG College of Technology"
-    className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-    draggable={false}
-  />
-  <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
-    <img
-      src="/logos/csea.png"
-      alt="CSEA Logo"
-      className="h-8 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-      draggable={false}
-    />
-  </a>
-  <img
-    src="/logos/PSGLogo.png"
-    alt="PSG Logo"
-    className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-    draggable={false}
-  />
-  <img
-    src="/logos/Year75w.png"
-    alt="75 Years"
-    className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-    draggable={false}
-  />
-</div>
+      <div
+        ref={logoBarRef}
+        className="absolute top-4 left-1/2 -translate-x-1/2 sm:top-7 z-30 select-none pointer-events-auto flex items-center gap-2 sm:gap-5 transition-opacity duration-300"
+      >
+        <img
+          src="/logos/hundred.png"
+          alt="PSG 100 Years"
+          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+          draggable={false}
+        />
+        <img
+          src="/logos/psg.png"
+          alt="PSG College of Technology"
+          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+          draggable={false}
+        />
+        <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
+          <img
+            src="/logos/csea.png"
+            alt="CSEA Logo"
+            className="h-8 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+            draggable={false}
+          />
+        </a>
+        <img
+          src="/logos/PSGLogo.png"
+          alt="PSG Logo"
+          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+          draggable={false}
+        />
+        <img
+          src="/logos/Year75w.png"
+          alt="75 Years"
+          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+          draggable={false}
+        />
+      </div>
 
       {/* Hero text placed in dead center */}
       <h1>
@@ -265,7 +281,7 @@ function TelescopeSection() {
           <img src="/images/telescope/image-front.webp" alt="CSEA" />
         </div>
 
-      
+
       </div>
 
       {/* Floating Parallax Editorial Photo Cards with Hand-Drawn Annotations */}
