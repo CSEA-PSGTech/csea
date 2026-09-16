@@ -120,8 +120,8 @@ function App() {
     { label: "Clubs", ariaLabel: "Explore Affiliated Clubs", link: "#affiliated-clubs" },
     { label: "Events", ariaLabel: "Explore CSEA events", link: "#events" },
     { label: "Timeline", ariaLabel: "See our journey and milestones", link: "#timeline" },
-    { label: "Blogs", ariaLabel: "Read our blogs", link: "/blogs" },
     { label: "Members", ariaLabel: "Explore CSEA members", link: "#memberfinder" },
+    { label: "Blogs", ariaLabel: "Read our blogs", link: "/blogs" },
     { label: "Contact", ariaLabel: "Get in touch", link: "mailto:csea.cse@psgtech.ac.in" },
   ];
 
