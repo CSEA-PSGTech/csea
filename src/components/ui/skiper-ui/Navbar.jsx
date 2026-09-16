@@ -1,5 +1,7 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export const StaggeredMenu = ({
   position = 'right',
@@ -20,6 +22,9 @@ export const StaggeredMenu = ({
   onMenuOpen,
   onMenuClose
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [open, setOpen] = useState(false);
   const openRef = useRef(false);
 
@@ -328,12 +333,18 @@ export const StaggeredMenu = ({
     }
   }, [playClose, animateIcon, animateColor, animateText, onMenuClose]);
 
-  // Handles a click on a nav item. Hash links ("#about", "#events", etc.)
-  // are scrolled to explicitly via the ScrollSmoother instance exposed
-  // on window.__scrollSmoother — this component renders outside
-  // ScrollSmoother's own wrapper/content scope, so its automatic anchor
-  // interception (if any) isn't reliable for these anchors. Real paths
-  // (e.g. an external or future route link) are left to navigate normally.
+  // Handles a click on a nav item.
+  //
+  // - Non-hash links (e.g. "/blogs", "mailto:...") are left to navigate
+  //   natively — no preventDefault, just close the menu.
+  // - Hash links ("#about", "#events", etc.) only exist inside HomePage's
+  //   DOM. If we're already on "/", scroll to them via the ScrollSmoother
+  //   instance exposed on window.__scrollSmoother (this component renders
+  //   outside ScrollSmoother's own wrapper/content scope, so its automatic
+  //   anchor interception isn't reliable for these anchors). If we're on
+  //   any other route (e.g. "/blogs" or "/blogs/:id"), navigate home first
+  //   and poll until the target section has actually mounted — the element
+  //   doesn't exist in the DOM immediately after navigate() fires.
   const handleItemClick = useCallback(
     (e, link) => {
       const isHashLink = typeof link === 'string' && link.startsWith('#');
@@ -345,18 +356,130 @@ export const StaggeredMenu = ({
       e.preventDefault();
       closeMenu();
 
-      // Wait for the close animation (~0.32s) so the scroll doesn't
-      // fight with the panel still sliding off-screen.
-      setTimeout(() => {
-        const smoother = window.__scrollSmoother;
-        if (smoother && typeof smoother.scrollTo === 'function') {
-          smoother.scrollTo(link, true, 'top');
-        } else {
-          document.querySelector(link)?.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 350);
+      const scrollToHash = () => {
+        // Force GSAP to recompute scroll heights/pin positions before
+        // jumping — otherwise sections below a pinned/lazy-height section
+        // (like the telescope hero) can resolve to a stale, too-short
+        // total page height and land short of the real target (e.g.
+        // "Timeline"/"Members" resolving to roughly where "Events" is).
+        ScrollTrigger.refresh(true);
+
+        requestAnimationFrame(() => {
+          const smoother = window.__scrollSmoother;
+          const target = document.querySelector(link);
+
+          const jumpToTarget = () => {
+            if (smoother && typeof smoother.scrollTo === 'function') {
+              smoother.scrollTo(link, true, 'top');
+            } else {
+              target?.scrollIntoView({ behavior: 'smooth' });
+            }
+          };
+
+          jumpToTarget();
+
+          // Sections above the target (e.g. Timeline, right above Members
+          // in the DOM) often fetch their own data from the backend after
+          // mount. When that data lands a beat after we've already jumped
+          // to Members, Timeline grows, pushes everything below it further
+          // down the page, and — because ScrollSmoother scroll position is
+          // just a fixed pixel offset, not anchored to an element — the
+          // viewport stays put while Members slides away underneath it,
+          // leaving Timeline's tail end on screen instead.
+          //
+          // With ScrollSmoother, document.body's height does NOT reflect
+          // this: `.wrapper` is pinned to the viewport (position: fixed;
+          // height: 100%; overflow: hidden) so body never resizes no
+          // matter how tall `.content` gets. The actual growing element is
+          // `.content` (ScrollSmoother's own content node) — or document.body
+          // itself on mobile, where no smoother/wrapper is created. Watch
+          // whichever one is actually driving scroll length, plus the
+          // target itself, and re-anchor to the target each time it
+          // resizes, for a short settle window. Back off immediately if
+          // the user takes over scrolling themselves.
+          if (target && typeof ResizeObserver !== 'undefined') {
+            let settleTimer = null;
+            let stopped = false;
+
+            const stopWatching = () => {
+              if (stopped) return;
+              stopped = true;
+              clearTimeout(settleTimer);
+              ro.disconnect();
+              window.removeEventListener('wheel', stopWatching);
+              window.removeEventListener('touchstart', stopWatching);
+              window.removeEventListener('pointerdown', stopWatching);
+            };
+
+            const reanchor = () => {
+              if (stopped) return;
+              ScrollTrigger.refresh(true);
+              requestAnimationFrame(jumpToTarget);
+              clearTimeout(settleTimer);
+              // Stop watching once things have been quiet for a bit —
+              // the backend data has settled and layout is stable.
+              settleTimer = setTimeout(stopWatching, 500);
+            };
+
+            const ro = new ResizeObserver(reanchor);
+            ro.observe(target);
+
+            // The node that actually determines scroll length: ScrollSmoother's
+            // .content when a smoother is active, document.body on mobile
+            // where HomePage skips creating one.
+            const scrollDriver = window.__scrollSmoother
+              ? document.querySelector('.content')
+              : document.body;
+            if (scrollDriver) ro.observe(scrollDriver);
+
+            // Also watch every section ahead of the target in document order —
+            // any of them growing pushes the target down the same way Timeline
+            // does. Cheap enough at this DOM size and avoids hardcoding which
+            // section is "the one before Members".
+            let sib = target.previousElementSibling;
+            while (sib) {
+              ro.observe(sib);
+              sib = sib.previousElementSibling;
+            }
+
+            // If the user starts scrolling on their own, respect that
+            // instead of fighting them with a re-anchor.
+            window.addEventListener('wheel', stopWatching, { passive: true });
+            window.addEventListener('touchstart', stopWatching, { passive: true });
+            window.addEventListener('pointerdown', stopWatching, { passive: true });
+
+            // Hard safety cap so we never watch indefinitely.
+            settleTimer = setTimeout(stopWatching, 4000);
+          }
+        });
+      };
+
+      if (location.pathname !== '/') {
+        navigate('/');
+
+        let attempts = 0;
+        const maxAttempts = 60; // ~3s at 50ms intervals
+        const poll = setInterval(() => {
+          attempts += 1;
+          const target = document.querySelector(link);
+          // Wait for the element to exist AND actually have layout
+          // (offsetHeight > 0) — this avoids racing ahead of images
+          // that are still loading and still resizing the page.
+          const isLaidOut = target && target.offsetHeight > 0;
+
+          if (isLaidOut || attempts >= maxAttempts) {
+            clearInterval(poll);
+            scrollToHash();
+          }
+        }, 50);
+        return;
+      }
+
+      // Already on home — wait for the close animation (~0.32s) so the
+      // scroll doesn't fight with the panel still sliding off-screen.
+      setTimeout(scrollToHash, 350);
     },
-    [closeMenu]
+    [closeMenu, navigate, location.pathname]
   );
 
   React.useEffect(() => {

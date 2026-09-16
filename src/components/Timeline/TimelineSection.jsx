@@ -308,7 +308,15 @@ export function TimelineSection() {
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] bg-transparent overflow-hidden">
+    // min-h reserves roughly the loaded-state height (header + button row +
+    // filter pills + the entry axis, which alone runs ~450-500px thanks to
+    // TimelineEntry's h-[210px]/h-[240px] halves) up front, so the section
+    // doesn't grow by 300-450px out from under anyone who has already
+    // scrolled to a section below it (e.g. Members) while this was loading.
+    // Tune these two numbers against your real loaded height in devtools —
+    // exact match isn't necessary, just "loading state height ≈ loaded
+    // state height" so there's no meaningful layout shift either way.
+    <section className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] bg-transparent overflow-hidden min-h-[860px] sm:min-h-[940px]">
       <div className="w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">

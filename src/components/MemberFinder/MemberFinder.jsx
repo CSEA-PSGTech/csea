@@ -104,7 +104,17 @@ export function MemberFinder() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10 w-full flex justify-center">
+      {/*
+        min-h here matches the loading spinner's h-64 up to roughly the
+        real FinderWindow's height, so this section itself doesn't grow
+        once its data arrives. This isn't what caused the "lands on
+        Timeline" bug (that was Timeline growing, above this section) —
+        but without it, anything BELOW Members (BlogCTA, footer) would
+        get pushed the same way if someone scrolls there while this is
+        still loading. Tune against the real FinderWindow height in
+        devtools.
+      */}
+      <div className="relative z-10 w-full flex justify-center min-h-[560px] sm:min-h-[620px]">
         {loading && (
           <div className="flex h-64 items-center justify-center text-sm text-neutral-400">
             Loading members…
