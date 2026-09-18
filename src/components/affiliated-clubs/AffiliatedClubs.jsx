@@ -11,7 +11,7 @@ import { CseaAxis } from "./CseaAxis";
  */
 export function AffiliatedClubs() {
   const leftClubs = [AFFILIATED_CLUBS[0], AFFILIATED_CLUBS[2]]; // 01 THE EYE, 03 DT
-  const rightClubs = [AFFILIATED_CLUBS[1], AFFILIATED_CLUBS[3]]; // 02 GHCC, 04 E-CELL
+  const rightClubs = [AFFILIATED_CLUBS[1]]; // 02 GHCC, 04 E-CELL
 
   return (
     <section
