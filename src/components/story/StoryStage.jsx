@@ -128,7 +128,7 @@ export const StoryStage = forwardRef(function StoryStage(
               /* Stories 01–04 Clean Editorial Image Card */
               <div className="mt-4 sm:mt-5 w-full flex justify-center">
                 <div
-                  className="w-full max-w-[280px] sm:max-w-[310px] aspect-[4/3] rounded-2xl bg-white p-2 border border-black/10 shadow-[0_12px_28px_rgba(0,0,0,0.09)] overflow-hidden relative group"
+                  className="w-full max-w-[280px] sm:max-w-[310px] max-h-[26vh] sm:max-h-[30vh] aspect-[4/3] rounded-2xl bg-white p-2 border border-black/10 shadow-[0_12px_28px_rgba(0,0,0,0.09)] overflow-hidden relative group"
                   style={{ transform: `rotate(${currentStory.images[0].rotation || -1.5}deg)` }}
                 >
                   <div className="w-full h-full rounded-xl overflow-hidden relative bg-neutral-900">

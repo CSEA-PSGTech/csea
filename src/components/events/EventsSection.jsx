@@ -128,7 +128,7 @@ export function EventsSection() {
       <div className="w-full">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
-          <div className="w-full max-w-[380px] lg:max-w-[460px]">
+          <div className="w-full max-w-2xl">
             <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
               02 / Events
             </p>

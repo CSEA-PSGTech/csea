@@ -10,9 +10,6 @@ import { CseaAxis } from "./CseaAxis";
  * No scroll pinning, no scroll animations - instant 100% crisp visibility.
  */
 export function AffiliatedClubs() {
-  const leftClubs = [AFFILIATED_CLUBS[0], AFFILIATED_CLUBS[2]]; // 01 THE EYE, 03 DT
-  const rightClubs = [AFFILIATED_CLUBS[1]]; // 02 GHCC, 04 E-CELL
-
   return (
     <section
       id="affiliated-clubs"
@@ -43,23 +40,20 @@ export function AffiliatedClubs() {
         </div>
 
         {/* Two-Column Editorial Layout with Central CSEA Axis */}
-        <div className="relative w-full grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 lg:gap-24 items-start">
+        <div className="relative w-full grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-24 items-start">
           {/* Central Vertical Connecting Thread */}
           <CseaAxis />
 
-          {/* Left Column: 01 THE EYE & 03 DT */}
-          <div className="flex flex-col gap-10 sm:gap-14 lg:gap-16 lg:pr-8">
-            {leftClubs.map((club) => (
-              <ClubEntry key={club.id} club={club} />
-            ))}
-          </div>
-
-          {/* Right Column: 02 GHCC & 04 E-CELL */}
-          <div className="flex flex-col gap-10 sm:gap-14 lg:gap-16 lg:pl-8">
-            {rightClubs.map((club) => (
-              <ClubEntry key={club.id} club={club} />
-            ))}
-          </div>
+          {AFFILIATED_CLUBS.map((club, idx) => (
+            <div
+              key={club.id}
+              className={`flex flex-col ${
+                idx % 2 === 0 ? "lg:pr-8" : "lg:pl-8"
+              }`}
+            >
+              <ClubEntry club={club} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
