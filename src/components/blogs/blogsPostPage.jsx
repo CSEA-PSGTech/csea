@@ -30,7 +30,7 @@ export function BlogPostPage({ id }) {
   const { blog, loading, error } = useBlogPost(id);
 
   return (
-    <section className="relative w-full min-h-screen py-16 sm:py-24 px-5 sm:px-8 bg-white">
+    <section className="relative w-full min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8 bg-white">
       <div className="w-full max-w-3xl mx-auto">
         <a
           href="/blogs"

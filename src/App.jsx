@@ -94,7 +94,7 @@ function HomePage() {
 
           <Skiper28 />
 
-          <div id="contact">
+          <div id="contact" className="w-full bg-[#002fe6]">
             <Footer onOpenTeam={() => setIsTeamOpen(true)} />
           </div>
         </div>

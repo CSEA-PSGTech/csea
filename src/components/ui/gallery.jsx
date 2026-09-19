@@ -251,19 +251,19 @@ export function EventModal(props) {
         <span>Back</span>
       </button>
 
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} transition={{ type: "spring", stiffness: 350, damping: 32 }} className="w-full max-w-7xl mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-16 sm:pb-24">
-        <div className="max-w-2xl mx-auto text-center">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} transition={{ type: "spring", stiffness: 350, damping: 32 }} className="w-full max-w-4xl mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-16 sm:pb-24">
+        <div className="max-w-3xl mx-auto text-left flex flex-col items-start">
           <span className="inline-block text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#5258FF] bg-[#5258FF]/10 px-3 py-1 rounded-full">
             {item.category}
           </span>
 
-          <h1 className="mt-4 sm:mt-5 text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-neutral-900 leading-[1.02]">
+          <h1 className="mt-4 sm:mt-5 text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-[-0.03em] text-neutral-900 leading-[1.05] text-left">
             {item.title}
           </h1>
 
-          <p className="mt-3 text-xs sm:text-sm text-neutral-500 font-medium">{metaLine}</p>
+          <p className="mt-3 text-xs sm:text-sm text-neutral-500 font-medium text-left">{metaLine}</p>
 
-          <p className="mt-6 sm:mt-8 text-base sm:text-lg leading-relaxed text-neutral-600 whitespace-pre-line mx-auto">
+          <p className="mt-6 sm:mt-8 text-base sm:text-lg leading-relaxed text-neutral-600 whitespace-pre-line text-left">
             {item.description}
           </p>
 
@@ -275,14 +275,13 @@ export function EventModal(props) {
               </a>
             </div>
           ) : null}
+
+          {isCompleted && photos.length > 0 ? (
+            <div className="mt-10 sm:mt-14 w-full grid grid-cols-1 sm:grid-cols-3 gap-5 sm:gap-6">
+              {photos.map(renderPhoto)}
+            </div>
+          ) : null}
         </div>
-
-{isCompleted && photos.length > 0 ? (
-    <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
-      {photos.map(renderPhoto)}
-    </div>
-  ) : null}
-
       </motion.div>
 
       <AnimatePresence>

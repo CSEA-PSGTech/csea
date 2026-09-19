@@ -26,10 +26,10 @@ export function ClubEntry({ club }) {
       </div>
 
       {/* Thin Horizontal Divider */}
-      <div className="mt-3.5 h-[1px] w-full max-w-[260px] sm:max-w-[320px] bg-[#0026ff]/25 transition-all duration-300 group-hover:bg-[#0026ff]/60 group-hover:max-w-[360px]" />
+      <div className="mt-3.5 h-[1px] w-full max-w-full sm:max-w-[320px] bg-[#0026ff]/25 transition-all duration-300 group-hover:bg-[#0026ff]/60 group-hover:max-w-[360px]" />
 
       {/* Description */}
-      <p className="mt-3.5 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed max-w-[320px] sm:max-w-[360px]">
+      <p className="mt-3.5 text-sm sm:text-[15px] text-neutral-700 font-normal leading-relaxed w-full max-w-full sm:max-w-[360px]">
         {club.description}
       </p>
 
@@ -38,7 +38,7 @@ export function ClubEntry({ club }) {
         href={club.href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.24em] text-[#0026ff] hover:text-[#001bb3] transition-all group/link mt-4 focus:outline-none focus:ring-2 focus:ring-[#0026ff]/40 rounded-sm"
+        className="inline-flex items-center gap-2.5 text-xs sm:text-sm font-bold uppercase tracking-[0.24em] text-[#0026ff] hover:text-[#001bb3] transition-all group/link mt-4 py-1.5 focus:outline-none focus:ring-2 focus:ring-[#0026ff]/40 rounded-sm"
         aria-label={`Explore ${club.name} - ${club.subtitle}`}
       >
         <span>{club.linkText || "EXPLORE"}</span>

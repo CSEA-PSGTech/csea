@@ -211,18 +211,21 @@ function TimelineModal({ entry, onClose }) {
  * card opens it in TimelineModal — the card itself stays static/small,
  * a fixed-height box on each half so the axis dots never shift.
  */
-function TimelineEntry({ entry, index, onSelect }) {
+function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
   const isAbove = index % 2 === 0;
 
   const card = (
     <motion.div
       layout
       whileHover={{ y: -3 }}
-      onClick={() => onSelect(entry)}
-      className="w-[78vw] max-w-[300px] sm:w-[320px] rounded-[20px] bg-white border border-black/5 cursor-pointer p-4 sm:p-5 shadow-sm hover:shadow-lg hover:border-[#5258FF]/20 transition-all duration-300"
+      onClick={() => {
+        if (hasDraggedRef?.current) return;
+        onSelect(entry);
+      }}
+      className="w-[78vw] max-w-[300px] sm:w-[320px] rounded-[20px] bg-white border border-black/5 cursor-pointer p-4 sm:p-5 shadow-sm hover:shadow-lg hover:border-[#5258FF]/20 transition-all duration-300 select-none"
     >
       {entry.preview && (
-        <div className="w-full rounded-xl overflow-hidden bg-neutral-100 mb-3">
+        <div className="w-full rounded-xl overflow-hidden bg-neutral-100 mb-3 pointer-events-none">
           <img
             src={entry.preview}
             alt={entry.title}
@@ -246,32 +249,34 @@ function TimelineEntry({ entry, index, onSelect }) {
 
   return (
     <div className="snap-start shrink-0 flex flex-col items-center w-[78vw] max-w-[300px] sm:w-[320px]">
-      {/* Top half: fixed height, card anchored to its bottom edge. */}
-      <div className="relative w-full h-[210px] sm:h-[240px]">
-        {isAbove && (
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2">{card}</div>
-        )}
+      {/* Top half: On mobile, ALL cards sit above the axis in strict 1, 2, 3, 4 order. On desktop (sm:), alternates based on index. */}
+      <div className="relative w-full flex items-end justify-center pb-3 sm:pb-0 sm:h-[250px]">
+        <div className={`sm:absolute sm:bottom-0 sm:left-1/2 sm:-translate-x-1/2 ${isAbove ? "block" : "block sm:hidden"}`}>
+          {card}
+        </div>
       </div>
 
       {/* Stem + dot sitting on the axis */}
       <div className="relative flex flex-col items-center shrink-0">
-        <div className={`w-px h-6 bg-[#5258FF]/30 ${isAbove ? "order-1" : "order-3"}`} />
+        <div className={`w-px h-6 bg-[#5258FF]/30 ${isAbove ? "order-1" : "order-1 sm:order-3"}`} />
         <div className="order-2 w-3.5 h-3.5 rounded-full bg-[#5258FF] ring-4 ring-white shadow-[0_0_0_1px_rgba(82,88,255,0.15)] z-10" />
         {entry.date && (
           <span
             className={`order-4 absolute ${
-              isAbove ? "top-full mt-2" : "bottom-full mb-2"
-            } whitespace-nowrap text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.12em] text-[#5258FF] bg-[#EEF1FF] border border-[#5258FF]/15 px-2.5 py-0.5 rounded-full`}
+              isAbove
+                ? "top-full mt-2.5"
+                : "top-full mt-2.5 sm:top-auto sm:bottom-full sm:mb-2.5"
+            } whitespace-nowrap text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#5258FF] bg-[#EEF1FF] border border-[#5258FF]/25 px-3 py-1 rounded-full shadow-xs z-20 select-none`}
           >
             {entry.date}
           </span>
         )}
       </div>
 
-      {/* Bottom half: fixed height, card anchored to its top edge. */}
-      <div className="relative w-full h-[210px] sm:h-[240px]">
+      {/* Bottom half: Reserved height for date badge on mobile, full card half on desktop (sm:) */}
+      <div className="relative w-full h-14 sm:h-[250px]">
         {!isAbove && (
-          <div className="absolute top-0 left-1/2 -translate-x-1/2">{card}</div>
+          <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2">{card}</div>
         )}
       </div>
     </div>
@@ -283,6 +288,11 @@ export function TimelineSection() {
   const scrollerRef = useRef(null);
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEntry, setSelectedEntry] = useState(null);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const hasDraggedRef = useRef(false);
 
   const now = useMemo(() => new Date(), []);
 
@@ -307,20 +317,39 @@ export function TimelineSection() {
     el.scrollBy({ left: direction * width, behavior: "smooth" });
   };
 
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return;
+    const el = scrollerRef.current;
+    if (!el) return;
+    setIsDragging(true);
+    hasDraggedRef.current = false;
+    setStartX(e.pageX - el.offsetLeft);
+    setScrollLeft(el.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    const el = scrollerRef.current;
+    if (!el) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    if (Math.abs(x - startX) > 5) {
+      hasDraggedRef.current = true;
+    }
+    el.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
+
   return (
-    // min-h reserves roughly the loaded-state height (header + button row +
-    // filter pills + the entry axis, which alone runs ~450-500px thanks to
-    // TimelineEntry's h-[210px]/h-[240px] halves) up front, so the section
-    // doesn't grow by 300-450px out from under anyone who has already
-    // scrolled to a section below it (e.g. Members) while this was loading.
-    // Tune these two numbers against your real loaded height in devtools —
-    // exact match isn't necessary, just "loading state height ≈ loaded
-    // state height" so there's no meaningful layout shift either way.
-    <section className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] bg-transparent overflow-hidden min-h-[860px] sm:min-h-[940px]">
+    <section className="relative w-full py-16 sm:py-28 lg:py-32 px-5 sm:px-8 md:px-[10%] bg-transparent overflow-x-hidden overflow-y-hidden">
       <div className="w-full">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">
-          <div className="w-full max-w-[380px] lg:max-w-[460px]">
+          <div className="w-full max-w-2xl">
             <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
               03 / News & Timeline
             </p>
@@ -416,8 +445,21 @@ export function TimelineSection() {
 
             <div
               ref={scrollerRef}
-              className="relative flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              className={`relative flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory no-scrollbar -mx-5 px-5 sm:-mx-8 sm:px-8 md:mx-0 md:px-0 pt-6 pb-12 sm:py-8 ${
+                isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+              }`}
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                touchAction: "pan-x pan-y",
+                overscrollBehaviorY: "none",
+                overscrollBehaviorX: "contain",
+                WebkitOverflowScrolling: "touch",
+              }}
             >
               {filteredTimeline.map((entry, i) => (
                 <TimelineEntry
@@ -425,6 +467,7 @@ export function TimelineSection() {
                   entry={entry}
                   index={i}
                   onSelect={setSelectedEntry}
+                  hasDraggedRef={hasDraggedRef}
                 />
               ))}
             </div>

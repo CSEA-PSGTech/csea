@@ -95,26 +95,7 @@ function TelescopeSection() {
       const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
       if (isMobile) {
-
-        gsap.set(smallImages, { z: 0 });
-        section.style.setProperty("--progress", 1);
-
-        gsap.from(smallImages, {
-          z: "-20vh",
-          opacity: 0,
-          duration: 0.8,
-          ease: "power1.out",
-          stagger: {
-            amount: 0.2,
-            from: "center",
-          },
-          scrollTrigger: {
-            trigger: section,
-            start: "top 70%",
-            toggleActions: "play none none none",
-          },
-        });
-
+        section.style.setProperty("--progress", 0);
         return;
       }
 
