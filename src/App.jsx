@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams, useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -21,11 +21,46 @@ import BlogPostPage from "./components/blogs/blogsPostPage";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
+// Immediately disable browser's automatic scroll restoration on reload
+if (typeof window !== "undefined") {
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+  ScrollTrigger.clearScrollMemory("manual");
+  window.scrollTo(0, 0);
+}
 
 function HomePage() {
   const [isTeamOpen, setIsTeamOpen] = useState(false);
 
   useLayoutEffect(() => {
+    // 1. Enforce manual scroll restoration & clear GSAP's recorded scroll memory
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    ScrollTrigger.clearScrollMemory("manual");
+
+    // 2. Clear any lingering hash from previous navigation on reload so browser doesn't anchor jump
+    if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+      );
+    }
+
+    // 3. Immediately reset window scroll position to top
+    window.scrollTo(0, 0);
+
+    // 4. Reset on beforeunload so reload always begins at (0, 0)
+    const handleBeforeUnload = () => {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     // Skip ScrollSmoother entirely on mobile / small screens — GSAP's
     // transform-based smooth scroll fights with mobile browser chrome
     // (address bar collapse, momentum scroll, viewport resize) and
@@ -35,9 +70,12 @@ function HomePage() {
     if (isMobile) {
       window.__scrollSmoother = null;
       requestAnimationFrame(() => {
+        window.scrollTo(0, 0);
         ScrollTrigger.refresh(true);
       });
-      return; // no smoother created, no cleanup needed
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+      };
     }
 
     const smoother = ScrollSmoother.create({
@@ -49,6 +87,9 @@ function HomePage() {
       normalizeScroll: false,
     });
 
+    // Ensure ScrollSmoother starts at top (0) without glide
+    smoother.scrollTop(0);
+
     // Exposed so StaggeredMenu (which renders outside .wrapper/.content,
     // in the fixed navbar div) can explicitly call scrollTo on click,
     // instead of relying on ScrollSmoother's anchor-click interception
@@ -56,10 +97,13 @@ function HomePage() {
     window.__scrollSmoother = smoother;
 
     requestAnimationFrame(() => {
+      smoother.scrollTop(0);
       ScrollTrigger.refresh(true);
+      smoother.scrollTop(0);
     });
 
     return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
       window.__scrollSmoother = null;
       smoother.kill();
     };
@@ -113,6 +157,17 @@ function BlogPostRoute() {
   return <BlogPostPage id={id} />;
 }
 
+// Automatically scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   const menuItems = [
     { label: "Home", ariaLabel: "Go to home page", link: "#home" },
@@ -133,6 +188,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       {/* =====================================================
           FIXED NAVBAR
           Completely independent from ScrollSmoother, present

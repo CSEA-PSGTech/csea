@@ -10,6 +10,13 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSEA</title>
+    <script>
+      // Enforce manual scroll restoration so reloading never auto-scrolls down
+      if (typeof window !== "undefined" && "scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    </script>
   </head>
   <body>
     <div id="root"></div>

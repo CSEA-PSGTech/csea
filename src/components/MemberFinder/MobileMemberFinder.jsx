@@ -247,11 +247,11 @@ export function MobileMemberFinder({
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-[340px] sm:max-w-md mx-auto">
       {/* Container simulating the refined macOS Finder card on mobile */}
-      <div className="w-full rounded-[22px] bg-white border border-black/10 shadow-[0_12px_36px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
+      <div className="w-full rounded-[20px] sm:rounded-[22px] bg-white border border-black/10 shadow-[0_12px_36px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col">
         {/* Finder Header Bar */}
-        <div className="h-12 bg-neutral-100/80 border-b border-black/8 px-4 flex items-center justify-between">
+        <div className="h-11 sm:h-12 bg-neutral-100/80 border-b border-black/8 px-3.5 sm:px-4 flex items-center justify-between">
           {/* macOS Window Traffic Lights */}
           <div className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
@@ -263,7 +263,7 @@ export function MobileMemberFinder({
           <button
             type="button"
             onClick={() => setIsQuickNavOpen(true)}
-            className="flex items-center gap-1 text-xs font-semibold text-neutral-800 hover:text-blue-600 transition-colors cursor-pointer py-1 px-2 rounded-md active:bg-black/5"
+            className="flex items-center gap-1 text-[11px] sm:text-xs font-semibold text-neutral-800 hover:text-blue-600 transition-colors cursor-pointer py-1 px-2 rounded-md active:bg-black/5"
           >
             <span>CSEA Explorer</span>
             <span className="text-[10px] text-neutral-400">⌄</span>
@@ -274,14 +274,14 @@ export function MobileMemberFinder({
             type="button"
             onClick={() => setIsQuickNavOpen(true)}
             aria-label="Jump to Team"
-            className="w-7 h-7 rounded-full bg-white border border-black/10 flex items-center justify-center text-neutral-600 hover:text-neutral-900 active:scale-95 transition-all shadow-xs cursor-pointer"
+            className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-white border border-black/10 flex items-center justify-center text-neutral-600 hover:text-neutral-900 active:scale-95 transition-all shadow-xs cursor-pointer"
           >
-            <Compass className="w-3.5 h-3.5 text-blue-600" />
+            <Compass className="w-3 sm:w-3.5 h-3 sm:h-3.5 text-blue-600" />
           </button>
         </div>
 
         {/* Directory Breadcrumbs / Path Sub-Bar */}
-        <div className="px-4 py-2 bg-neutral-50/70 border-b border-black/5 flex items-center justify-between text-xs text-neutral-500 font-mono">
+        <div className="px-3.5 sm:px-4 py-1.5 sm:py-2 bg-neutral-50/70 border-b border-black/5 flex items-center justify-between text-[11px] sm:text-xs text-neutral-500 font-mono">
           <div className="flex items-center gap-1 truncate">
             <span className="text-blue-600 font-semibold">📁</span>
             <span>
@@ -292,7 +292,7 @@ export function MobileMemberFinder({
           {activeFolder && (
             <button
               onClick={handleBackToDirectory}
-              className="text-xs font-sans text-blue-600 hover:underline cursor-pointer flex items-center gap-0.5"
+              className="text-[11px] sm:text-xs font-sans text-blue-600 hover:underline cursor-pointer flex items-center gap-0.5"
             >
               <ChevronLeft className="w-3.5 h-3.5" />
               <span>Back</span>
@@ -301,7 +301,7 @@ export function MobileMemberFinder({
         </div>
 
         {/* Dynamic Content: Screen 02 (Directory) OR Screen 03/05 (Team View) */}
-        <div className="p-4 sm:p-5 min-h-[380px] flex flex-col justify-start">
+        <div className="p-3.5 sm:p-5 min-h-[350px] flex flex-col justify-start">
           <AnimatePresence mode="wait">
             {!activeFolder ? (
               /* =======================================================
@@ -316,16 +316,16 @@ export function MobileMemberFinder({
                 className="flex flex-col"
               >
                 {/* 2-Column Grid of Folders */}
-                <div className="grid grid-cols-2 gap-y-6 gap-x-4 py-2">
+                <div className="grid grid-cols-2 gap-y-4 sm:gap-y-6 gap-x-3 sm:gap-x-4 py-1.5 sm:py-2">
                   {folders.map((folder) => (
                     <motion.button
                       key={folder.id || folder.name}
                       whileTap={{ scale: 0.96 }}
                       onClick={() => handleOpenFolder(folder)}
-                      className="flex flex-col items-center text-center p-2 rounded-xl hover:bg-neutral-50 active:bg-blue-50/50 transition-colors group cursor-pointer focus:outline-none"
+                      className="flex flex-col items-center text-center p-1.5 sm:p-2 rounded-xl hover:bg-neutral-50 active:bg-blue-50/50 transition-colors group cursor-pointer focus:outline-none"
                     >
-                      <MacFolderIcon className="w-16 h-14 transition-transform group-hover:scale-105" />
-                      <span className="mt-2 text-xs font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors leading-snug max-w-[130px] truncate">
+                      <MacFolderIcon className="w-13 h-11 sm:w-16 sm:h-14 transition-transform group-hover:scale-105" />
+                      <span className="mt-1.5 text-[11px] sm:text-xs font-semibold text-neutral-900 group-hover:text-blue-600 transition-colors leading-snug max-w-[120px] truncate">
                         {folder.name}
                       </span>
                     </motion.button>

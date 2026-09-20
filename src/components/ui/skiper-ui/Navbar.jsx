@@ -700,6 +700,14 @@ export const StaggeredMenu = ({
 .sm-scope .sm-panel-list[data-numbering] { counter-reset: smItem; }
 .sm-scope .sm-panel-list[data-numbering] .sm-panel-item::after { counter-increment: smItem; content: counter(smItem, decimal-leading-zero); position: absolute; top: 50%; right: 3.2em; transform: translateY(-50%); font-size: 18px; font-weight: 400; color: var(--sm-accent, #ff0000); letter-spacing: 0; pointer-events: none; user-select: none; opacity: var(--sm-num-opacity, 0); }
 @media (max-width: 1024px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
+@media (max-width: 768px) {
+  .sm-scope .staggered-menu-header { padding: 0.85rem 1rem !important; }
+  .sm-scope .sm-toggle { font-size: 16px !important; font-weight: 500 !important; color: #17233B !important; gap: 0.45rem !important; }
+  .sm-scope .sm-icon { width: 28px !important; height: 28px !important; flex: 0 0 28px !important; border: 1.5px solid #0047FF !important; border-radius: 50% !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; color: #0047FF !important; background: rgba(255, 255, 255, 0.7) !important; backdrop-filter: blur(4px) !important; }
+  .sm-scope .sm-icon-line { width: 12px !important; }
+  .sm-scope .staggered-menu-wrapper[data-open] .sm-toggle { color: #17233B !important; }
+  .sm-scope .staggered-menu-wrapper[data-open] .sm-icon { border-color: #17233B !important; color: #17233B !important; }
+}
 @media (max-width: 640px) { .sm-scope .staggered-menu-panel { width: 100%; left: 0; right: 0; } .sm-scope .staggered-menu-wrapper[data-open] .sm-logo-img { filter: invert(100%); } }
       `}</style>
     </div>

@@ -87,17 +87,17 @@ export function MemberFinder() {
   };
 
   return (
-    <section className="relative w-full pt-10 sm:pt-20 pb-2 sm:pb-24 px-5 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent">
+    <section className="relative w-full pt-8 sm:pt-20 pb-2 sm:pb-24 px-4 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent">
       {/* Section Header — Aligned to left matching other sections */}
-      <div className="relative z-10 w-full mb-8 sm:mb-12">
+      <div className="relative z-10 w-full mb-6 sm:mb-12">
         <div className="w-full max-w-[380px] lg:max-w-[460px]">
-          <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+          <p className="text-[10px] sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
             04 / Members
           </p>
-          <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl font-medium leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] lg:text-6xl text-neutral-900">
+          <h2 className="mt-2 sm:mt-4 text-2xl sm:text-5xl font-medium leading-[1.08] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.055em] lg:text-6xl text-neutral-900">
             CSEA Members &amp; Teams
           </h2>
-          <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+          <p className="mt-2 sm:mt-6 text-xs sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
             Explore CSEA faculty, office bearers, technical leads, and core teams.
           </p>
         </div>

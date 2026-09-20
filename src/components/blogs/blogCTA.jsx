@@ -21,18 +21,18 @@ export function BlogCTA({
   return (
     <section
       className={
-        "w-full py-20 sm:py-28 px-5 sm:px-8 flex items-center justify-center bg-transparent " +
+        "w-full py-12 sm:py-28 px-4 sm:px-8 flex items-center justify-center bg-transparent " +
         className
       }
     >
       <a
         href={href}
-        className="group relative inline-flex items-center gap-3 sm:gap-4 px-8 sm:px-12 py-5 sm:py-7 rounded-full bg-[#EEF1FF] hover:bg-[#5258FF] text-[#5258FF] hover:text-white border border-[#5258FF]/15 transition-colors duration-300 shadow-lg"
+        className="group relative inline-flex items-center gap-2.5 sm:gap-4 px-6 sm:px-12 py-3.5 sm:py-7 rounded-full bg-[#EEF1FF] hover:bg-[#5258FF] text-[#5258FF] hover:text-white border border-[#5258FF]/15 transition-colors duration-300 shadow-md sm:shadow-lg"
       >
-        <span className="text-lg sm:text-2xl md:text-3xl font-semibold tracking-[-0.02em] uppercase">
+        <span className="text-base sm:text-2xl md:text-3xl font-semibold tracking-[-0.02em] uppercase">
           {label}
         </span>
-        <ArrowUpRight className="w-6 h-6 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+        <ArrowUpRight className="w-5 h-5 sm:w-8 sm:h-8 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
       </a>
     </section>
   );

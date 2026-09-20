@@ -33,23 +33,23 @@ export const Skiper28 = () => {
           Replaces 3D perspective with crisp, legible typography
           visible cleanly above the footer folder tab
           ======================================================== */}
-      <div className="md:hidden relative w-full pt-12 pb-24 px-6 flex flex-col items-center justify-center text-center bg-white select-none">
+      <div className="md:hidden relative w-full pt-8 pb-8 px-6 flex flex-col items-center justify-center text-center bg-white select-none">
         {/* Minimal Scroll Indicator */}
-        <div className="flex flex-col items-center mb-5">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#5258FF]/70">
+        <div className="flex flex-col items-center mb-3">
+          <span className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#5258FF]/70">
           
           </span>
-          <div className="w-[1px] h-6 bg-[#5258FF]/30 mt-2" />
+          <div className="w-[1px] h-4 bg-[#5258FF]/30 mt-1" />
         </div>
 
         {/* Clear, Beautiful Tamil Typography */}
-        <h2 className="text-4xl sm:text-5xl font-black leading-[1.15] tracking-[-0.03em] text-[#5258FF]">
+        <h2 className="text-2xl sm:text-4xl font-black leading-[1.15] tracking-[-0.03em] text-[#5258FF]">
           <span className="block">யாதும் ஊரே</span>
-          <span className="block mt-2">யாவரும் கேளீர்</span>
+          <span className="block mt-1">யாவரும் கேளீர்</span>
         </h2>
 
         {/* Supporting Philosophy */}
-        <p className="mt-3 text-xs uppercase tracking-[0.22em] text-neutral-400 font-medium max-w-[290px]">
+        <p className="mt-2 text-[9.5px] uppercase tracking-[0.2em] text-neutral-400 font-medium max-w-[260px]">
           To us, all towns are our own, all people our kin
         </p>
       </div>

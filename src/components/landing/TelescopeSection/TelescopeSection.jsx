@@ -12,6 +12,7 @@ import {
   ArrowUpLeft,
   HandDrawnUnderline,
 } from "./AnnotationArrows";
+import MobileHeroSection from "./MobileHeroSection";
 import "./TelescopeSection.css";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
@@ -164,13 +165,28 @@ function TelescopeSection() {
   }, []);
 
   return (
-    <section
-      className="section"
-      ref={sectionRef}
-      onPointerMove={handlePointerMove}
-      onTouchMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-    >
+    <>
+      {/* ========================================================
+          MOBILE VIEW (< 768px): Scrapbook Editorial Mobile Hero
+          Derived strictly from ChatGPT Image Sep 20, 2026, 10_16_36 PM.png
+          and CSEA_mobile_redesign.md specifications.
+          ======================================================== */}
+      <div className="block md:hidden w-full">
+        <MobileHeroSection />
+      </div>
+
+      {/* ========================================================
+          DESKTOP VIEW (>= 768px): Pinned 3D Telescopic Hero View
+          Left 100% UNTOUCHED and LOCKED.
+          ======================================================== */}
+      <div className="hidden md:block w-full">
+        <section
+          className="section"
+          ref={sectionRef}
+          onPointerMove={handlePointerMove}
+          onTouchMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+        >
       <BackgroundGrid />
       {isDesktop && <GlassCanvas pointerRef={pointerRef} />}
 
@@ -385,7 +401,9 @@ function TelescopeSection() {
           </div>
         </div>
       </div>
-    </section>
+        </section>
+      </div>
+    </>
   );
 }
 

@@ -222,10 +222,10 @@ function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
         if (hasDraggedRef?.current) return;
         onSelect(entry);
       }}
-      className="w-[78vw] max-w-[300px] sm:w-[320px] rounded-[20px] bg-white border border-black/5 cursor-pointer p-4 sm:p-5 shadow-sm hover:shadow-lg hover:border-[#5258FF]/20 transition-all duration-300 select-none"
+      className="w-[70vw] max-w-[250px] sm:w-[320px] sm:max-w-none rounded-[16px] sm:rounded-[20px] bg-white border border-black/5 cursor-pointer p-3 sm:p-5 shadow-xs hover:shadow-lg hover:border-[#5258FF]/20 transition-all duration-300 select-none"
     >
       {entry.preview && (
-        <div className="w-full rounded-xl overflow-hidden bg-neutral-100 mb-3 pointer-events-none">
+        <div className="w-full rounded-lg sm:rounded-xl overflow-hidden bg-neutral-100 mb-2 sm:mb-3 pointer-events-none">
           <img
             src={entry.preview}
             alt={entry.title}
@@ -235,12 +235,12 @@ function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
         </div>
       )}
 
-      <h3 className="text-base sm:text-lg font-semibold text-neutral-900 tracking-tight leading-snug mb-1.5">
+      <h3 className="text-sm sm:text-lg font-semibold text-neutral-900 tracking-tight leading-snug mb-1 sm:mb-1.5">
         {entry.title}
       </h3>
 
       {entry.description && (
-        <p className="text-sm text-neutral-600 leading-relaxed line-clamp-3">
+        <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed line-clamp-2 sm:line-clamp-3">
           {entry.description}
         </p>
       )}
@@ -248,7 +248,7 @@ function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
   );
 
   return (
-    <div className="snap-start shrink-0 flex flex-col items-center w-[78vw] max-w-[300px] sm:w-[320px]">
+    <div className="snap-start shrink-0 flex flex-col items-center w-[70vw] max-w-[250px] sm:w-[320px] sm:max-w-none">
       {/* Top half: On mobile, ALL cards sit above the axis in strict 1, 2, 3, 4 order. On desktop (sm:), alternates based on index. */}
       <div className="relative w-full flex items-end justify-center pb-3 sm:pb-0 sm:h-[250px]">
         <div className={`sm:absolute sm:bottom-0 sm:left-1/2 sm:-translate-x-1/2 ${isAbove ? "block" : "block sm:hidden"}`}>
@@ -258,15 +258,15 @@ function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
 
       {/* Stem + dot sitting on the axis */}
       <div className="relative flex flex-col items-center shrink-0">
-        <div className={`w-px h-6 bg-[#5258FF]/30 ${isAbove ? "order-1" : "order-1 sm:order-3"}`} />
-        <div className="order-2 w-3.5 h-3.5 rounded-full bg-[#5258FF] ring-4 ring-white shadow-[0_0_0_1px_rgba(82,88,255,0.15)] z-10" />
+        <div className={`w-px h-5 sm:h-6 bg-[#5258FF]/30 ${isAbove ? "order-1" : "order-1 sm:order-3"}`} />
+        <div className="order-2 w-3 sm:w-3.5 h-3 sm:h-3.5 rounded-full bg-[#5258FF] ring-4 ring-white shadow-[0_0_0_1px_rgba(82,88,255,0.15)] z-10" />
         {entry.date && (
           <span
             className={`order-4 absolute ${
               isAbove
-                ? "top-full mt-2.5"
-                : "top-full mt-2.5 sm:top-auto sm:bottom-full sm:mb-2.5"
-            } whitespace-nowrap text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#5258FF] bg-[#EEF1FF] border border-[#5258FF]/25 px-3 py-1 rounded-full shadow-xs z-20 select-none`}
+                ? "top-full mt-2 sm:mt-2.5"
+                : "top-full mt-2 sm:mt-2.5 sm:top-auto sm:bottom-full sm:mb-2.5"
+            } whitespace-nowrap text-[10px] sm:text-xs font-bold uppercase tracking-[0.14em] text-[#5258FF] bg-[#EEF1FF] border border-[#5258FF]/25 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full shadow-xs z-20 select-none`}
           >
             {entry.date}
           </span>
@@ -274,7 +274,7 @@ function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
       </div>
 
       {/* Bottom half: Reserved height for date badge on mobile, full card half on desktop (sm:) */}
-      <div className="relative w-full h-14 sm:h-[250px]">
+      <div className="relative w-full h-12 sm:h-[250px]">
         {!isAbove && (
           <div className="hidden sm:block absolute top-0 left-1/2 -translate-x-1/2">{card}</div>
         )}
@@ -345,18 +345,18 @@ export function TimelineSection() {
   };
 
   return (
-    <section className="relative w-full py-16 sm:py-28 lg:py-32 px-5 sm:px-8 md:px-[10%] bg-transparent overflow-x-hidden overflow-y-hidden">
+    <section className="relative w-full py-12 sm:py-28 lg:py-32 px-4 sm:px-8 md:px-[10%] bg-transparent overflow-x-hidden overflow-y-hidden">
       <div className="w-full">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-8 mb-6 sm:mb-10">
           <div className="w-full max-w-2xl">
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+            <p className="text-[10px] sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
               03 / News & Timeline
             </p>
-            <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] text-neutral-900">
+            <h2 className="mt-2 sm:mt-4 text-2xl sm:text-5xl lg:text-6xl font-medium leading-[1.08] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.055em] text-neutral-900">
               Our year in motion.
             </h2>
-            <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+            <p className="mt-2 sm:mt-6 text-xs sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
               A running record of what CSEA has been up to, as it happens.
             </p>
           </div>

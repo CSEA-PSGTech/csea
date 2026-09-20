@@ -123,19 +123,19 @@ export function EventsSection() {
   return (
     <section
       id="events"
-      className="relative w-full py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent"
+      className="relative w-full py-12 sm:py-24 px-4 sm:px-8 md:px-[10%] flex flex-col justify-center overflow-hidden bg-transparent"
     >
       <div className="w-full">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8 mb-8 sm:mb-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-8 mb-6 sm:mb-12">
           <div className="w-full max-w-2xl">
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
+            <p className="text-[10px] sm:text-sm font-semibold uppercase tracking-[0.3em] text-[#5258FF] lg:text-base">
               02 / Events
             </p>
-            <h2 className="mt-3 sm:mt-4 text-4xl sm:text-5xl lg:text-6xl font-medium leading-[1.02] sm:leading-[0.95] tracking-[-0.055em] text-neutral-900">
+            <h2 className="mt-2 sm:mt-4 text-2xl sm:text-5xl lg:text-6xl font-medium leading-[1.08] sm:leading-[0.95] tracking-[-0.03em] sm:tracking-[-0.055em] text-neutral-900">
               Moments of craft &amp; code.
             </h2>
-            <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-[1.5] tracking-[-0.01em] text-black/60 lg:text-xl">
+            <p className="mt-2 sm:mt-6 text-xs sm:text-base md:text-lg leading-[1.6] tracking-[-0.01em] text-black/60 lg:text-xl">
               Flagship hackathons, technical symposiums, and hands-on developer workshops.
             </p>
           </div>

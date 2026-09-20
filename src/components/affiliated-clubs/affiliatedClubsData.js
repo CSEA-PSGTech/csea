@@ -35,14 +35,4 @@ export const AFFILIATED_CLUBS = [
     href: "#",
     linkText: "EXPLORE",
   },
-  {
-    id: "e-cell",
-    index: "04",
-    name: "E-CELL",
-    subtitle: "ENTREPRENEURSHIP CELL",
-    description:
-      "Turning ideas into impact. Empowering the next generation of builders.",
-    href: "#",
-    linkText: "EXPLORE",
-  },
 ];

@@ -11,11 +11,11 @@ function GalleryItem(props) {
   var onOpenModal = props.onOpenModal;
 
   var cardWidthClass = isActive
-    ? "w-[76vw] max-w-[340px] sm:max-w-none sm:w-[420px] md:w-[520px] lg:w-[600px] shadow-2xl"
-    : "w-[36px] sm:w-[54px] md:w-[64px] opacity-65 hover:opacity-90";
+    ? "w-[72vw] max-w-[280px] sm:max-w-none sm:w-[420px] md:w-[520px] lg:w-[600px] shadow-xl sm:shadow-2xl"
+    : "w-[30px] sm:w-[54px] md:w-[64px] opacity-65 hover:opacity-90";
 
   var cardClass =
-    "relative h-[380px] sm:h-[460px] md:h-[500px] rounded-[24px] overflow-hidden cursor-pointer shrink-0 transition-[width] ease-[cubic-bezier(0.25,1,0.5,1)] duration-500 select-none " +
+    "relative h-[320px] sm:h-[460px] md:h-[500px] rounded-[18px] sm:rounded-[24px] overflow-hidden cursor-pointer shrink-0 transition-[width] ease-[cubic-bezier(0.25,1,0.5,1)] duration-500 select-none " +
     cardWidthClass;
 
   var gradientClass = isActive
@@ -29,18 +29,18 @@ function GalleryItem(props) {
       <motion.img src={item.preview} alt={item.title} layoutId={"event-img-" + item.id} className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out hover:scale-105" />
       <div className={gradientClass} />
       {isActive ? (
-        <div className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-between z-10 text-white">
+        <div className="absolute inset-0 p-4 sm:p-8 flex flex-col justify-between z-10 text-white">
           <div>
-            <span className="inline-block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 bg-white/15 backdrop-blur-md px-3 py-1 sm:px-3.5 rounded-full border border-white/10">
+            <span className="inline-block text-[9.5px] sm:text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 bg-white/15 backdrop-blur-md px-2.5 py-0.5 sm:px-3.5 sm:py-1 rounded-full border border-white/10">
               {item.category}
             </span>
           </div>
-          <div className="space-y-2 sm:space-y-3">
-            <p className="text-[11px] sm:text-xs text-white/70 font-medium tracking-wide">{metaLine}</p>
-            <h3 className="text-xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight leading-tight">{item.title}</h3>
-            <p className="text-xs sm:text-sm text-white/80 line-clamp-2 leading-relaxed max-w-md font-normal">{item.tagline || item.description}</p>
-            <div className="pt-2">
-              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full backdrop-blur-md transition-all border border-white/20">
+          <div className="space-y-1.5 sm:space-y-3">
+            <p className="text-[10px] sm:text-xs text-white/70 font-medium tracking-wide">{metaLine}</p>
+            <h3 className="text-lg sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight leading-tight">{item.title}</h3>
+            <p className="text-[11px] sm:text-sm text-white/80 line-clamp-2 leading-relaxed max-w-md font-normal">{item.tagline || item.description}</p>
+            <div className="pt-1.5 sm:pt-2">
+              <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-medium text-white bg-white/20 hover:bg-white/30 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full backdrop-blur-md transition-all border border-white/20">
                 View Event
                 <ArrowUpRight className="w-3.5 h-3.5" />
               </span>
