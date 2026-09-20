@@ -194,44 +194,43 @@ function TelescopeSection() {
       {isDesktop && <GlassCanvas pointerRef={pointerRef} />}
 
       {/* Top-Center Institutional & Brand Logos */}
-      <div
-        ref={logoBarRef}
-        className="absolute top-4 left-1/2 -translate-x-1/2 sm:top-7 z-30 select-none pointer-events-auto flex items-center gap-2 sm:gap-5 transition-opacity duration-300"
-      >
-        <img
-          src="/logos/hundred.png"
-          alt="PSG 100 Years"
-          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-          draggable={false}
-        />
-        <img
-          src="/logos/psg.png"
-          alt="PSG College of Technology"
-          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-          draggable={false}
-        />
-        <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
-          <img
-            src="/logos/csea.png"
-            alt="CSEA Logo"
-            className="h-8 sm:h-12 md:h-14 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-            draggable={false}
-          />
-        </a>
-        <img
-          src="/logos/PSGLogo.png"
-          alt="PSG Logo"
-          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-          draggable={false}
-        />
-        <img
-          src="/logos/Year75w.png"
-          alt="75 Years"
-          className="h-7 sm:h-11 md:h-13 w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
-          draggable={false}
-        />
-      </div>
-
+<div
+  ref={logoBarRef}
+  className="absolute top-3 left-1/2 -translate-x-1/2 sm:top-6 z-30 select-none pointer-events-auto flex items-center justify-center gap-2 sm:gap-6 md:gap-8 max-w-[96vw] transition-opacity duration-300"
+>
+  <img
+    src="/logos/hundred.png"
+    alt="PSG 100 Years"
+    className="h-7 sm:h-[2.85rem] md:h-[3.6rem] lg:h-[4.05rem] w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+    draggable={false}
+  />
+  <img
+    src="/logos/psg.png"
+    alt="PSG College of Technology"
+    className="h-7 sm:h-[2.85rem] md:h-[3.6rem] lg:h-[4.05rem] w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+    draggable={false}
+  />
+  <a href="/" aria-label="CSEA Home" className="block focus:outline-none focus:ring-2 focus:ring-[#0026ff]/30 rounded-lg">
+    <img
+      src="/logos/csea.png"
+      alt="CSEA Logo"
+      className="h-8 sm:h-[3.25rem] md:h-[4.05rem] lg:h-[4.85rem] w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+      draggable={false}
+    />
+  </a>
+  <img
+    src="/logos/PSGLogo.png"
+    alt="PSG Logo"
+    className="h-7 sm:h-[2.85rem] md:h-[3.6rem] lg:h-[4.05rem] w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+    draggable={false}
+  />
+  <img
+    src="/logos/Year75w.png"
+    alt="75 Years"
+    className="h-7 sm:h-[2.85rem] md:h-[3.6rem] lg:h-[4.05rem] w-auto object-contain drop-shadow-sm transition-transform duration-200 hover:scale-105"
+    draggable={false}
+  />
+</div>
       {/* Hero text placed in dead center */}
       <h1>
         <span className="left">we are</span>
