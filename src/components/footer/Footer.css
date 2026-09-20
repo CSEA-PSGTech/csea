@@ -12,8 +12,8 @@
   background: linear-gradient(180deg, #0038ff 0%, #002fe6 100%);
   color: #ffffff;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  overflow-x: clip;
-  overflow-y: visible;
+  overflow: visible;
+  box-shadow: 0 50vh 0 50vh #002fe6;
   font-family: 'Geist Variable', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -22,9 +22,9 @@
   content: "";
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
+  left: -50vw;
+  right: -50vw;
+  width: 200vw;
   height: 100vh;
   background: #002fe6;
   pointer-events: none;
@@ -251,6 +251,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 6px;
   color: #ffffff;
   opacity: 0.85;
   transition: all 0.25s ease;

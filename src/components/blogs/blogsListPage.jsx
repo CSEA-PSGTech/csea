@@ -16,7 +16,7 @@ export function BlogsListPage() {
   const { blogs, loading, error } = useBlogs();
 
   return (
-    <section className="relative w-full min-h-screen py-16 sm:py-24 px-5 sm:px-8 md:px-[10%] bg-white">
+    <section className="relative w-full min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8 md:px-[10%] bg-white">
       <div className="w-full max-w-6xl mx-auto">
         {/* Header */}
         <div className="max-w-2xl mb-10 sm:mb-16">
