@@ -1,16 +1,19 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
+import BackButton from "./BackButton";
 import { useBlogs } from "./useBlogs";
+
+// Motion-enabled router Link, so cards keep their fade-in animation
+// while navigating client-side (no full page reload).
+// If you're on framer-motion < v11, use: const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 /**
  * BlogsListPage — served at /blogs
  *
  * Fetches all blogs from GET /api/blogs and renders them as a card grid,
  * each linking to /blogs/:id for the full post.
- *
- * NOTE: uses plain <a href> rather than a router <Link>. If this page is
- * mounted inside the same SPA via React Router, swap the <a> tags below
- * for <Link to={...}> — everything else stays the same.
  */
 export function BlogsListPage() {
   const { blogs, loading, error } = useBlogs();
@@ -18,6 +21,9 @@ export function BlogsListPage() {
   return (
     <section className="relative w-full min-h-screen pt-24 sm:pt-32 pb-16 sm:pb-24 px-5 sm:px-8 md:px-[10%] bg-white">
       <div className="w-full max-w-6xl mx-auto">
+        {/* Back to Home */}
+        <BackButton className="mb-8 sm:mb-12" />
+
         {/* Header */}
         <div className="max-w-2xl mb-10 sm:mb-16">
           <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.35em] text-[#5258FF] lg:text-base">
@@ -55,9 +61,9 @@ export function BlogsListPage() {
         {!loading && !error && blogs.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {blogs.map((blog, i) => (
-              <motion.a
+              <MotionLink
                 key={blog.id}
-                href={`/blogs/${blog.id}`}
+                to={`/blogs/${blog.id}`}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
@@ -99,7 +105,7 @@ export function BlogsListPage() {
                     <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
-              </motion.a>
+              </MotionLink>
             ))}
           </div>
         )}
