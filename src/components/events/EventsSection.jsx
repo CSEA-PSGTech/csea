@@ -12,7 +12,6 @@ const CATEGORY_VALUE_MAP = {
   Workshops: "Workshop",
 };
 
-
 const STATUS_PRIORITY = {
   live: 0,
   ongoing: 0,
@@ -24,6 +23,64 @@ const STATUS_PRIORITY = {
 function statusRank(status) {
   const key = (status || "").trim().toLowerCase();
   return STATUS_PRIORITY[key] ?? STATUS_PRIORITY.unknown;
+}
+
+// ---- Date helpers ----
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+
+// Turns the sheet's date value into a timestamp (or null if it can't be read).
+// Handles: "29/09/2026", "29-09-2026", "2026-09-29",
+// "September 29 - 30, 2026", "29 Sep 2026", and Sheets serial numbers.
+function parseEventDate(value) {
+  if (value === null || value === undefined || value === "") return null;
+
+  // Google Sheets / Excel serial number
+  if (typeof value === "number" || /^\d{5}(\.\d+)?$/.test(String(value).trim())) {
+    const n = Number(value);
+    return Math.round((n - 25569) * 86400000);
+  }
+
+  const str = String(value).trim();
+
+  // ISO: 2026-09-29
+  let m = str.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]).getTime();
+
+  // DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY (Indian format)
+  m = str.match(/^(\d{1,2})[/\-.](\d{1,2})[/\-.](\d{2,4})/);
+  if (m) {
+    const year = m[3].length === 2 ? 2000 + +m[3] : +m[3];
+    return new Date(year, +m[2] - 1, +m[1]).getTime();
+  }
+
+  // Text dates like "September 29 - 30, 2026" or "29 Sep 2026"
+  const yearMatch = str.match(/\b(\d{4})\b/);
+  const monthMatch = str.toLowerCase().match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*/);
+  if (yearMatch && monthMatch) {
+    const withoutYear = str.replace(yearMatch[0], "");
+    const dayMatch = withoutYear.match(/\b(\d{1,2})\b/); // first day of a range
+    const day = dayMatch ? +dayMatch[1] : 1;
+    return new Date(+yearMatch[1], MONTHS.indexOf(monthMatch[1]), day).getTime();
+  }
+
+  const fallback = Date.parse(str);
+  return Number.isNaN(fallback) ? null : fallback;
+}
+
+// Change this if your sheet column has a different name
+function getEventDate(event) {
+  return parseEventDate(event.date ?? event.startDate ?? event.eventDate);
+}
+
+function sortByDate(list, direction = "asc") {
+  return [...list].sort((a, b) => {
+    const da = getEventDate(a);
+    const db = getEventDate(b);
+    if (da === null && db === null) return 0;
+    if (da === null) return 1; // undated events go last
+    if (db === null) return -1;
+    return direction === "asc" ? da - db : db - da;
+  });
 }
 
 // ---- Hook: load events from the backend ----
@@ -64,7 +121,7 @@ function useSheetEvents() {
 export function EventsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All Events");
 
-  // Independent gallery/modal state for each section, since they now
+  // Independent gallery/modal state for each section, since they
   // render as two separate AccordionModal instances.
   const [activeIndexUpcoming, setActiveIndexUpcoming] = useState(0);
   const [modalOpenUpcoming, setModalOpenUpcoming] = useState(false);
@@ -82,19 +139,25 @@ export function EventsSection() {
         ? events
         : events.filter((e) => e.category === CATEGORY_VALUE_MAP[selectedCategory]);
 
-    // Stable sort: upcoming/live first, completed last. Array.prototype.sort
-    // is stable in modern JS engines, so events with equal status keep
-    // their original sheet order relative to each other.
+    // Stable sort: upcoming/live first, completed last.
     return [...base].sort((a, b) => statusRank(a.status) - statusRank(b.status));
   }, [events, selectedCategory]);
 
   const upcomingEvents = useMemo(
-    () => filteredEvents.filter((e) => statusRank(e.status) !== STATUS_PRIORITY.completed),
+    () =>
+      sortByDate(
+        filteredEvents.filter((e) => statusRank(e.status) !== STATUS_PRIORITY.completed),
+        "asc" // soonest first
+      ),
     [filteredEvents]
   );
 
   const completedEvents = useMemo(
-    () => filteredEvents.filter((e) => statusRank(e.status) === STATUS_PRIORITY.completed),
+    () =>
+      sortByDate(
+        filteredEvents.filter((e) => statusRank(e.status) === STATUS_PRIORITY.completed),
+        "desc" // most recent first
+      ),
     [filteredEvents]
   );
 
