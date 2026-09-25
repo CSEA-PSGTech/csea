@@ -4,15 +4,61 @@ import { MobileMemberFinder } from "./MobileMemberFinder";
 import { useSheetMembers } from "./useSheetMembers";
 import { buildFinderData } from "./buildFinderData";
 
+// ---- Pinned teams ----
+// Verticals listed here always appear first, in this order.
+// Names are matched case-insensitively against the "Vertical" column.
+const PINNED_TEAMS = [
+  (name) => name === "head" || name === "hod", // "Head" vertical (HoD)
+  (name) => name.includes("faculty"), // "Faculty Advisor" / "Faculty Advisors"
+];
+
+function getItemName(item) {
+  if (!item) return "";
+  if (item.name) return item.name;
+  if (item.label) return item.label;
+  if (item.title) return item.title;
+  if (Array.isArray(item.path) && item.path.length) return item.path[item.path.length - 1];
+  return "";
+}
+
+function pinnedRank(item) {
+  const name = getItemName(item).trim().toLowerCase();
+  const idx = PINNED_TEAMS.findIndex((matches) => matches(name));
+  return idx === -1 ? PINNED_TEAMS.length : idx;
+}
+
+// Stable sort: pinned teams first, everything else keeps its original order.
+function sortPinnedFirst(list) {
+  if (!Array.isArray(list)) return list;
+  return list
+    .map((item, i) => ({ item, i }))
+    .sort((a, b) => pinnedRank(a.item) - pinnedRank(b.item) || a.i - b.i)
+    .map(({ item }) => item);
+}
+
 export function MemberFinder() {
   const { members, loading, error } = useSheetMembers();
 
   // Build the folder structure fresh whenever member data changes,
-  // instead of the old static DIRECTORY_DATA / SIDEBAR_SECTIONS import.
-  const { directoryData, sidebarSections, defaultPath } = useMemo(
-    () => buildFinderData(members),
-    [members]
-  );
+  // then move Faculty Advisor and Verticals Head to the top.
+  const { directoryData, sidebarSections, defaultPath } = useMemo(() => {
+    const built = buildFinderData(members);
+
+    const directoryData = { ...built.directoryData };
+    if (Array.isArray(directoryData["CSEA"])) {
+      directoryData["CSEA"] = sortPinnedFirst(directoryData["CSEA"]);
+    }
+
+    const sidebarSections = Array.isArray(built.sidebarSections)
+      ? built.sidebarSections.map((section) =>
+          Array.isArray(section?.items)
+            ? { ...section, items: sortPinnedFirst(section.items) }
+            : section
+        )
+      : built.sidebarSections;
+
+    return { ...built, directoryData, sidebarSections };
+  }, [members]);
 
   const [history, setHistory] = useState([defaultPath]);
   const [historyIdx, setHistoryIdx] = useState(0);
@@ -107,11 +153,9 @@ export function MemberFinder() {
       {/*
         min-h here matches the loading spinner's h-64 up to roughly the
         real FinderWindow's height, so this section itself doesn't grow
-        once its data arrives. This isn't what caused the "lands on
-        Timeline" bug (that was Timeline growing, above this section) —
-        but without it, anything BELOW Members (BlogCTA, footer) would
-        get pushed the same way if someone scrolls there while this is
-        still loading. Tune against the real FinderWindow height in
+        once its data arrives. Without it, anything BELOW Members (BlogCTA,
+        footer) would get pushed down if someone scrolls there while this
+        is still loading. Tune against the real FinderWindow height in
         devtools.
       */}
       <div className="relative z-10 w-full flex justify-center min-h-[560px] sm:min-h-[620px]">
