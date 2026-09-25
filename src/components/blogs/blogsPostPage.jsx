@@ -86,13 +86,7 @@ export function BlogPostPage({ id }) {
               dangerouslySetInnerHTML={{ __html: blog.content || blog.excerpt || "" }}
             />
 
-            {blog.yearAndClass && (
-              <div className="mt-10">
-                <span className="text-xs font-medium uppercase tracking-wide text-[#5258FF] bg-[#EEF1FF] border border-[#5258FF]/15 px-3 py-1 rounded-full">
-                  {blog.yearAndClass}
-                </span>
-              </div>
-            )}
+            
           </article>
         )}
       </div>
