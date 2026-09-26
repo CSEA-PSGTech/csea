@@ -11,6 +11,7 @@ on:
       - "package-lock.json"
       - "Dockerfile"
       - ".dockerignore"
+      - "index.html"
       - ".github/workflows/frontend.yml"
 
 jobs:
