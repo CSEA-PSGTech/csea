@@ -312,13 +312,20 @@ export function Gallery(props) {
 
   useEffect(
     function () {
-      if (!containerRef.current) {
-        return;
-      }
-      var activeChild = containerRef.current.children[index];
-      if (activeChild) {
-        activeChild.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-      }
+      var container = containerRef.current;
+      if (!container) return;
+      var activeChild = container.children[index];
+      if (!activeChild) return;
+
+      // Use scrollLeft instead of scrollIntoView so only the gallery strip
+      // scrolls horizontally — scrollIntoView is a page-level API that also
+      // moves the document's vertical scroll position on mobile, which was
+      // causing the page to jump to the events section on load.
+      var childLeft = activeChild.offsetLeft;
+      var childWidth = activeChild.offsetWidth;
+      var containerWidth = container.offsetWidth;
+      var targetScrollLeft = childLeft - (containerWidth - childWidth) / 2;
+      container.scrollTo({ left: targetScrollLeft, behavior: "smooth" });
     },
     [index]
   );
