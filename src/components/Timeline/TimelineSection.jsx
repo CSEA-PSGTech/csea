@@ -62,6 +62,35 @@ function parseSortDate(dateStr) {
 }
 
 /**
+ * RichDescription
+ * Renders description text with clickable links from the sheet
+ * (descriptionParts comes from /api/timeline). Falls back to plain
+ * text if the API hasn't been updated yet.
+ */
+function RichDescription({ entry }) {
+  const parts = entry.descriptionParts?.length
+    ? entry.descriptionParts
+    : [{ text: entry.description, href: null }];
+
+  return parts.map((p, i) =>
+    p.href ? (
+      <a
+        key={i}
+        href={p.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="font-medium text-[#5258FF] underline underline-offset-2 decoration-[#5258FF]/40 hover:decoration-[#5258FF] break-words transition-colors"
+      >
+        {p.text}
+      </a>
+    ) : (
+      <span key={i}>{p.text}</span>
+    )
+  );
+}
+
+/**
  * TimelineModal
  * A centered card floating over a translucent, blurred backdrop —
  * opened when a timeline entry is clicked. Portaled to document.body
@@ -153,7 +182,7 @@ function TimelineModal({ entry, onClose }) {
 
               {entry.description && (
                 <p className="text-sm sm:text-base text-neutral-600 leading-relaxed whitespace-pre-line">
-                  {entry.description}
+                  <RichDescription entry={entry} />
                 </p>
               )}
             </div>
@@ -210,6 +239,8 @@ function TimelineModal({ entry, onClose }) {
  * line based on its position (even = above, odd = below). Clicking a
  * card opens it in TimelineModal — the card itself stays static/small,
  * a fixed-height box on each half so the axis dots never shift.
+ * The card keeps the description as plain text (links live in the modal)
+ * so a link click never fights with the card click or drag-to-scroll.
  */
 function TimelineEntry({ entry, index, onSelect, hasDraggedRef }) {
   const isAbove = index % 2 === 0;
