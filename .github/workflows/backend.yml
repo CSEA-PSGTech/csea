@@ -34,3 +34,9 @@ jobs:
           push: true
           tags: |
             ghcr.io/csea-psgtech/csea-backend:latest
+            ghcr.io/csea-psgtech/csea-backend:${{ github.sha }}
+
+      - name: Trigger Jenkins deployment
+        run: |
+          curl -fsS -k -X POST \
+            "https://jendc.psgtech.ac.in/generic-webhook-trigger/invoke?token=${{ secrets.JENKINS_BACKEND_WEBHOOK_TOKEN }}"
