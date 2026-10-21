@@ -23,6 +23,10 @@ app.use(
 
 const BLOGS_RANGE = process.env.GSHEET_BLOGS_RANGE;
 const TIMELINE_RANGE = process.env.GSHEET_TIMELINE_RANGE;
+const MEMBERS_RANGE = process.env.GSHEET_MEMBERS_RANGE || "Members!A1:F300";
+
+// Values in the "Vertical" column that count as heads (case-insensitive)
+const HEAD_VERTICALS = new Set(["head", "heads"]);
 
 app.get("/api/events", async (req, res) => {
   try {
@@ -37,11 +41,25 @@ app.get("/api/events", async (req, res) => {
 
 app.get("/api/members", async (req, res) => {
   try {
-    const values = await fetchSheetValues(process.env.GSHEET_MEMBERS_RANGE || "Members!A1:F300");
+    const values = await fetchSheetValues(MEMBERS_RANGE);
     const members = valuesToMembers(values);
     res.json({ members });
   } catch (err) {
     console.error("Failed to fetch members:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Heads only — powers the "Visionaries" section
+app.get("/api/members/head", async (req, res) => {
+  try {
+    const values = await fetchSheetValues(MEMBERS_RANGE);
+    const heads = valuesToMembers(values).filter((m) =>
+      HEAD_VERTICALS.has((m.vertical || "").trim().toLowerCase())
+    );
+    res.json({ members: heads });
+  } catch (err) {
+    console.error("Failed to fetch heads:", err.message);
     res.status(500).json({ error: err.message });
   }
 });
@@ -126,5 +144,5 @@ app.get("/api/timeline", async (req, res) => {
 app.get("/healthz", (req, res) => res.send("ok"));
 
 app.listen(PORT, () => {
-  console.log(`Events API running on port ${PORT}`);
+  console.log(`Backend API running on port ${PORT}`);
 });

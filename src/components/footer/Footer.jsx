@@ -102,6 +102,7 @@ const Footer = ({ onOpenTeam }) => {
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
     { label: "Timeline", href: "#timeline" },
+    { label: "Visionaries", href: "#visionaries" },
     { label: "Members", href: "#memberfinder" },
     {label: "Blogs", href: "/blogs" },
     { label: "Team", href: "/team", isTeamTrigger: true },
@@ -238,7 +239,7 @@ const Footer = ({ onOpenTeam }) => {
             </div>
 
             <p className="csea-footer__copyright">
-              © 2025 CSEA. ALL RIGHTS RESERVED.
+              © 2026 CSEA. ALL RIGHTS RESERVED.
             </p>
           </div>
 

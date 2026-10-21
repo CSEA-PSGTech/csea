@@ -26,58 +26,77 @@ function resolvePhotoUrl(photo) {
 }
 
 // Team descriptions & metadata mapping
-const TEAM_META = {
+// description → desktop, mobileDescription → phones (shorter, so it stays on one or two lines)
+export const TEAM_META = {
   Technical: {
-    description: "Core developers, builders and tech leads.",
+    description: "Engineering CSEA's technical edge — building systems, leading hackathons and turning ideas into working solutions.",
+    mobileDescription: "Building CSEA's technical edge.",
     defaultInterests: ["Backend", "DevOps", "Security", "Open Source", "Systems"],
   },
   "Technical Team": {
-    description: "Core developers, builders and tech leads.",
+    description: "Engineering CSEA's technical edge — building systems, leading hackathons and turning ideas into working solutions.",
+    mobileDescription: "Building CSEA's technical edge.",
     defaultInterests: ["Backend", "DevOps", "Security", "Open Source", "Systems"],
   },
   "Office Bearer": {
-    description: "Student leaders driving CSEA forward.",
+    description: "Leading CSEA with purpose — setting direction, uniting every team and representing the association with integrity.",
+    mobileDescription: "Leading CSEA with purpose and integrity.",
     defaultInterests: ["Leadership", "Community", "Strategy", "Operations", "Governance"],
   },
   "Office Bearers": {
-    description: "Student leaders driving CSEA forward.",
+    description: "Leading CSEA with purpose — setting direction, uniting every team and representing the association with integrity.",
+    mobileDescription: "Leading CSEA with purpose and integrity.",
     defaultInterests: ["Leadership", "Community", "Strategy", "Operations", "Governance"],
   },
   Admin: {
-    description: "Managing logistics, coordination, and resources.",
+    description: "The operational backbone of CSEA — ensuring every plan, resource and event is executed with precision.",
+    mobileDescription: "Precision behind every plan and event.",
     defaultInterests: ["Operations", "Event Logistics", "Planning", "Budgeting", "Coordination"],
   },
   Events: {
-    description: "Curating flagship hackathons, symposiums and technical tracks.",
+    description: "Conceiving and delivering CSEA's flagship symposiums, workshops and hackathons — from vision to execution.",
+    mobileDescription: "Flagship events, from vision to execution.",
     defaultInterests: ["Event Production", "Workshops", "Hackathons", "Outreach", "Coordination"],
   },
   Design: {
-    description: "Crafting visual identity, editorial graphics and UI/UX.",
+    description: "Defining CSEA's visual identity — crafting every poster, interface and brand experience with intent.",
+    mobileDescription: "Defining CSEA's visual identity.",
     defaultInterests: ["UI/UX", "Brand Systems", "Motion", "Typography", "Figma"],
   },
   "Public Relations": {
-    description: "Connecting CSEA with industry, academia and tech communities.",
+    description: "Representing CSEA to the world — forging lasting partnerships with industry, alumni and the wider tech community.",
+    mobileDescription: "Forging partnerships that matter.",
     defaultInterests: ["Sponsorships", "Alumni Network", "Outreach", "Press", "Partnerships"],
   },
   Media: {
-    description: "Capturing moments and creating visual stories.",
+    description: "Documenting CSEA's journey — capturing every milestone through photography, film and visual storytelling.",
+    mobileDescription: "Capturing every CSEA milestone.",
     defaultInterests: ["Photography", "Cinematography", "Post-Production", "Audio", "Storytelling"],
   },
   "E-Cell": {
-    description: "Fostering startup culture, student founders and ventures.",
+    description: "Cultivating the entrepreneurs of tomorrow — empowering student founders to build, pitch and lead ventures.",
+    mobileDescription: "Empowering the founders of tomorrow.",
     defaultInterests: ["Venture Building", "Product", "Pitching", "Growth", "Incubation"],
   },
   "Faculty Advisor": {
-    description: "Faculty leaders and academic mentors guiding CSEA.",
+    description: "Guiding CSEA with academic excellence — the mentors whose experience shapes our vision and direction.",
+    mobileDescription: "The mentors who shape our vision.",
     defaultInterests: ["Research", "Curriculum", "Mentorship", "Innovation", "Algorithms"],
   },
   "Web Dev Team": {
-    description: "Building CSEA digital experiences, portals and tooling.",
+    description: "Architecting CSEA's digital presence — developing the platforms, portals and tools that power the association.",
+    mobileDescription: "Architecting CSEA's digital presence.",
     defaultInterests: ["Frontend", "React", "Fullstack", "APIs", "Performance"],
   },
   ERM: {
-    description: "External relations, sponsor coordination and PR.",
+    description: "Strengthening CSEA's external relations — securing sponsorships and partnerships that drive our growth.",
+    mobileDescription: "Partnerships that drive our growth.",
     defaultInterests: ["Public Relations", "Outreach", "Sponsorship", "Media", "Events"],
+  },
+  "Content and Documentation": {
+    description: "Shaping and preserving CSEA's story — crafting the words that carry our voice and documenting every milestone with care.",
+    mobileDescription: "Crafting our voice, preserving our legacy.",
+    defaultInterests: ["Copywriting", "Storytelling", "Technical Writing", "Archiving", "Editing"],
   },
 };
 
@@ -226,7 +245,8 @@ export function MobileMemberFinder({
     if (!activeFolder) return null;
     return (
       TEAM_META[activeFolder.name] || {
-        description: "Explore the members and contributors in this team.",
+        description: "The members and contributors who make this team tick.",
+        mobileDescription: "The people who make this team tick.",
         defaultInterests: ["Engineering", "Collaboration", "Technology", "Design"],
       }
     );
@@ -364,7 +384,7 @@ export function MobileMemberFinder({
                       {activeFolder.name}
                     </h3>
                     <p className="text-xs text-neutral-500 leading-relaxed mt-0.5">
-                      {activeMeta.description}
+                      {activeMeta.mobileDescription || activeMeta.description}
                     </p>
                   </div>
                 </div>
