@@ -12,6 +12,7 @@ import { Skiper28 } from "@/components/ui/skiper-ui/skiper28";
 import StaggeredMenu from "./components/ui/skiper-ui/Navbar";
 
 import MemberFinder from "./components/MemberFinder/MemberFinder";
+import Visionaries from "./components/visionaries/Visionaries";
 import TimelineDemo from "./components/Timeline/TimelineSection";
 import Footer from "./components/footer/Footer";
 import { TeamOverlay } from "./components/team/TeamOverlay";
@@ -130,6 +131,9 @@ function HomePage() {
             <TimelineDemo />
           </div>
 
+          {/* Visionaries renders <section id="visionaries"> internally */}
+          <Visionaries />
+
           <div id="memberfinder">
             <MemberFinder />
           </div>
@@ -175,6 +179,7 @@ function App() {
     { label: "Clubs", ariaLabel: "Explore Affiliated Clubs", link: "#affiliated-clubs" },
     { label: "Events", ariaLabel: "Explore CSEA events", link: "#events" },
     { label: "Timeline", ariaLabel: "See our journey and milestones", link: "#timeline" },
+    { label: "Visionaries", ariaLabel: "Meet the CSEA heads", link: "#visionaries" },
     { label: "Members", ariaLabel: "Explore CSEA members", link: "#memberfinder" },
     { label: "Blogs", ariaLabel: "Read our blogs", link: "/blogs" },
     { label: "Contact", ariaLabel: "Get in touch", link: "mailto:csea.cse@psgtech.ac.in" },
