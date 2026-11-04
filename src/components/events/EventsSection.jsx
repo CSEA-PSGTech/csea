@@ -128,8 +128,8 @@ export function EventsSection() {
   const [activeIndexCompleted, setActiveIndexCompleted] = useState(0);
   const [modalOpenCompleted, setModalOpenCompleted] = useState(false);
 
-  // Single toggle: which list is currently shown — "Upcoming" or "Completed".
-  const [selectedStatusTab, setSelectedStatusTab] = useState("Completed");
+  // Tab the user picked by hand. null = automatic (Upcoming if any are scheduled, else Completed).
+  const [userStatusTab, setUserStatusTab] = useState(null);
 
   const { events, loading, error } = useSheetEvents();
 
@@ -161,8 +161,13 @@ export function EventsSection() {
     [filteredEvents]
   );
 
+  // Upcoming is shown first whenever there is at least one upcoming event.
+  const selectedStatusTab =
+    userStatusTab ?? (upcomingEvents.length > 0 ? "Upcoming" : "Completed");
+
   const handleCategoryChange = (cat) => {
     setSelectedCategory(cat);
+    setUserStatusTab(null);
     setActiveIndexUpcoming(0);
     setActiveIndexCompleted(0);
   };
@@ -214,7 +219,7 @@ export function EventsSection() {
                   return (
                     <button
                       key={tab}
-                      onClick={() => setSelectedStatusTab(tab)}
+                      onClick={() => setUserStatusTab(tab)}
                       className={`relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors cursor-pointer shrink-0 ${
                         isActive ? "text-[#5258FF] font-semibold" : "text-neutral-500 hover:text-neutral-900"
                       }`}
